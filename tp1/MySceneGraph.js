@@ -631,6 +631,26 @@ class MySceneGraph {
 
                 this.primitives[primitiveId] = triangle;
             }
+
+            else if(primitiveType == 'torus'){
+
+                var inner = this.reader.getFloat(grandChildren[0], 'inner');
+               
+                var outer = this.reader.getFloat(grandChildren[0], 'outer');
+                if (!(outer != null && !isNaN(outer)))
+                    return "unable to parse outer of the primitive coordinates for ID = " + primitiveId;
+                
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                if (!(slices != null && !isNaN(slices)))
+                    return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
+                var loops = this.reader.getFloat(grandChildren[0], 'loops');
+                if (!(loops != null && !isNaN(loops)))
+                    return "unable to parse loops of the primitive coordinates for ID = " + primitiveId;    
+
+                var torus = new MyTorus(this.scene, inner, outer, slices, loops);
+                this.primitives[primitiveId] = torus;
+            }
             else {
                 console.warn("To do: Parse other primitives.");
             }
@@ -814,7 +834,8 @@ class MySceneGraph {
         //To test the parsing/creation of the primitives, call the display function directly
         //this.primitives['demoRectangle'].display();
         //this.primitives['demoCylinder'].display();
-        this.primitives['demoTriangle'].display();
-       // this.primitives['demoSphere'].display();
+        //this.primitives['demoTriangle'].display();
+        //this.primitives['demoSphere'].display();
+        this.primitives['demoTorus'].display();
     }
 }
