@@ -579,38 +579,43 @@ class MySceneGraph {
                 var cylinder = new MyCylinder(this.scene, slices, radius, height, stacks);
                 this.primitives[primitiveId] = cylinder;
             }
-            if (primitiveType == 'triangle') {
+            else if(primitiveType == 'sphere'){
+                var radius = this.reader.getFloat(grandChildren[0], 'radius');
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+
+                var sphere = new MySphere(this.scene, radius, slices, stacks);
+                this.primitives[primitiveId] = sphere;
+            }
+            else if (primitiveType == 'triangle') {
                 // x1
                 var x1 = this.reader.getFloat(grandChildren[0], 'x1');
-                if (!(x1 != null && !isNaN(x1)))
-                    return "unable to parse x1 of the primitive coordinates for ID = " + primitiveId;
 
                 // y1
                 var y1 = this.reader.getFloat(grandChildren[0], 'y1');
-                if (!(y1 != null && !isNaN(y1)))
-                    return "unable to parse y1 of the primitive coordinates for ID = " + primitiveId;
+
+                // z1
+                var z1 = this.reader.getFloat(grandChildren[0], 'z1');
 
                 // x2
                 var x2 = this.reader.getFloat(grandChildren[0], 'x2');
-                if (!(x2 != null && !isNaN(x2)))
-                    return "unable to parse x2 of the primitive coordinates for ID = " + primitiveId;
 
                 // y2
                 var y2 = this.reader.getFloat(grandChildren[0], 'y2');
-                if (!(y2 != null && !isNaN(y2)))
-                    return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
+
+                // z2
+                var z2 = this.reader.getFloat(grandChildren[0], 'z2');
 
                 // x3
                 var x3 = this.reader.getFloat(grandChildren[0], 'x3');
-                if (!(x3 != null && !isNaN(x3) && (x1 != x2 || (x1==x2 & x3!=x1))))
-                    return "unable to parse x3 of the primitive coordinates for ID = " + primitiveId;
 
                 // y3
                 var y3 = this.reader.getFloat(grandChildren[0], 'y3');
-                if (!(y3 != null && !isNaN(y3) &&  (y1 != y2 || (y1==y2 & y3!=y1))))
-                    return "unable to parse y3 of the primitive coordinates for ID = " + primitiveId;
 
-                var triangle = new MyTriangle(this.scene, primitiveId, x1, y1, x2, y2, x3, y3);
+                // z3
+                var z3 = this.reader.getFloat(grandChildren[0], 'z3');
+
+                var triangle = new MyTriangle(this.scene, primitiveId, x1, y1, z1, x2, y2, z2, x3, y3, z3);
 
                 this.primitives[primitiveId] = triangle;
             }
@@ -798,5 +803,6 @@ class MySceneGraph {
        // this.primitives['demoRectangle'].display();
         //this.primitives['demoCylinder'].display();
         this.primitives['demoTriangle'].display();
+       // this.primitives['demoSphere'].display();
     }
 }
