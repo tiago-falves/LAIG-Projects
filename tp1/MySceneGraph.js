@@ -428,7 +428,7 @@ class MySceneGraph {
         }
 
         //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
+        this.log("Textures Parsed successfully")
         return null;
 
       
@@ -752,6 +752,17 @@ class MySceneGraph {
 
             this.onXMLMinorError("To do: Parse components.");
             // Transformations
+           
+            var transformations = grandChildren[transformationIndex].children;
+            for (let j = 0; j < transformations.length; j++) {
+                var transformation = [];
+
+                switch(transformations[j].nodeName){
+                    
+
+                }
+                
+            }
 
             // Materials
 
