@@ -477,7 +477,11 @@ class MySceneGraph {
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
                     case 'scale':                        
-                        this.onXMLMinorError("To do: Parse scale transformations.");
+                        var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
+                        if (!Array.isArray(coordinates))
+                            return coordinates;
+
+                        transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
                     case 'rotate':
                         // angle
@@ -526,8 +530,8 @@ class MySceneGraph {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus')) {
-                return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
+                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'prism' )) {
+                return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus or prism)"
             }
 
             // Specifications for the current primitive.
@@ -651,6 +655,7 @@ class MySceneGraph {
                 var torus = new MyTorus(this.scene, inner, outer, slices, loops);
                 this.primitives[primitiveId] = torus;
             }
+           
             else {
                 console.warn("To do: Parse other primitives.");
             }
@@ -837,5 +842,7 @@ class MySceneGraph {
         //this.primitives['demoTriangle'].display();
         //this.primitives['demoSphere'].display();
         this.primitives['demoTorus'].display();
+        
+
     }
 }
