@@ -519,12 +519,25 @@ class MySceneGraph {
                         if (!Array.isArray(coordinates))
                             return coordinates;
 
-                        transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
+                        transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
                         break;
                     case 'rotate':
-                        // angle
-                        this.onXMLMinorError("To do: Parse rotate transformations.");
-                        break;
+                        let axis = this.reader.getString(grandChildren[j], 'axis');
+                        let angle = this.reader.getFloat(grandChildren[j], 'angle'); 
+                        let vector;
+
+                        switch(axis){
+                            case 'x':
+                                vector = [1, 0, 0];
+                                break;
+                            case 'y':
+                                vector = [0, 1, 0];
+                                break;
+                            case 'z':
+                                vector = [0, 0, 1];
+                                break;
+                        }
+                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle*DEGREE_TO_RAD, vector);
                 }
             }
             this.transformations[transformationID] = transfMatrix;
@@ -601,7 +614,7 @@ class MySceneGraph {
 
                 this.primitives[primitiveId] = rect;
             }
-            else if(primitiveType == 'cylinder'){radius_bottom, radius_top, height, slices, stacks
+            else if(primitiveType == 'cylinder'){
                 var radius_bottom = this.reader.getFloat(grandChildren[0], 'radius_bottom');
                 if (!(radius_bottom != null && !isNaN(radius_bottom)))
                     return "unable to parse radius_bottom of the primitive coordinates for ID = " + primitiveId;
@@ -623,7 +636,7 @@ class MySceneGraph {
                 if (!(stacks != null && !isNaN(stacks)))
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;    
 
-                var cylinder = new MyCylinder(this.scene, slices, radius, height, stacks);
+                var cylinder = new MyCylinder(this.scene, radius_bottom, radius_top, height, slices, stacks);
                 this.primitives[primitiveId] = cylinder;
             }
             else if(primitiveType == 'sphere'){
@@ -644,12 +657,6 @@ class MySceneGraph {
                 // z1
                 var z1 = this.reader.getFloat(grandChildren[0], 'z1');
 
-                //z1
-                var z1 = this.reader.getFloat(grandChildren[0], 'z1');
-                if (!(z1 != null && !isNaN(z1)))
-                    return "unable to parse z1 of the primitive coordinates for ID = " + primitiveId;
-
-
                 // x2
                 var x2 = this.reader.getFloat(grandChildren[0], 'x2');
 
@@ -658,12 +665,6 @@ class MySceneGraph {
 
                 // z2
                 var z2 = this.reader.getFloat(grandChildren[0], 'z2');
-
-                //z2
-                var z2 = this.reader.getFloat(grandChildren[0], 'z2');
-                if (!(z2 != null && !isNaN(z2)))
-                    return "unable to parse z2 of the primitive coordinates for ID = " + primitiveId;
- 
 
                 // x3
                 var x3 = this.reader.getFloat(grandChildren[0], 'x3');
@@ -697,10 +698,6 @@ class MySceneGraph {
 
                 var torus = new MyTorus(this.scene, inner, outer, slices, loops);
                 this.primitives[primitiveId] = torus;
-            }
-           
-            else {
-                console.warn("To do: Parse other primitives.");
             }
         }
 
@@ -880,8 +877,7 @@ class MySceneGraph {
         //To do: Create display loop for transversing the scene graph
 
         //To test the parsing/creation of the primitives, call the display function directly
-        this.primitives['demoRectangle'].display();
-        
+        //this.primitives['demoRectangle'].display();
         //this.primitives['demoCylinder'].display();
         //this.primitives['demoTriangle'].display();
         //this.primitives['demoSphere'].display();
