@@ -3,7 +3,7 @@ var DEGREE_TO_RAD = Math.PI / 180;
 // Order of the groups in the XML document.
 var SCENE_INDEX = 0;
 var VIEWS_INDEX = 1;
-var AMBIENT_INDEX = 2;
+var GLOBALS_INDEX = 2;
 var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
@@ -112,15 +112,15 @@ class MySceneGraph {
                 return error;
         }
 
-        // <ambient>
-        if ((index = nodeNames.indexOf("ambient")) == -1)
-            return "tag <ambient> missing";
+        // <globals>
+        if ((index = nodeNames.indexOf("globals")) == -1)
+            return "tag <globals> missing";
         else {
-            if (index != AMBIENT_INDEX)
-                this.onXMLMinorError("tag <ambient> out of order");
+            if (index != GLOBALS_INDEX)
+                this.onXMLMinorError("tag <globals> out of order");
 
-            //Parse ambient block
-            if ((error = this.parseAmbient(nodes[index])) != null)
+            //Parse globals block
+            if ((error = this.parseGlobals(nodes[index])) != null)
                 return error;
         }
 
@@ -233,12 +233,12 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <ambient> node.
-     * @param {ambient block element} ambientsNode
+     * Parses the <global> node.
+     * @param {global block element} globalsNode
      */
-    parseAmbient(ambientsNode) {
+    parseGlobals(globalsNode) {
 
-        var children = ambientsNode.children;
+        var children = globalsNode.children;
 
         this.ambient = [];
         this.background = [];
@@ -876,13 +876,35 @@ class MySceneGraph {
     displayScene() {
         //To do: Create display loop for transversing the scene graph
 
+        this.processNode(this.idRoot);
+
         //To test the parsing/creation of the primitives, call the display function directly
         //this.primitives['demoRectangle'].display();
         //this.primitives['demoCylinder'].display();
         //this.primitives['demoTriangle'].display();
         //this.primitives['demoSphere'].display();
         //this.primitives['demoTorus'].display();
-        
-
     }
+
+    processNode(idNode){
+        if(idNode){
+            let material = this.materials[this.components[idNode].materials[0]]; //get materials
+            material.setTexture(this.textures[this.components[idNode].textures[0]]); //get textures
+            material.apply();
+
+            this.scene.pushMatrix();
+            this.scene.multMatrix(this.matrix[idNode]);
+
+            let children = idNode.children;
+
+            for(let i = 0; i < children.length; i++){
+                if(this.components.includes(children[i]))
+                    this.processNode(children[i]);
+                else if(this.primitives.includes(children[i])){
+                    this.primitives[i].display();
+                }
+            }
+            this.scene.popMatrix();
+        }
+    } 
 }
