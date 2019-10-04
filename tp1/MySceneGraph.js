@@ -782,18 +782,39 @@ class MySceneGraph {
             // Transformations
            
             var transformations = grandChildren[transformationIndex].children;
+            var matrix_transformation = mat4.create();
             for (let j = 0; j < transformations.length; j++) {
-                var transformation = [];
-
+                let coordinates = [];
                 switch(transformations[j].nodeName){
                     case "translate":
+                        coordinates = this.parseCoordinates3D(transformations[j], "translate transformation for ID " + transformationIndex);
+                        matrix_transformation = mat4.translate(matrix_transformation, matrix_transformation, coordinates);
                         break;
                     case "scale":
+                        coordinates = this.parseCoordinates3D(transformations[j], "scale transformation for ID " + transformationIndex);
+                        matrix_transformation = mat4.scale(matrix_transformation, matrix_transformation, coordinates);
                         break;
+                        
                     case "rotate":
-                        break;
+                        let axis = this.reader.getString(transformations[j], 'axis');
+                        let angle = this.reader.getFloat(transformations[j], 'angle'); 
+                        let vector;
 
+                        switch(axis){
+                            case 'x':
+                                vector = [1, 0, 0];
+                                break;
+                            case 'y':
+                                vector = [0, 1, 0];
+                                break;
+                            case 'z':
+                                vector = [0, 0, 1];
+                                break;
+                        }
+                        matrix_transformation = mat4.rotate(matrix_transformation, matrix_transformation, angle*DEGREE_TO_RAD, vector);
+                        break;
                 }
+                this.transformations[transformationIndex] = matrix_transformation;
                 
             }
 
@@ -925,16 +946,28 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+    
+
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
         //To do: Create display loop for transversing the scene graph
+        
+        //this.idRoot
+        //processNode(this.graph.idRoot);
+        //check if id exists
+        //getMaterial ->this.components[id].materials[0]
+        //get Texture
+        //material.apply
+        //this.scene.multMatrix(matrix);
+        // loop children if component processNode(idChild)
+
 
         //To test the parsing/creation of the primitives, call the display function directly
-        this.primitives['demoRectangle'].display();
+        //this.primitives['demoRectangle'].display();
         //this.primitives['demoCylinder'].display();
-        //this.primitives['demoTriangle'].display();
+        this.primitives['demoTriangle'].display();
         //this.primitives['demoSphere'].display();
         //this.primitives['demoTorus'].display();
         
