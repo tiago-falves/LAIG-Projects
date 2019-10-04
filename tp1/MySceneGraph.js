@@ -229,6 +229,37 @@ class MySceneGraph {
     parseView(viewsNode) {
         this.onXMLMinorError("To do: Parse views and create cameras.");
 
+        var children = viewsNode.children;
+        this.camera = [];
+        var grandChildren = [];
+
+        for (let i = 0; i < children.length; i++) {
+            if (children[i].nodeName != "perspective") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            var viewId = this.reader.getString(children[i],'id');
+            
+            if (viewId == null) 
+                return "No cameras"
+            
+            if (this.camera[viewId] != null) 
+                return "Camera IDs cannot be repeated";
+            
+            var near = this.reader.getFloat(children[i], 'near');
+            var far = this.reader.getFloat(children[i], 'far');
+            var angle = this.reader.getFloat(children[i], 'angle');
+
+            grandChildren = children[i].children;
+
+            var fX = this.reader.getFloat(grandChildren[0], 'x');
+            var fY = this.reader.getFloat(grandChildren[0], 'y');
+            var fZ = this.reader.getFloat(grandChildren[0], 'z');
+            var toX = this.reader.getFloat(grandChildren[0], 'x');
+            var toY = this.reader.getFloat(grandChildren[0], 'y');
+            var toZ = this.reader.getFloat(grandChildren[0], 'z');
+        }
         return null;
     }
 
@@ -755,16 +786,29 @@ class MySceneGraph {
                 var transformation = [];
 
                 switch(transformations[j].nodeName){
-                    
+                    case "translate":
+                        break;
+                    case "scale":
+                        break;
+                    case "rotate":
+                        break;
 
                 }
                 
             }
 
             // Materials
+            var materials = grandChildren[materialsIndex].children;
+            var materialIDs = [];
+            
+            for (let j = 0; j < materials.length; j++) {
+                materialIDs.push(this.reader.getString(materials[j],'id'));
+            }
 
+            
             // Texture
-
+            
+            var textureId = this.reader.getString(grandChildren[textureIndex], 'id');
             // Children
         }
     }
@@ -888,7 +932,7 @@ class MySceneGraph {
         //To do: Create display loop for transversing the scene graph
 
         //To test the parsing/creation of the primitives, call the display function directly
-        //this.primitives['demoRectangle'].display();
+        this.primitives['demoRectangle'].display();
         //this.primitives['demoCylinder'].display();
         //this.primitives['demoTriangle'].display();
         //this.primitives['demoSphere'].display();
