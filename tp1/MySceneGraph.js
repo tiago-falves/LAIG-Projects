@@ -821,6 +821,9 @@ class MySceneGraph {
             for (let j = 0; j < transformations.length; j++) {
                 let coordinates = [];
                 switch(transformations[j].nodeName){
+
+                    case "transformationref":
+                        break;
                     case "translate":
                         coordinates = this.parseCoordinates3D(transformations[j], "translate transformation for ID " + transformationIndex);
                         matrix_transformation = mat4.translate(matrix_transformation, matrix_transformation, coordinates);
@@ -851,6 +854,7 @@ class MySceneGraph {
                 }
                 this.transformations[transformationIndex] = matrix_transformation;
                 
+
             }
 
             // Materials
@@ -863,9 +867,20 @@ class MySceneGraph {
 
             
             // Texture
-            
+            let textures = grandChildren[textureIndex].children;
             var textureId = this.reader.getString(grandChildren[textureIndex], 'id');
+            for (let j = 0; j < textures.length; j++) {
+                textureIDs.push(this.reader.getString(textures[j],'id'));
+            }
             // Children
+            var primitives = grandChildren[childrenIndex].children;
+            let primitiveIds = [];
+            
+            for (let j = 0; j < primitives.length; j++) {
+                primitiveIds.push(this.reader.getString(primitives[j],'id'));
+            }
+
+
         }
     }
 
