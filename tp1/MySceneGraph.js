@@ -472,14 +472,17 @@ class MySceneGraph {
      */
     parseMaterials(materialsNode) {
         var children = materialsNode.children;
-
         this.materials = [];
+        let materialIDs = [];
 
         var grandChildren = [];
         var nodeNames = [];
 
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
+
+            grandChildren= children[i].children;
+            let material = new CGFappearance(this.scene);
 
             if (children[i].nodeName != "material") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -494,12 +497,45 @@ class MySceneGraph {
             // Checks for repeated IDs.
             if (this.materials[materialID] != null)
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
+            materialIDs.push(materialID);
 
             //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
+            let materialType = grandChildren[0].nodeName;
+
+            let r = this.reader.getFloat(grandChildren[0],'r');
+            if (!(r != null && !isNaN(r)))
+                return "unable to parse r of the material coordinates for ID = " + materialID;
+
+            let g = this.reader.getFloat(grandChildren[0],'g');
+            if (!(g != null && !isNaN(r)))
+                return "unable to parse g of the material coordinates for ID = " + materialID;
+        
+        
+            let b = this.reader.getFloat(grandChildren[0],'b');
+            if (!(b != null && !isNaN(r)))
+                return "unable to parse b of the material coordinates for ID = " + materialID;
+
+            let a = this.reader.getFloat(grandChildren[0],'a');
+            if (!(a != null && !isNaN(a)))
+                return "unable to parse a of the material coordinates for ID = " + materialID;
+            
+            if (materialType == "emission" ) 
+                material.setEmission(r,g,b,a);
+            
+            else if (materialType == "ambient") 
+                material.setAmbient(r,g,b,a);
+            else if (materialType = "diffuse") {
+                material.setDiffuse(r,g,b,a);
+            }
+            else if (materialType = "specular") {
+                material.setSpecular(r,g,b,a);
+            }
+
+            this.materials.push(material);
         }
 
-        //this.log("Parsed materials");
+
+        this.log("Parsed materials");
         return null;
     }
 
@@ -508,10 +544,9 @@ class MySceneGraph {
      * @param {transformations block element} transformationsNode
      */
     parseTransformations(transformationsNode) {
+
         var children = transformationsNode.children;
-
         this.transformations = [];
-
         var grandChildren = [];
 
         // Any number of transformations.
