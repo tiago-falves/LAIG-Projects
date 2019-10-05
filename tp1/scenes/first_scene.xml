@@ -49,7 +49,7 @@
             <rectangle x1="0" y1="0" x2="1" y2="1" />
         </primitive>
         <primitive id="Cylinder">
-            <cylinder radius_bottom="1" radius_top="1" height="2" slices="20" stacks="5"/>
+            <cylinder base="1" top="1" height="2" slices="20" stacks="5"/>
         </primitive>
         <primitive id="Triangle">
             <triangle x1="-1" y1="-1" z1="0" x2="1" y2="-1" z2 = "0" x3="-1" y3="1" z3="0"/>
@@ -105,7 +105,7 @@
             <transformation>
                 <translate x="-2.5" y="-4" z="3"/>
             </transformation>
-            <materials>
+            <materials> 
                 <material id="Material" />
             </materials>
             <texture id="Texture"/>
@@ -116,8 +116,8 @@
         <component id="Goal_Poll_Big">
             <transformation>
                 <translate x="12.5" y="9" z="3"/>
-                <scale x="1" y="9" z="1">
-                <rotate axis="x" angle="-90">
+                <scale x="1" y="9" z="1" />
+                <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
                 <material id="Material" />
@@ -130,7 +130,7 @@
         <component id="Goal_Poll_Medium">
             <transformation>
                 <translate x="2.5" y="-2" z="0"/>
-                <scale x="1" y="7/9" z="1">
+                <scale x="1" y="7/9" z="1" />
             </transformation>
             <materials>
                 <material id="Material" />
@@ -143,7 +143,7 @@
         <component id="Goal_Poll_Small">
             <transformation>
                 <translate x="-2.5" y="-4" z="0"/>
-                <scale x="1" y="3/9" z="1">
+                <scale x="1" y="3/9" z="1" />
             </transformation>
             <materials>
                 <material id="Material" />
@@ -156,7 +156,7 @@
         <component id="Goal2">
             <transformation>
                 <translate x="12.5" y="0" z="47"/>
-                <rotate axis="y" angle="180">
+                <rotate axis="y" angle="180" />
                 <translate x="-12.5" y="0" z="-3"/>
             </transformation>
             <materials>
@@ -164,12 +164,12 @@
             </materials>
             <texture id="Texture"/>
             <children>
-                <componentref id="Goal_Torus">
-                <componenreft id="Goal_Torus2">
-                <componentref id="Goal_Torus3">
+                <componentref id="Goal_Torus"/>
+                <componenref id="Goal_Torus2"/>
+                <componentref id="Goal_Torus3"/>
                 <componentref id="Goal_Poll_Big" />
-                <componentref id="Goal_Poll_Medium">
-                <componentref id="Goal_Poll_Small">
+                <componentref id="Goal_Poll_Medium"/>
+                <componentref id="Goal_Poll_Small"/>
             </children>
         </component>
         <component id="Bladger">
@@ -181,7 +181,26 @@
             </materials>
             <texture id="Texture"/>
             <children>
-                <primitiveref id="Sphere">
+                <primitiveref id="Sphere"/>
+            </children>
+        </component>
+        <component id="Root">
+            <transformation> 
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <componentref id="Field"/>
+                <componentref id="Goal_Torus"/>
+                <componenreft id="Goal_Torus2"/>
+                <componentref id="Goal_Torus3"/>
+                <componentref id="Goal_Poll_Big" />
+                <componentref id="Goal_Poll_Medium"/>
+                <componentref id="Goal_Poll_Small"/>
+                <componentref id="Goal2" />
+                <componentref id="Bladger"/>
             </children>
         </component>
     </components>
