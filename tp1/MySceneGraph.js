@@ -698,13 +698,13 @@ class MySceneGraph {
                 this.primitives[primitiveId] = rect;
             }
             else if(primitiveType == 'cylinder'){
-                var radius_bottom = this.reader.getFloat(grandChildren[0], 'radius_bottom');
-                if (!(radius_bottom != null && !isNaN(radius_bottom)))
-                    return "unable to parse radius_bottom of the primitive coordinates for ID = " + primitiveId;
+                var base = this.reader.getFloat(grandChildren[0], 'base');
+                if (!(base != null && !isNaN(base)))
+                    return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
 
-                var radius_top = this.reader.getFloat(grandChildren[0], 'radius_top');
-                if (!(radius_top != null && !isNaN(radius_top)))
-                    return "unable to parse radius_top of the primitive coordinates for ID = " + primitiveId;
+                var top = this.reader.getFloat(grandChildren[0], 'top');
+                if (!(top != null && !isNaN(top)))
+                    return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
                 
                 var height = this.reader.getFloat(grandChildren[0], 'height');
                 if (!(height != null && !isNaN(height)))
@@ -719,7 +719,7 @@ class MySceneGraph {
                 if (!(stacks != null && !isNaN(stacks)))
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;    
 
-                var cylinder = new MyCylinder(this.scene, radius_bottom, radius_top, height, slices, stacks);
+                var cylinder = new MyCylinder(this.scene, base, top, height, slices, stacks);
                 this.primitives[primitiveId] = cylinder;
             }
             else if(primitiveType == 'sphere'){
@@ -882,21 +882,15 @@ class MySceneGraph {
             component.createMaterial(materialIDs);
             
             // Texture
-            let textures = grandChildren[textureIndex].children;
-            var textureIDs=[];
-            var textureId = this.reader.getString(grandChildren[textureIndex], 'id');
-            for (let j = 0; j < textures.length; j++) {
-                textureIDs.push(this.reader.getString(textures[j],'id'));
-            }
-
-            component.createTextures(textureIDs);
+            let texture = this.reader.getString(grandChildren[textureIndex],'id');
+            component.createTextures(texture);
             
             // Children
-            var children = grandChildren[childrenIndex].children;
-            var childrenIDs = [];
+            let component_children = grandChildren[childrenIndex].children;
+            let childrenIDs = [];
             
-            for (let j = 0; j < children.length; j++) {
-                childrenIDs.push(this.reader.getString(children[j],'id'));
+            for (let j = 0; j < component_children.length; j++) {
+                childrenIDs.push(this.reader.getString(component_children[j],'id'));
             }        
 
             component.createChildren(childrenIDs);
@@ -912,7 +906,7 @@ class MySceneGraph {
      * @param {message to be displayed in case of error} messageError
      */
     parseCoordinates3D(node, messageError) {
-        var position = [];
+        let position = [];
 
         // x
         var x = this.reader.getFloat(node, 'x');
@@ -1060,9 +1054,8 @@ class MySceneGraph {
             for(let i = 0; i < children.length; i++){
                 if(this.components[children[i]])
                     this.processNode(children[i]);
-                else if(this.primitives[children[i]]){
+                else if(this.primitives[children[i]])
                     this.primitives[children[i]].display();
-                }
             }
             this.scene.popMatrix();
         }
