@@ -79,19 +79,110 @@
         </component>
         <component id="Goal_Torus">
             <transformation>
-                <translate x="12.5" y="0" z="25"/>
-                <scale x="2" y="1" z="2" />
-                <rotate axis="x" angle="90"/>
+                <translate x="12.5" y="20" z="3"/>
             </transformation>
             <materials>
                 <material id="Material" />
             </materials>
             <texture id="Texture"/>
             <children>
-                <primitiveref id="Rectangle" />
+                <primitiveref id="Torus" />
+            </children>
+        </component>
+        <component id="Goal_Torus2">
+            <transformation>
+                <translate x="2.5" y="-2" z="3"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <componentref id="Goal_Torus" />
+            </children>
+        </component>
+        <component id="Goal_Torus3">
+            <transformation>
+                <translate x="-2.5" y="-4" z="3"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <componentref id="Goal_Torus" />
+            </children>
+        </component>
+        <component id="Goal_Poll_Big">
+            <transformation>
+                <translate x="12.5" y="9" z="3"/>
+                <scale x="1" y="9" z="1">
+                <rotate axis="x" angle="-90">
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Cylinder" />
+            </children>
+        </component>
+        <component id="Goal_Poll_Medium">
+            <transformation>
+                <translate x="2.5" y="-2" z="0"/>
+                <scale x="1" y="7/9" z="1">
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <componentref id="Goal_Poll_Big" />
+            </children>
+        </component>
+        <component id="Goal_Poll_Small">
+            <transformation>
+                <translate x="-2.5" y="-4" z="0"/>
+                <scale x="1" y="3/9" z="1">
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <componentref id="Goal_Poll_Big" />
             </children>
         </component>
         <component id="Goal2">
+            <transformation>
+                <translate x="12.5" y="0" z="47"/>
+                <rotate axis="y" angle="180">
+                <translate x="-12.5" y="0" z="-3"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <componentref id="Goal_Torus">
+                <componenreft id="Goal_Torus2">
+                <componentref id="Goal_Torus3">
+                <componentref id="Goal_Poll_Big" />
+                <componentref id="Goal_Poll_Medium">
+                <componentref id="Goal_Poll_Small">
+            </children>
+        </component>
+        <component id="Bladger">
+            <transformation>
+                <translate x="12.5" y="0.5" z="25"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Sphere">
+            </children>
         </component>
     </components>
 </lxs>
