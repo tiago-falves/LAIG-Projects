@@ -1019,13 +1019,14 @@ class MySceneGraph {
         //To test the parsing/creation of the primitives, call the display function directly
         //this.primitives['demoRectangle'].display();
         //this.primitives['demoCylinder'].display();
-        this.primitives['demoTriangle'].display();
+        //this.primitives['demoTriangle'].display();
         //this.primitives['demoSphere'].display();
         //this.primitives['demoTorus'].display();
     }
 
     processNode(idNode){
         if(idNode){
+            console.log(this.components);
             let material = this.materials[this.components[idNode].materials[0]]; //get materials
             material.setTexture(this.textures[this.components[idNode].textures[0]]); //get textures
             material.apply();
