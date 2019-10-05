@@ -60,7 +60,6 @@
         <primitive id="demoTorus">
             <torus inner="1" outer = "5" slices="20" loops="20"/>
         </primitive>
-        
     </primitives>
 
     <components>

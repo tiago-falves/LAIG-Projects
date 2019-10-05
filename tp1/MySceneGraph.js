@@ -424,7 +424,7 @@ class MySceneGraph {
     parseTextures(texturesNode) {
 
         var children = texturesNode.children;
-        var textures = [];
+        this.textures = [];
         var textureIDs = [];
 
         for (let i = 0; i < children.length; i++) {
@@ -454,8 +454,7 @@ class MySceneGraph {
             }
 
             var texture = new CGFtexture(this.scene, filePath);
-            textures.push(texture);
-            
+            this.textures.push(texture);
         }
 
         //For each texture in textures block, check ID and file URL
@@ -813,17 +812,14 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
-            this.onXMLMinorError("To do: Parse components.");
-            // Transformations
+            //create new component
+            let component = new MyComponent(this.scene, componentID);
            
             var transformations = grandChildren[transformationIndex].children;
             var matrix_transformation = mat4.create();
             for (let j = 0; j < transformations.length; j++) {
                 let coordinates = [];
                 switch(transformations[j].nodeName){
-
-                    case "transformationref":
-                        break;
                     case "translate":
                         coordinates = this.parseCoordinates3D(transformations[j], "translate transformation for ID " + transformationIndex);
                         matrix_transformation = mat4.translate(matrix_transformation, matrix_transformation, coordinates);
@@ -852,10 +848,10 @@ class MySceneGraph {
                         matrix_transformation = mat4.rotate(matrix_transformation, matrix_transformation, angle*DEGREE_TO_RAD, vector);
                         break;
                 }
-                this.transformations[transformationIndex] = matrix_transformation;
-                
-
+             //   this.transformations[transformationIndex] = matrix_transformation;
             }
+
+            component.createTransformation(matrix_transformation);
 
             // Materials
             var materials = grandChildren[materialsIndex].children;
@@ -865,22 +861,29 @@ class MySceneGraph {
                 materialIDs.push(this.reader.getString(materials[j],'id'));
             }
 
+            component.createMaterial(materialIDs);
             
             // Texture
             let textures = grandChildren[textureIndex].children;
+            var textureIDs=[];
             var textureId = this.reader.getString(grandChildren[textureIndex], 'id');
             for (let j = 0; j < textures.length; j++) {
                 textureIDs.push(this.reader.getString(textures[j],'id'));
             }
-            // Children
-            var primitives = grandChildren[childrenIndex].children;
-            let primitiveIds = [];
+
+            component.createTextures(textureIDs);
             
-            for (let j = 0; j < primitives.length; j++) {
-                primitiveIds.push(this.reader.getString(primitives[j],'id'));
-            }
+            // Children
+            var children = grandChildren[childrenIndex].children;
+            var childrenIDs = [];
+            
+            for (let j = 0; j < children.length; j++) {
+                childrenIDs.push(this.reader.getString(children[j],'id'));
+            }        
 
+            component.createChildren(childrenIDs);
 
+            this.components[componentID] = component;
         }
     }
 
@@ -1026,21 +1029,20 @@ class MySceneGraph {
 
     processNode(idNode){
         if(idNode){
-            console.log(this.components);
-            let material = this.materials[this.components[idNode].materials[0]]; //get materials
+           /* let material = this.materials[this.components[idNode].materials[0]]; //get materials
             material.setTexture(this.textures[this.components[idNode].textures[0]]); //get textures
-            material.apply();
+            material.apply();*/
 
             this.scene.pushMatrix();
-            this.scene.multMatrix(this.matrix[idNode]);
+            this.scene.multMatrix(this.components[idNode].transformation);
 
-            let children = idNode.children;
+            let children = this.components[idNode].children;
 
             for(let i = 0; i < children.length; i++){
-                if(this.components.includes(children[i]))
+                if(this.components[children[i]])
                     this.processNode(children[i]);
-                else if(this.primitives.includes(children[i])){
-                    this.primitives[i].display();
+                else if(this.primitives[children[i]]){
+                    this.primitives[children[i]].display();
                 }
             }
             this.scene.popMatrix();
