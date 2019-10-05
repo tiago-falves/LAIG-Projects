@@ -425,7 +425,11 @@ class MySceneGraph {
 
         var children = texturesNode.children;
         this.textures = [];
-        var textureIDs = [];
+        
+
+        if(children.length == 0)
+            this.onXMLMinorError("No Textures in file");
+
 
         for (let i = 0; i < children.length; i++) {
             
@@ -435,26 +439,26 @@ class MySceneGraph {
             }
             
             var textureId = this.reader.getString(children[i], 'id');
+
             if (textureId == null)
                 return "no ID defined for texture";
 
+            if (this.textures[textureId] != null)
+                return "ID must be unique for each primitive (conflict: ID = " + textureID + ")";
             // Checks for repeated IDs.
-            if (textureIDs.length>0){
-                for (let j = 0; j < this.textureIDs.length; j++) {
-                    if (this.textureIDs[j] == textureId)
-                        return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
-                }
-            }
-            textureIDs.push(textureId);
+            
+           
+
 
             var filePath = this.reader.getString(children[i], 'file');
 
             if (filePath == null)   {
                 this.onXMLError("no file defined for texture");
             }
+            
 
-            var texture = new CGFtexture(this.scene, filePath);
-            this.textures.push(texture);
+            var new_texture = new CGFtexture(this.scene, filePath);
+            this.textures[textureId] = new_texture;
         }
 
         //For each texture in textures block, check ID and file URL
@@ -470,10 +474,11 @@ class MySceneGraph {
      * @param {materials block element} materialsNode
      */
     parseMaterials(materialsNode) {
+
+
         var children = materialsNode.children;
         this.materials = [];
-        let materialIDs = [];
-
+        
         var grandChildren = [];
         var nodeNames = [];
 
@@ -481,7 +486,8 @@ class MySceneGraph {
         for (var i = 0; i < children.length; i++) {
 
             grandChildren= children[i].children;
-            let material = new CGFappearance(this.scene);
+
+            //let material = new CGFappearance(this.scene);
 
             if (children[i].nodeName != "material") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -496,43 +502,53 @@ class MySceneGraph {
             // Checks for repeated IDs.
             if (this.materials[materialID] != null)
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
-            materialIDs.push(materialID);
+            
 
             //Continue here
-            let materialType = grandChildren[0].nodeName;
-
-            let r = this.reader.getFloat(grandChildren[0],'r');
-            if (!(r != null && !isNaN(r)))
-                return "unable to parse r of the material coordinates for ID = " + materialID;
-
-            let g = this.reader.getFloat(grandChildren[0],'g');
-            if (!(g != null && !isNaN(r)))
-                return "unable to parse g of the material coordinates for ID = " + materialID;
+            var shininness = this.reader.getFloat(children[i], 'shininess')
         
-        
-            let b = this.reader.getFloat(grandChildren[0],'b');
-            if (!(b != null && !isNaN(r)))
-                return "unable to parse b of the material coordinates for ID = " + materialID;
-
-            let a = this.reader.getFloat(grandChildren[0],'a');
-            if (!(a != null && !isNaN(a)))
-                return "unable to parse a of the material coordinates for ID = " + materialID;
-            
-            if (materialType == "emission" ) 
-                material.setEmission(r,g,b,a);
-            
-            else if (materialType == "ambient") 
-                material.setAmbient(r,g,b,a);
-            else if (materialType = "diffuse") {
-                material.setDiffuse(r,g,b,a);
-            }
-            else if (materialType = "specular") {
-                material.setSpecular(r,g,b,a);
+            for (var i = 0; i < grandChildren.length; i++) {
+                nodeNames.push(grandChildren[i].nodeName);
             }
 
-            this.materials.push(material);
+            let emission = [];
+            let diffuse = [];
+            let ambient = [];
+            let specular = [];
+
+
+
+            for (let j = 0; j < nodeNames.length; j++) {
+                switch (nodeNames[j]) {
+                    case "emission":
+                        emission = this.parseColor(grandChildren[j],"emission");
+                        break;
+                    case "ambient":
+                        ambient = this.parseColor(grandChildren[j],"ambient");
+                        break;
+                    case "diffuse":
+                        diffuse = this.parseColor(grandChildren[j],"diffuse");
+                        break;
+                    case "specular":
+                        specular = this.parseColor(grandChildren[j],"specular");
+                        break;
+                    default:
+                        break;
+                }
+                
+            }
+            let xMaterial = new CGFappearance(this.scene);
+            xMaterial.setShininess(shininness);
+            xMaterial.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
+            xMaterial.setDiffuse(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
+            xMaterial.setSpecular(specular[0], specular[1], specular[2], specular[3]);
+            xMaterial.setEmission(emission[0], emission[1], emission[2], emission[3]);
+            this.materials[materialID] = xMaterial;
+
+
+            
+            
         }
-
 
         this.log("Parsed materials");
         return null;
