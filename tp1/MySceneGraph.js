@@ -424,7 +424,7 @@ class MySceneGraph {
     parseTextures(texturesNode) {
 
         var children = texturesNode.children;
-        var textures = [];
+        this.textures = [];
         var textureIDs = [];
 
         for (let i = 0; i < children.length; i++) {
@@ -454,8 +454,7 @@ class MySceneGraph {
             }
 
             var texture = new CGFtexture(this.scene, filePath);
-            textures.push(texture);
-            
+            this.textures.push(texture);
         }
 
         //For each texture in textures block, check ID and file URL
@@ -821,9 +820,6 @@ class MySceneGraph {
             for (let j = 0; j < transformations.length; j++) {
                 let coordinates = [];
                 switch(transformations[j].nodeName){
-
-                    case "transformationref":
-                        break;
                     case "translate":
                         coordinates = this.parseCoordinates3D(transformations[j], "translate transformation for ID " + transformationIndex);
                         matrix_transformation = mat4.translate(matrix_transformation, matrix_transformation, coordinates);
@@ -876,16 +872,18 @@ class MySceneGraph {
             }
 
             component.createTextures(textureIDs);
-
-            this.components.push(component);
-
-            // Children
-            var primitives = grandChildren[childrenIndex].children;
-            this.primitiveIds = [];
             
-            for (let j = 0; j < primitives.length; j++) {
-                this.primitiveIds.push(this.reader.getString(primitives[j],'id'));
+            // Children
+            var children = grandChildren[childrenIndex].children;
+            var childrenIDs = [];
+            
+            for (let j = 0; j < children.length; j++) {
+                childrenIDs.push(this.reader.getString(children[j],'id'));
             }        
+
+            component.createChildren(childrenIDs);
+
+            this.components[componentID] = component;
         }
     }
 
@@ -1031,20 +1029,20 @@ class MySceneGraph {
 
     processNode(idNode){
         if(idNode){
-            let material = this.materials[this.components[idNode].material[0]]; //get materials
-            material.setTexture(this.textures[this.components[idNode].texture[0]]); //get textures
-            material.apply();
+           /* let material = this.materials[this.components[idNode].materials[0]]; //get materials
+            material.setTexture(this.textures[this.components[idNode].textures[0]]); //get textures
+            material.apply();*/
 
             this.scene.pushMatrix();
             this.scene.multMatrix(this.components[idNode].transformation);
 
-            let children = idNode.children;
+            let children = this.components[idNode].children;
 
             for(let i = 0; i < children.length; i++){
-                if(this.components.includes(children[i]))
+                if(this.components[children[i]])
                     this.processNode(children[i]);
-                else if(this.primitives.includes(children[i])){
-                    this.primitives[i].display();
+                else if(this.primitives[children[i]]){
+                    this.primitives[children[i]].display();
                 }
             }
             this.scene.popMatrix();

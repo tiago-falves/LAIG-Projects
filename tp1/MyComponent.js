@@ -5,14 +5,18 @@ class MyComponent{
     }
 
     createTextures(texture){
-        this.texture = texture;
+        this.textures = texture;
     }
 
     createMaterial(material){
-        this.material = material;
+        this.materials = material;
     }
 
     createTransformation(matrix){
         this.transformation = matrix;
+    }
+
+    createChildren(children){
+        this.children = children;
     }
 }

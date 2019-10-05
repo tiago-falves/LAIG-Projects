@@ -77,7 +77,7 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
-        <component id="Root">
+        <component id="Goal_Torus">
             <transformation>
                 <translate x="12.5" y="0" z="25"/>
                 <scale x="2" y="1" z="2" />
@@ -90,6 +90,8 @@
             <children>
                 <primitiveref id="Rectangle" />
             </children>
+        </component>
+        <component id="Goal2">
         </component>
     </components>
 </lxs>
