@@ -813,8 +813,8 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
-            this.onXMLMinorError("To do: Parse components.");
-            // Transformations
+            //create new component
+            let component = new MyComponent(this.scene, componentID);
            
             var transformations = grandChildren[transformationIndex].children;
             var matrix_transformation = mat4.create();
@@ -852,10 +852,10 @@ class MySceneGraph {
                         matrix_transformation = mat4.rotate(matrix_transformation, matrix_transformation, angle*DEGREE_TO_RAD, vector);
                         break;
                 }
-                this.transformations[transformationIndex] = matrix_transformation;
-                
-
+             //   this.transformations[transformationIndex] = matrix_transformation;
             }
+
+            component.createTransformation(matrix_transformation);
 
             // Materials
             var materials = grandChildren[materialsIndex].children;
@@ -865,22 +865,27 @@ class MySceneGraph {
                 materialIDs.push(this.reader.getString(materials[j],'id'));
             }
 
+            component.createMaterial(materialIDs);
             
             // Texture
             let textures = grandChildren[textureIndex].children;
+            var textureIDs=[];
             var textureId = this.reader.getString(grandChildren[textureIndex], 'id');
             for (let j = 0; j < textures.length; j++) {
                 textureIDs.push(this.reader.getString(textures[j],'id'));
             }
+
+            component.createTextures(textureIDs);
+
+            this.components.push(component);
+
             // Children
             var primitives = grandChildren[childrenIndex].children;
-            let primitiveIds = [];
+            this.primitiveIds = [];
             
             for (let j = 0; j < primitives.length; j++) {
-                primitiveIds.push(this.reader.getString(primitives[j],'id'));
-            }
-
-
+                this.primitiveIds.push(this.reader.getString(primitives[j],'id'));
+            }        
         }
     }
 
@@ -1019,19 +1024,19 @@ class MySceneGraph {
         //To test the parsing/creation of the primitives, call the display function directly
         //this.primitives['demoRectangle'].display();
         //this.primitives['demoCylinder'].display();
-        this.primitives['demoTriangle'].display();
+        //this.primitives['demoTriangle'].display();
         //this.primitives['demoSphere'].display();
         //this.primitives['demoTorus'].display();
     }
 
     processNode(idNode){
         if(idNode){
-            let material = this.materials[this.components[idNode].materials[0]]; //get materials
-            material.setTexture(this.textures[this.components[idNode].textures[0]]); //get textures
+            let material = this.materials[this.components[idNode].material[0]]; //get materials
+            material.setTexture(this.textures[this.components[idNode].texture[0]]); //get textures
             material.apply();
 
             this.scene.pushMatrix();
-            this.scene.multMatrix(this.matrix[idNode]);
+            this.scene.multMatrix(this.components[idNode].transformation);
 
             let children = idNode.children;
 
