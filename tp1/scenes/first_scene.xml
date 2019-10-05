@@ -27,7 +27,7 @@
     </textures>
 
     <materials>
-        <material id="Material" shininess="10">
+        <material id="demoMaterial" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
@@ -84,7 +84,7 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
