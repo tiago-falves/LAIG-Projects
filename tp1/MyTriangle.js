@@ -43,8 +43,11 @@ class MyTriangle extends CGFobject {
 
 		this.normals = [
 			nx, ny, nz,
+			-nx, -ny, -nz,
 			nx, ny, nz,
-			nx, ny, nz
+			-nx, -ny, -nz,
+			nx, ny, nz,
+			-nx, -ny, -nz
 		];
 
 		let a = Math.sqrt(Math.pow((this.x1-this.x3),2) + Math.pow((this.y1-this.y3),2) + Math.pow((this.z1-this.z3),2));
