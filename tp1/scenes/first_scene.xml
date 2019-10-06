@@ -38,7 +38,7 @@
     <transformations>
         <transformation id="Transform">
             <translate x="4" y="5" z="6" />
-            <scale x="5" y="1" z="5" />
+            <scale x="1" y="1" z="1" />
             <rotate axis="x" angle="-45" />
             <rotate axis="z" angle="-45" />
         </transformation>
@@ -49,141 +49,21 @@
             <rectangle x1="0" y1="0" x2="1" y2="1" />
         </primitive>
         <primitive id="Cylinder">
-            <cylinder base="1" top="1" height="2" slices="20" stacks="5"/>
+            <cylinder base="0.1" top="0.1" height="2" slices="20" stacks="5"/>
         </primitive>
         <primitive id="Triangle">
-            <triangle x1="-1" y1="-1" z1="0" x2="1" y2="-1" z2 = "0" x3="-1" y3="1" z3="0"/>
+            <triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2 = "0" x3="0" y3="1" z3="0"/>
         </primitive>
         <primitive id="Sphere">
             <sphere radius="1" slices="20" stacks="20"/>
         </primitive>
         <primitive id="Torus">
-            <torus inner="1" outer = "5" slices="20" loops="20"/>
+            <torus inner="0.1" outer = "0.5" slices="20" loops="5"/>
         </primitive>
         
     </primitives>
 
     <components>
-        <component id="Field">
-            <transformation>
-                <scale x="25" y="1" z="50" />
-                <rotate axis="x" angle="90"/>
-            </transformation>
-            <materials>
-                <material id="Material" />
-            </materials>
-            <texture id="Texture"/>
-            <children>
-                <primitiveref id="Rectangle" />
-            </children>
-        </component>
-        <component id="Goal_Torus">
-            <transformation>
-                <translate x="12.5" y="20" z="3"/>
-            </transformation>
-            <materials>
-                <material id="demoMaterial" />
-            </materials>
-            <texture id="Texture"/>
-            <children>
-                <primitiveref id="Torus" />
-            </children>
-        </component>
-        <component id="Goal_Torus2">
-            <transformation>
-                <translate x="2.5" y="-2" z="3"/>
-            </transformation>
-            <materials>
-                <material id="Material" />
-            </materials>
-            <texture id="Texture"/>
-            <children>
-                <componentref id="Goal_Torus" />
-            </children>
-        </component>
-        <component id="Goal_Torus3">
-            <transformation>
-                <translate x="-2.5" y="-4" z="3"/>
-            </transformation>
-            <materials> 
-                <material id="Material" />
-            </materials>
-            <texture id="Texture"/>
-            <children>
-                <componentref id="Goal_Torus" />
-            </children>
-        </component>
-        <component id="Goal_Poll_Big">
-            <transformation>
-                <translate x="12.5" y="9" z="3"/>
-                <scale x="1" y="9" z="1" />
-                <rotate axis="x" angle="-90" />
-            </transformation>
-            <materials>
-                <material id="Material" />
-            </materials>
-            <texture id="Texture"/>
-            <children>
-                <primitiveref id="Cylinder" />
-            </children>
-        </component>
-        <component id="Goal_Poll_Medium">
-            <transformation>
-                <translate x="2.5" y="-2" z="0"/>
-                <scale x="1" y="7/9" z="1" />
-            </transformation>
-            <materials>
-                <material id="Material" />
-            </materials>
-            <texture id="Texture"/>
-            <children>
-                <componentref id="Goal_Poll_Big" />
-            </children>
-        </component>
-        <component id="Goal_Poll_Small">
-            <transformation>
-                <translate x="-2.5" y="-4" z="0"/>
-                <scale x="1" y="3/9" z="1" />
-            </transformation>
-            <materials>
-                <material id="Material" />
-            </materials>
-            <texture id="Texture"/>
-            <children>
-                <componentref id="Goal_Poll_Big" />
-            </children>
-        </component>
-        <component id="Goal2">
-            <transformation>
-                <translate x="12.5" y="0" z="47"/>
-                <rotate axis="y" angle="180" />
-                <translate x="-12.5" y="0" z="-3"/>
-            </transformation>
-            <materials>
-                <material id="Material" />
-            </materials>
-            <texture id="Texture"/>
-            <children>
-                <componentref id="Goal_Torus"/>
-                <componenref id="Goal_Torus2"/>
-                <componentref id="Goal_Torus3"/>
-                <componentref id="Goal_Poll_Big" />
-                <componentref id="Goal_Poll_Medium"/>
-                <componentref id="Goal_Poll_Small"/>
-            </children>
-        </component>
-        <component id="Bladger">
-            <transformation>
-                <translate x="12.5" y="0.5" z="25"/>
-            </transformation>
-            <materials>
-                <material id="Material" />
-            </materials>
-            <texture id="Texture"/>
-            <children>
-                <primitiveref id="Sphere"/>
-            </children>
-        </component>
         <component id="Root">
             <transformation> 
             </transformation>
@@ -193,15 +73,378 @@
             <texture id="Texture"/>
             <children>
                 <componentref id="Field"/>
-                <componentref id="Goal_Torus"/>
+                <componentref id="Goal_Torus1"/>
                 <componenreft id="Goal_Torus2"/>
                 <componentref id="Goal_Torus3"/>
                 <componentref id="Goal_Poll_Big" />
                 <componentref id="Goal_Poll_Medium"/>
                 <componentref id="Goal_Poll_Small"/>
-                <componentref id="Goal2" />
+                <componentref id="Goal1" />
+                <componentref id="Goal2"/>
+                <componentref id="Goal3"/>
+                <componentref id="tower_bottom"/>
+                <componentref id="tower_top"/>
+                <componentref id="tower_front"/>
+                <componentref id="tower_left"/>
+                <componentref id="tower_back"/>
+                <componentref id="tower_right"/>
+                <componentref id="tower"/>
+                <componentref id="tower1"/>
+                <componentref id="tower2"/>
+                <componentref id="tower3"/>
+                <componentref id="tower4"/>
+                <componentref id="Snitch"/>
+                <componentref id="wingRight"/>
+                <componentref id="wingLeft"/>
+
                 <componentref id="Bladger"/>
             </children>
         </component>
+        <component id="Field">
+            <transformation>
+                <scale x="8" y="-1" z="16" />
+                <rotate axis="x" angle="90"/>
+                <translate x = "-0.5" y = "-0.5" z= "0"/>
+                
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+        
+
+        <component id="Goal_Torus1">
+            <transformation>
+                <translate x= "0" y = "2.5" z = "4.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Torus" />
+            </children>
+        </component>
+        <component id="Goal_Poll_Big">
+            <transformation>
+                <translate x = "0" y = "0" z = "4.5" />
+                <scale x = "1" y = "1" z= "1"/>
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Cylinder" />
+            </children>
+        </component>
+        
+        <component id="Goal1">
+            <transformation>
+                <scale x = "1" y = "1" z= "1"/>
+                <translate x = "0" y = "0" z = "-9.5"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componenref id="Goal_Poll_Big" />
+                <componenref id="Goal_Torus1" />
+            </children>
+        </component>
+
+        <component id="Goal_Torus2">
+            <transformation>
+                <translate x= "1.5" y = "2" z = "4.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Torus" />
+            </children>
+        </component>
+
+        <component id="Goal_Poll_Medium">
+            <transformation>
+                <translate x = "1.5" y = "0" z = "4.5" />
+                <scale x = "1" y = "0.7" z= "1"/>
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Cylinder" />
+            </children>
+        </component>
+
+        <component id="Goal2">
+            <transformation>
+                <scale x = "1" y = "1" z= "1"/>
+                <translate x = "0" y = "0" z = "-9.5"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componenref id="Goal_Poll_Medium" />
+                <componenref id="Goal_Torus2" />
+            </children>
+        </component>
+
+        <component id="Goal_Torus3">
+            <transformation>
+                <translate x= "-1.5" y = "1.5" z = "4.5"/>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Torus" />
+            </children>
+        </component>
+
+        <component id="Goal_Poll_Small">
+            <transformation>
+                <translate x = "-1.5" y = "0" z = "4.5" />
+                <scale x = "1" y = "0.5" z= "1"/>
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Cylinder" />
+            </children>
+        </component>
+
+        <component id="Goal3">
+            <transformation>
+                <scale x = "1" y = "1" z= "1"/>
+                <translate x = "0" y = "0" z = "-9.5"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componenref id="Goal_Poll_Small" />
+                <componenref id="Goal_Torus3" />
+            </children>
+        </component>
+
+        <component id="tower_front">
+            <transformation>
+                <scale x = "1" y = "3" z = "1" />
+                <translate x= "-4" y = "0" z = "1" />
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+        <component id="tower_bottom">
+            <transformation>
+            <translate x = "-4" y = "0" z = "0" />
+                <rotate axis = "x" angle = "90"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+        <component id="tower_left">
+            <transformation>
+                <translate x = "-4" y = "0" z = "0" />
+                <scale x = "1" y = "3" z = "1" />
+                <rotate axis = "y" angle = "-90"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+        <component id="tower_back">
+            <transformation>
+                <scale x = "1" y = "3" z = "1" />
+                <translate x= "-4" y = "1" z = "0" />
+                <rotate axis = "x" angle = "180"/>
+                
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="tower_top">
+            <transformation>
+                <translate x= "-4" y = "3" z = "1" />
+                <rotate axis = "x" angle = "-90"/>
+                
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="tower_right">
+            <transformation>
+                <scale x = "1" y = "3" z = "1" />
+                <translate x= "-3" y = "0" z = "1" />
+                <rotate axis = "y" angle = "90"/>
+                
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+        <component id="tower">
+            <transformation>      
+                <translate x= "7" y = "0" z = "0" />   
+                
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <componenref id="tower_bottom" />
+                <componenref id="tower_front" />
+                <componenref id="tower_left" />
+                <componenref id="tower_back" />
+                <componenref id="tower_right" />
+                <componenref id="tower_top" />
+            </children>
+        </component>
+
+        <component id="tower1">
+            <transformation>      
+                <translate x= "0" y = "0" z = "-4" />          
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <componenref id="tower" />
+            </children>
+        </component>
+
+        <component id="tower2">
+            <transformation>      
+                <translate x= "-7" y = "0" z = "-4" />   
+                
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <componenref id="tower" />
+                
+            </children>
+        </component>
+
+        <component id="tower3">
+            <transformation>      
+                <translate x= "0" y = "0" z = "4" />          
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <componenref id="tower" />
+            </children>
+        </component>
+        <component id="tower4">
+            <transformation>      
+                <translate x= "-7" y = "0" z = "4" />          
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <componenref id="tower" />
+            </children>
+        </component>
+        
+        <component id="Snitch">
+            <transformation>
+                <translate x="0" y="2" z="0"/>
+                <scale x = "0.1" y =  "0.1" z = "0.1"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Sphere"/>
+            </children>
+        </component>
+
+        <component id="wingLeft">
+            <transformation>
+                <translate x="0.08" y="1.95" z="0"/>
+                
+                <scale x = "0.15" y =  "0.1" z = "0.15"/>
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Triangle"/>
+            </children>
+        </component>
+        <component id="wingRight">
+            <transformation>
+                <translate x="-0.08" y="1.95" z="0"/>     
+                <scale x = "0.15" y =  "0.1" z = "-0.15"/>
+                <rotate axis = "y" angle = "180" />
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="Texture"/>
+            <children>
+                <primitiveref id="Triangle"/>
+            </children>
+        </component>
+        
     </components>
 </lxs>
