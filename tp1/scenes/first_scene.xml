@@ -493,8 +493,9 @@
         </component>
 
         <component id="Tower">
-            <transformation>      
+            <transformation>    
                 <translate x= "-5" y = "0" z = "-0.5" />   
+                <scale x= "0.8" y = "1" z = "0.8" />
             </transformation>
             <materials>
                 <material id="Material" />
@@ -548,6 +549,61 @@
             </children>
         </component>
 
+        <component id="Tower4">
+            <transformation>      
+                <translate x= "0" y = "0" z = "-2.5" />   
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="griffindorTexture"/>
+            <children>
+                <componentref id="Tower" />
+            </children>
+        </component>
+
+        <component id="Tower5">
+            <transformation>     
+                <translate x= "0" y = "0" z = "2.5" />   
+                
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="griffindorTexture"/>
+            <children>
+                <componentref id="Tower" />
+            </children>
+        </component>
+
+        <component id="Tower6">
+            <transformation>      
+                <translate x= "2.5" y = "0" z = "7" />   
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="griffindorTexture"/>
+            <children>
+                <componentref id="Tower" />
+            </children>
+        </component>
+
+        <component id="Tower7">
+            <transformation>      
+                <translate x= "2.5" y = "0" z = "-7" />   
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="griffindorTexture"/>
+            <children>
+                <componentref id="Tower" />
+            </children>
+        </component>
+
+        
+
         <component id="MirroredTowers">
             <transformation>      
             
@@ -561,6 +617,11 @@
                 <componentref id="Tower" />
                 <componentref id="Tower2" />
                 <componentref id="Tower3" />
+                <componentref id="Tower4" />
+                <componentref id="Tower5" />
+                <componentref id="Tower6" />
+                
+                
             </children>
         </component>
 
@@ -622,6 +683,9 @@
                 <componentref id="Tower"/>
                 <componentref id="Tower2"/>
                 <componentref id="Tower3"/>
+                <componentref id="Tower4"/>
+                <componentref id="Tower5"/>
+                <componentref id="Tower6"/>
                 <componentref id="MirroredTowers"/>
                 <componentref id="Snitch"/>
             </children>
