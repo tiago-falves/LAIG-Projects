@@ -22,8 +22,8 @@ class XMLscene extends CGFscene {
         super.init(application);
 
         this.sceneInited = false;
-
-        this.initCameras();
+        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        
 
         this.enableTextures(true);
 
@@ -33,6 +33,7 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
+        this.appearance = new CGFappearance(this);
         this.setUpdatePeriod(100);
     }
 
@@ -40,8 +41,35 @@ class XMLscene extends CGFscene {
      * Initializes the scene cameras.
      */
     initCameras() {
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        
+        
+        
+        //In case there is an error with the XML File
+        let currentCamera = this.graph.views[0];
+        //Choose the camera with the appropriate default ID in case it exists.
+
+        for(let key = 0; key < this.graph.views.length; key++) {
+            let xmlView = this.graph.views[key];
+            if(xmlView.id = this.graph.defaultView) {
+                currentCamera = xmlView;
+                break;
+            }
+        }
+        
+        if(currentCamera.type == "perspective"){
+            this.camera = new CGFcamera(currentCamera.angle, currentCamera.near, currentCamera.far, currentCamera.from, currentCamera.to);  
+        }
+  
+
+        this.interface.setActiveCamera(this.camera);
+        
     }
+
+    updateCamera(camera){ //Implementar
+        this.camera = camera;
+        
+    }
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -97,6 +125,7 @@ class XMLscene extends CGFscene {
 
         this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
 
+        this.initCameras();
         this.initLights();
 
         this.sceneInited = true;
