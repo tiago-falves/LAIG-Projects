@@ -85,12 +85,4 @@ class MyCylinder extends CGFobject {
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }
-
-    updateBuffers(complexity) {
-        this.slices = 3 + Math.round(9 * complexity); //complexity leties 0-1, so slices leties 3-12
-
-        // reinitialize buffers
-        this.initBuffers();
-        this.initNormalVizBuffers();
-    }
 }
