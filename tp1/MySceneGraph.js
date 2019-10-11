@@ -1171,21 +1171,22 @@ class MySceneGraph {
             let material;
             let materialID = this.components[idNode].materials[0]; // 0 -> clickM % materials.length
             if(materialID == "inherit"){
-                console.log("inherit material");
-                material = this.materials[matParent];
+                materialID = matParent;
             }
-            else material = this.materials[materialID];
+
+            material = this.materials[materialID];
 
             let textureID = this.components[idNode].texture;
+            
             if(textureID == "inherit"){
-                console.log("inherit texture");
-                material.setTexture(this.textures[texParent]);
+                textureID = texParent;
             }
             else if(textureID == "none"){
-                material.setTexture(null);
+                textureID = null;
             }
-            else material.setTexture(this.textures[textureID]);
             
+            material.setTexture(this.textures[textureID]);
+
             material.apply();
 
             this.scene.pushMatrix();

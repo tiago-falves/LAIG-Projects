@@ -123,9 +123,9 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="woodTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Cylinder" />
             </children>
@@ -136,9 +136,9 @@
                 <translate x= "1" y = "-0.5" z = "0"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="woodTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="Goal_Torus1" />
             </children>
@@ -151,9 +151,9 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="woodTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Cylinder" />
             </children>
@@ -164,9 +164,9 @@
                 <translate x= "-1" y = "-1" z = "0"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="woodTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="Goal_Torus1" />
             </children>
@@ -179,9 +179,9 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="woodTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Cylinder" />
             </children>
@@ -224,9 +224,9 @@
                 <scale x = "1" y = "3" z = "1" />
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="griffindorTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -238,9 +238,9 @@
                 <rotate axis = "y" angle = "-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="griffindorTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -252,9 +252,9 @@
                 <rotate axis = "x" angle = "180"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="griffindorTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -265,9 +265,9 @@
                 <rotate axis = "x" angle = "-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="griffindorTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -279,9 +279,9 @@
                 <rotate axis = "y" angle = "90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -293,9 +293,9 @@
                 <scale x = "0.3" y = "1" z = "1" />
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -307,9 +307,9 @@
                 <rotate axis = "y" angle = "-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -321,9 +321,9 @@
                 <rotate axis = "x" angle = "180"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -335,9 +335,9 @@
                 <scale x = "1" y = "0.3" z = "1" />
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -349,9 +349,9 @@
                 <rotate axis = "y" angle = "90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="griffindorTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -363,9 +363,9 @@
                 <rotate axis = "x" angle = "180"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -377,9 +377,9 @@
                 <scale x = "0.7" y = "0.5" z = "1" />
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Triangle" />
             </children>
@@ -389,9 +389,9 @@
                 <translate x= "0" y = "0" z = "-1" />
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="tower_middle3_front" />
             </children>
@@ -402,9 +402,9 @@
                 <translate x= "0.5" y = "4" z = "1" />
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="ObliqueTriangle" />
             </children>
@@ -415,9 +415,9 @@
                 <rotate axis="y" angle="180"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="ObliqueTriangle" />
             </children>
@@ -428,9 +428,9 @@
                 <rotate axis="y" angle="-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="ObliqueTriangle" />
             </children>
@@ -441,9 +441,9 @@
                 <rotate axis="y" angle="90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="inherit" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="ObliqueTriangle" />
             </children>
