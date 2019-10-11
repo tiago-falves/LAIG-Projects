@@ -71,7 +71,7 @@
                 <translate x = "-0.5" y = "-0.5" z= "0"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -98,7 +98,7 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -126,7 +126,7 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -154,7 +154,7 @@
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -167,9 +167,9 @@
                 <translate x = "0" y = "0" z = "-9.5"/>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="demoMaterial" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="Texture"/>
             <children>
                 <componenref id="Goal_Poll_Big" />
                 <componenref id="Goal_Torus1" />
@@ -185,9 +185,9 @@
                 <rotate axis="y" angle="180"/>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="demoMaterial" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="Texture"/>
             <children>
                 <componenref id="Goal1" />
             </children>
@@ -199,7 +199,7 @@
                 <translate x= "-4" y = "0" z = "1" />
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -213,7 +213,7 @@
                 <rotate axis = "y" angle = "-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -228,7 +228,7 @@
                 
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -241,7 +241,7 @@
                 <rotate axis = "x" angle = "-90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -255,7 +255,7 @@
                 <rotate axis = "y" angle = "90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -268,7 +268,7 @@
                 <translate x= "0" y = "0" z = "-0.5" />   
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -285,7 +285,7 @@
                 <translate x= "0" y = "0" z = "-5" />   
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -298,7 +298,7 @@
                 <translate x= "0" y = "0" z = "5" />   
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -311,7 +311,7 @@
                 <rotate axis="y" angle="180"/>   
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -328,7 +328,7 @@
                 <scale x="3" y="1" z="1"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -340,7 +340,7 @@
                 <scale x="-1" y="1" z="1"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -354,7 +354,7 @@
                 <scale x="0.1" y="0.1" z="0.1"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -368,7 +368,7 @@
             <transformation> 
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="demoMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
