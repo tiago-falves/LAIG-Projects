@@ -3,7 +3,7 @@
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="1" far="500" angle="45">
-            <from x="8" y="8" z="8" />
+            <from x="6" y="10" z="8" />
             <to x="0" y="-2" z="0" />
         </perspective>
     </views>
@@ -24,16 +24,17 @@
 
     <textures>
         <texture id="Texture" file="scenes/images/vidral.jpg" />
-        <texture id="courtTexture" file="scenes/images/court.jpg" />
-        <texture id="griffindorTexture" file="scenes/images/griffindor.png" />
+        <texture id="courtTexture" file="scenes/images/court1.jpg" />
+        <texture id="griffindorTexture" file="scenes/images/gryffindor.jpg" />
         <texture id="snitchTexture" file="scenes/images/snitch.JPG" />
         <texture id="woodTexture" file="scenes/images/wood.jpg" />
+        <texture id="metalTexture" file="scenes/images/metal-texture.jpg" />
     </textures>
 
     <materials>
         <material id="Material" shininess="10">
-            <emission r="0.5" g="0.5" b="0.5" a="1.0" />
-            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <emission r="0.8" g="0.8" b="0.8" a="1.0" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
             <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
@@ -68,7 +69,7 @@
             <torus inner="0.05" outer = "0.3" slices="20" loops="20"/>
         </primitive>
         <primitive id="LessDefinedTorus">
-            <torus inner="0.05" outer = "0.3" slices="20" loops="10"/>
+            <torus inner="0.03" outer = "0.3" slices="20" loops="10"/>
         </primitive>
         
     </primitives>
@@ -76,7 +77,7 @@
     <components>
         <component id="Field">
             <transformation>
-                <scale x="8" y="1" z="16" />
+                <scale x="10" y="1" z="16" />
                 <rotate axis="x" angle="90"/>
                 <translate x = "-0.5" y = "-0.5" z= "0"/>
             </transformation>
@@ -92,7 +93,7 @@
         <component id="Stage">
             <transformation>
                 <translate x="0" y="0.75" z="0"/>
-                <scale x="12" y="15" z="23" />
+                <scale x="12" y="40" z="23" />
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
@@ -194,7 +195,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="woodTexture"/>
+            <texture id="metalTexture"/>
             <children>
                 <componentref id="Goal_Poll_Big" />
                 <componentref id="Goal_Torus1" />
@@ -212,7 +213,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="woodTexture"/>
+            <texture id="metalTexture"/>
             <children>
                 <componentref id="Goal1" />
             </children>
@@ -287,7 +288,7 @@
             </children>
         </component>
 
-        <component id="tower_middle_front">
+        <component id="tower_middle_right">
             <transformation>
                 <translate x= "0" y = "3" z = "1" />
                 <scale x = "0.3" y = "1" z = "1" />
@@ -300,7 +301,7 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
-        <component id="tower_middle_left">
+        <component id="tower_middle_back">
             <transformation>
                 <translate x = "0" y = "3" z = "0" />
                 <scale x = "1" y = "1" z = "1" />
@@ -314,7 +315,7 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
-         <component id="tower_middle_back">
+         <component id="tower_middle_left">
             <transformation>
                 <translate x= "0" y = "4" z = "0" />
                 <scale x = "0.3" y = "1" z = "1" />
@@ -329,7 +330,7 @@
             </children>
         </component>
         
-        <component id="tower_middle2_front">
+        <component id="tower_middle2_right">
             <transformation>
                 <translate x= "0" y = "3.7" z = "1" />
                 <scale x = "1" y = "0.3" z = "1" />
@@ -342,7 +343,7 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
-        <component id="tower_middle2_right">
+        <component id="tower_middle2_front">
             <transformation>
                 <translate x= "1" y = "3.7" z = "1" />
                 <scale x = "1" y = "0.3" z = "1" />
@@ -356,7 +357,7 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
-        <component id="tower_middle2_back">
+        <component id="tower_middle2_left">
             <transformation>
                 <translate x= "0" y = "4" z = "0" />
                 <scale x = "1" y = "0.3" z = "1" />
@@ -458,7 +459,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="woodTexture"/>
             <children>
                 <primitiveref id="Cylinder" />
             </children>
@@ -471,7 +472,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="griffindorTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -492,8 +493,9 @@
         </component>
 
         <component id="Tower">
-            <transformation>      
-                <translate x= "-4" y = "0" z = "-0.5" />   
+            <transformation>    
+                <translate x= "-5" y = "0" z = "-0.5" />   
+                <scale x= "0.8" y = "1" z = "0.8" />
             </transformation>
             <materials>
                 <material id="Material" />
@@ -523,7 +525,7 @@
 
         <component id="Tower2">
             <transformation>      
-                <translate x= "0" y = "0" z = "-5" />   
+                <translate x= "1" y = "0" z = "-5" />   
             </transformation>
             <materials>
                 <material id="Material" />
@@ -536,7 +538,7 @@
 
         <component id="Tower3">
             <transformation>      
-                <translate x= "0" y = "0" z = "5" />   
+                <translate x= "1" y = "0" z = "5" />   
             </transformation>
             <materials>
                 <material id="Material" />
@@ -547,8 +549,64 @@
             </children>
         </component>
 
+        <component id="Tower4">
+            <transformation>      
+                <translate x= "0" y = "0" z = "-2.5" />   
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="griffindorTexture"/>
+            <children>
+                <componentref id="Tower" />
+            </children>
+        </component>
+
+        <component id="Tower5">
+            <transformation>     
+                <translate x= "0" y = "0" z = "2.5" />   
+                
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="griffindorTexture"/>
+            <children>
+                <componentref id="Tower" />
+            </children>
+        </component>
+
+        <component id="Tower6">
+            <transformation>      
+                <translate x= "2.5" y = "0" z = "7" />   
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="griffindorTexture"/>
+            <children>
+                <componentref id="Tower" />
+            </children>
+        </component>
+
+        <component id="Tower7">
+            <transformation>      
+                <translate x= "2.5" y = "0" z = "-7" />   
+            </transformation>
+            <materials>
+                <material id="Material" />
+            </materials>
+            <texture id="griffindorTexture"/>
+            <children>
+                <componentref id="Tower" />
+            </children>
+        </component>
+
+        
+
         <component id="MirroredTowers">
             <transformation>      
+            
                 <rotate axis="y" angle="180"/>   
             </transformation>
             <materials>
@@ -559,6 +617,11 @@
                 <componentref id="Tower" />
                 <componentref id="Tower2" />
                 <componentref id="Tower3" />
+                <componentref id="Tower4" />
+                <componentref id="Tower5" />
+                <componentref id="Tower6" />
+                
+                
             </children>
         </component>
 
@@ -620,6 +683,9 @@
                 <componentref id="Tower"/>
                 <componentref id="Tower2"/>
                 <componentref id="Tower3"/>
+                <componentref id="Tower4"/>
+                <componentref id="Tower5"/>
+                <componentref id="Tower6"/>
                 <componentref id="MirroredTowers"/>
                 <componentref id="Snitch"/>
             </children>
