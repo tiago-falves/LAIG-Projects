@@ -227,11 +227,16 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        this.onXMLMinorError("To do: Parse views and create cameras.");
+        /*this.onXMLMinorError("To do: Parse views and create cameras.");
 
         var children = viewsNode.children;
         this.camera = [];
         var grandChildren = [];
+        this.views = [];
+
+        if(children.lenght == 0){
+            this.onXMLError("There are no defined views");
+        }
 
         for (let i = 0; i < children.length; i++) {
             if (children[i].nodeName != "perspective") {
@@ -247,19 +252,131 @@ class MySceneGraph {
             if (this.camera[viewId] != null) 
                 return "Camera IDs cannot be repeated";
             
-            var near = this.reader.getFloat(children[i], 'near');
-            var far = this.reader.getFloat(children[i], 'far');
-            var angle = this.reader.getFloat(children[i], 'angle');
+            var nearView = this.reader.getFloat(children[i], 'near');
+            var farView = this.reader.getFloat(children[i], 'far');
+            var angleView = this.reader.getFloat(children[i], 'angle');
 
             grandChildren = children[i].children;
+            let from = children[i].getElementsByTagName("from");
 
-            var fX = this.reader.getFloat(grandChildren[0], 'x');
-            var fY = this.reader.getFloat(grandChildren[0], 'y');
-            var fZ = this.reader.getFloat(grandChildren[0], 'z');
-            var toX = this.reader.getFloat(grandChildren[0], 'x');
-            var toY = this.reader.getFloat(grandChildren[0], 'y');
-            var toZ = this.reader.getFloat(grandChildren[0], 'z');
+            var fX = this.reader.getFloat(from[0], 'x');
+            var fY = this.reader.getFloat(from[0], 'y');
+            var fZ = this.reader.getFloat(from[0], 'z');
+
+            let toList = children[i].getElementsByTagName("to");
+            var toX = this.reader.getFloat(toList[0], 'x');
+            var toY = this.reader.getFloat(toList[0], 'y');
+            var toZ = this.reader.getFloat(toList[0], 'z');
+
+            CGFcamera()
+            let currentView = {id:viewId, near:nearView, far:farView, from: vec3.fromValues(fX,fY,fZ), to: vec3.fromValues(toX,toY,toZ)}
+            currentView.angle = angleView;
+            
+            this.views.push(currentView);
         }
+        return null;*/
+        //get Default View ID for the nodes
+        let defaultViewID = viewsNode.getAttribute("default");
+        if(defaultViewID == null) this.onXMLMinorError("No default view defined.");
+
+        this.views = [];
+        this.defaultView = defaultViewID;
+
+        let defaultViewExists = false;
+        
+        //get all views inside views element
+        let children = viewsNode.children;
+        if(children.length == 0) this.onXMLError("No views Provided!");
+        for(let i = 0; i < children.length; i++) {
+            let child = children[i];
+            let name = child.nodeName;
+            //if view has an invalid name throw error and proceed.
+            if(name != "ortho" && name != "perspective") {
+                this.onXMLMinorError("Unexpedted view: " + name);
+                continue;
+            }
+
+            //get ID and test for errors.
+            let viewId = child.getAttribute("id");
+            if(viewId == null) this.onXMLMinorError("ID for " + name + " view not provided!");
+            if(viewId == defaultViewID) defaultViewExists = true;
+            
+            //get near and far and test for errors.
+            let viewNear = parseFloat(child.getAttribute("near"));
+            if(viewNear == null) this.onXMLMinorError("Near attribute for " + name + " view not provided!");
+            let viewFar = parseFloat(child.getAttribute("far"));
+            if(viewFar == null) this.onXMLMinorError("Far attribute for " + name + " view not provided!");
+
+            //get from array values and test for errors.
+            let fromList = child.getElementsByTagName("from");
+            let fromX;
+            let fromY;
+            let fromZ;
+            if(fromList.length == 0) {
+                this.onXMLMinorError("From element for " + name + " view not provided!");
+            }
+            else if(fromList.length > 1) {
+                this.onXMLMinorError("More than 1 For element for " + name + " view provided!");
+            }
+            else {
+                fromX = parseFloat(fromList[0].getAttribute("x"));
+                fromY = parseFloat(fromList[0].getAttribute("y"));
+                fromZ = parseFloat(fromList[0].getAttribute("z"));
+            }
+
+            //get to array values and test for errors.
+            let toList = child.getElementsByTagName("to");
+            let toX;
+            let toY;
+            let toZ;
+            if(toList.length == 0) {
+                this.onXMLMinorError("To element for " + name + " view not provided!");
+            }
+            else if(toList.length > 1) {
+                this.onXMLMinorError("More than 1 To element for " + name + " view provided!");
+            }
+            else {
+                toX = parseFloat(toList[0].getAttribute("x"));
+                toY = parseFloat(toList[0].getAttribute("y"));
+                toZ = parseFloat(toList[0].getAttribute("z"));
+            }
+
+            //create object with currentView to add to our views array
+            let currentView = {id:viewId, near:viewNear, far:viewFar, from: vec3.fromValues(fromX,fromY,fromZ), to: vec3.fromValues(toX,toY,toZ)}
+
+            //complete currentView object with appropriate information depending on the view type
+            if(name = "perspective") {
+                let viewAngle = parseFloat(child.getAttribute("angle"));
+                if(viewAngle == null) this.onXMLMinorError("no angle attribute for " + name + " view provided!");
+                currentView.type = "perspective";
+
+                currentView.angle = viewAngle;
+            }
+            else if(name = "ortho") {
+                let viewTop = child.getAttribute("top");
+                let viewBottom = child.getAttribute("bottom");
+                let viewLeft = child.getAttribute("left");
+                let viewRight = child.getAttribute("right");
+
+                let upList = child.child.getElementsByTagName("up");
+                let upX = parseFloat(upList[0].getAttribute("x"));
+                let upY = parseFloat(upList[0].getAttribute("y"));
+                let upZ = parseFloat(upList[0].getAttribute("z"));
+
+                currentView.type = "ortho";
+                currentView.angle = viewAngle;
+                currentView.top = viewTop;
+                currentView.bottom = viewBottom;
+                currentView.left = viewLeft;
+                currentView.right = viewRight;
+                currentView.up = vec3.fromValues(upX, upY, upZ);
+            }
+
+            this.views.push(currentView);
+        }
+        if(this.views.length == 0) this.onXMLError("No Views successfully loaded!");
+        if(!defaultViewExists) this.onXMLMinorError("Default View doesn't exist");
+
         return null;
     }
 
@@ -426,6 +543,7 @@ class MySceneGraph {
         var children = texturesNode.children;
         this.textures = [];
         
+        
 
         if(children.length == 0)
             this.onXMLMinorError("No Textures in file");
@@ -443,9 +561,10 @@ class MySceneGraph {
             if (textureId == null)
                 return "no ID defined for texture";
 
+            // Checks for repeated IDs.
             if (this.textures[textureId] != null)
                 return "ID must be unique for each primitive (conflict: ID = " + textureID + ")";
-            // Checks for repeated IDs.
+            
             
            
 
@@ -532,6 +651,7 @@ class MySceneGraph {
                     case "specular":
                         specular = this.parseColor(grandChildren[j],"specular");
                         break;
+                   
                     default:
                         break;
                 }
@@ -877,9 +997,13 @@ class MySceneGraph {
             
             for (let j = 0; j < materials.length; j++) {
                 materialIDs.push(this.reader.getString(materials[j],'id'));
+                if (materialIDs == null){
+                    this.onXMLError("Component has no ID: " + componentID );
+                }
+                else component.createMaterial(materialIDs);
             }
 
-            component.createMaterial(materialIDs);
+           
             
             // Texture
             let texture = this.reader.getString(grandChildren[textureIndex],'id');

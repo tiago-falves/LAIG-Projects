@@ -2,8 +2,8 @@
     <scene root="Root" axis_length="5"/>
 
     <views default="defaultCamera">
-        <perspective id="defaultCamera" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30" />
+        <perspective id="defaultCamera" near="1" far="500" angle="45">
+            <from x="8" y="8" z="8" />
             <to x="0" y="-2" z="0" />
         </perspective>
     </views>
@@ -24,14 +24,18 @@
 
     <textures>
         <texture id="Texture" file="scenes/images/vidral.jpg" />
+        <texture id="courtTexture" file="scenes/images/court.jpg" />
+        <texture id="griffindorTexture" file="scenes/images/griffindor.png" />
+        <texture id="snitchTexture" file="scenes/images/snitch.JPG" />
+        <texture id="woodTexture" file="scenes/images/wood.jpg" />
     </textures>
 
     <materials>
         <material id="Material" shininess="10">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+            <emission r="0.5" g="0.5" b="0.5" a="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
     </materials>
 
@@ -79,7 +83,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="courtTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -94,7 +98,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="woodTexture"/>
             <children>
                 <primitiveref id="LessDefinedTorus" />
             </children>
@@ -121,7 +125,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="woodTexture"/>
             <children>
                 <primitiveref id="Cylinder" />
             </children>
@@ -134,7 +138,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="woodTexture"/>
             <children>
                 <componentref id="Goal_Torus1" />
             </children>
@@ -149,7 +153,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="woodTexture"/>
             <children>
                 <primitiveref id="Cylinder" />
             </children>
@@ -162,7 +166,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="woodTexture"/>
             <children>
                 <componentref id="Goal_Torus1" />
             </children>
@@ -177,7 +181,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="woodTexture"/>
             <children>
                 <primitiveref id="Cylinder" />
             </children>
@@ -190,7 +194,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="woodTexture"/>
             <children>
                 <componentref id="Goal_Poll_Big" />
                 <componentref id="Goal_Torus1" />
@@ -208,7 +212,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="woodTexture"/>
             <children>
                 <componentref id="Goal1" />
             </children>
@@ -222,7 +226,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="griffindorTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -236,7 +240,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="griffindorTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -250,7 +254,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="griffindorTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -263,7 +267,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="griffindorTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -347,7 +351,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="griffindorTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -494,7 +498,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="griffindorTexture"/>
             <children>
                 <componentref id="tower_bottom_front" />
                 <componentref id="tower_bottom_left" />
@@ -524,7 +528,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="griffindorTexture"/>
             <children>
                 <componentref id="Tower" />
             </children>
@@ -537,7 +541,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="griffindorTexture"/>
             <children>
                 <componentref id="Tower" />
             </children>
@@ -567,7 +571,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="snitchTexture"/>
             <children>
                 <primitiveref id="Triangle"/>
             </children>
@@ -579,7 +583,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="snitchTexture"/>
             <children>
                 <componentref id="wingLeft"/>
             </children>
@@ -593,7 +597,7 @@
             <materials>
                 <material id="Material" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="snitchTexture"/>
             <children>
                 <componentref id="wingLeft"/>
                 <componentref id="wingRight"/>
