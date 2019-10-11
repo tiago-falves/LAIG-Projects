@@ -232,6 +232,11 @@ class MySceneGraph {
         var children = viewsNode.children;
         this.camera = [];
         var grandChildren = [];
+        this.views = [];
+
+        if(children.lenght == 0){
+            this.onXMLError("There are no defined views");
+        }
 
         for (let i = 0; i < children.length; i++) {
             if (children[i].nodeName != "perspective") {
@@ -247,18 +252,26 @@ class MySceneGraph {
             if (this.camera[viewId] != null) 
                 return "Camera IDs cannot be repeated";
             
-            var near = this.reader.getFloat(children[i], 'near');
-            var far = this.reader.getFloat(children[i], 'far');
-            var angle = this.reader.getFloat(children[i], 'angle');
+            var nearView = this.reader.getFloat(children[i], 'near');
+            var farView = this.reader.getFloat(children[i], 'far');
+            var angleView = this.reader.getFloat(children[i], 'angle');
 
             grandChildren = children[i].children;
+            let from = children[i].getElementsByTagName("from");
 
-            var fX = this.reader.getFloat(grandChildren[0], 'x');
-            var fY = this.reader.getFloat(grandChildren[0], 'y');
-            var fZ = this.reader.getFloat(grandChildren[0], 'z');
-            var toX = this.reader.getFloat(grandChildren[0], 'x');
-            var toY = this.reader.getFloat(grandChildren[0], 'y');
-            var toZ = this.reader.getFloat(grandChildren[0], 'z');
+            var fX = this.reader.getFloat(from[0], 'x');
+            var fY = this.reader.getFloat(from[0], 'y');
+            var fZ = this.reader.getFloat(from[0], 'z');
+
+            let toList = children[i].getElementsByTagName("to");
+            var toX = this.reader.getFloat(toList[0], 'x');
+            var toY = this.reader.getFloat(toList[0], 'y');
+            var toZ = this.reader.getFloat(toList[0], 'z');
+
+            let currentView = {id:viewId, near:nearView, far:farView, from: vec3.fromValues(fX,fY,fZ), to: vec3.fromValues(toX,toY,toZ)}
+            currentView.angle = angleView;
+            
+            this.views.push(currentView);
         }
         return null;
     }
@@ -426,6 +439,7 @@ class MySceneGraph {
         var children = texturesNode.children;
         this.textures = [];
         
+        
 
         if(children.length == 0)
             this.onXMLMinorError("No Textures in file");
@@ -443,9 +457,10 @@ class MySceneGraph {
             if (textureId == null)
                 return "no ID defined for texture";
 
+            // Checks for repeated IDs.
             if (this.textures[textureId] != null)
                 return "ID must be unique for each primitive (conflict: ID = " + textureID + ")";
-            // Checks for repeated IDs.
+            
             
            
 
@@ -532,6 +547,7 @@ class MySceneGraph {
                     case "specular":
                         specular = this.parseColor(grandChildren[j],"specular");
                         break;
+                   
                     default:
                         break;
                 }
@@ -1041,8 +1057,11 @@ class MySceneGraph {
         //this.primitives['demoTorus'].display();
     }
 
-    processNode(idNode){
+    processNode(idNode,matParent,textParent,length_s,lenght_t){
         if(idNode){
+            
+            var x = this.nodes[idNode];
+
             
             let material = this.materials[this.components[idNode].materials[0]]; //get materials
             material.setTexture(this.textures[this.components[idNode].textures]); //get textures
