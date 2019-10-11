@@ -90,7 +90,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="woodTexture"/>
             <children>
                 <primitiveref id="Torus" />
             </children>
@@ -117,7 +117,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="woodTexture"/>
             <children>
                 <primitiveref id="Torus" />
             </children>

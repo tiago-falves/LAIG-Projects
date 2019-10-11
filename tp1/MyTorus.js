@@ -34,7 +34,10 @@ class MyTorus extends CGFobject {
 					this.inner * Math.sin(beta)
 				);
 
-				
+				this.texCoords.push(
+					i*1/this.slices, 
+					j*1/this.loops	
+				);
 
 				this.normals.push(
 					Math.cos(alfa) * Math.cos(beta), 
