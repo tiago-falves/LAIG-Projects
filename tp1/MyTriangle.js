@@ -25,48 +25,54 @@ class MyTriangle extends CGFobject {
 		this.vertices = [
 			this.x1, this.y1, this.z1,	//0
 			this.x2, this.y2, this.z2,	//1
-			this.x3, this.y3, this.z3	//2
+			this.x3, this.y3, this.z3,	//2
+			this.x1, this.y1, this.z1,	//3
+			this.x2, this.y2, this.z2,	//4
+			this.x3, this.y3, this.z3	//5
 		];
 
 		//Counter-clockwise reference of vertices
 		this.indices = [
 			0, 1, 2,
-			2, 1, 0 //clock wise so it can be seen both ways
+			5, 4, 3 //clock wise so it can be seen both ways
 		];
 		
 		let A = [this.x2-this.x1, this.y2-this.y1, this.z2-this.z1];
 		let B = [this.x3-this.x1, this.y3-this.y1, this.z3-this.z1];
 
-		let nx = A[1]*B[2] - A[2]*B[1];
-		let ny = A[2]*B[0] - A[0]*B[2];
-		let nz = A[0]*B[1] - A[1]*B[0];
+		let size = Math.sqrt(Math.pow(A[0] - B[0], 2) + Math.pow(A[1] - B[1], 2) + Math.pow(A[2] - B[2], 2));
+
+		let nx = (A[1]*B[2] - A[2]*B[1])/size;
+		let ny = (A[2]*B[0] - A[0]*B[2])/size;
+		let nz = (A[0]*B[1] - A[1]*B[0])/size;
 
 		this.normals = [
 			nx, ny, nz,
-			-nx, -ny, -nz,
+			nx, ny, nz,
 			nx, ny, nz,
 			-nx, -ny, -nz,
-			nx, ny, nz,
-			-nx, -ny, -nz
+			-nx, -ny, -nz,
+			-nx, -ny, -nz,
 		];
 
-		let a = Math.sqrt(Math.pow((this.x1-this.x3),2) + Math.pow((this.y1-this.y3),2) + Math.pow((this.z1-this.z3),2));
-		let b = Math.sqrt(Math.pow((this.x2-this.x1),2) + Math.pow((this.y2-this.y1),2) + Math.pow((this.z2-this.z1),2));
-		let c = Math.sqrt(Math.pow((this.x3-this.x2),2) + Math.pow((this.y3-this.y2),2) + Math.pow((this.z3-this.z2),2));
+		this.a = Math.sqrt(Math.pow((this.x1-this.x3),2) + Math.pow((this.y1-this.y3),2) + Math.pow((this.z1-this.z3),2));
+		this.b = Math.sqrt(Math.pow((this.x2-this.x1),2) + Math.pow((this.y2-this.y1),2) + Math.pow((this.z2-this.z1),2));
+		this.c = Math.sqrt(Math.pow((this.x3-this.x2),2) + Math.pow((this.y3-this.y2),2) + Math.pow((this.z3-this.z2),2));
 
-		let cos_beta = (Math.pow(a,2) - Math.pow(b,2) + Math.pow(c,2))/(2*a*c);
-		let sin_beta = Math.sqrt(1 - Math.pow(cos_beta, 2));
+		this.cos_beta = (Math.pow(this.a,2) - Math.pow(this.b,2) + Math.pow(this.c,2))/(2*this.a*this.c);
+		this.sin_beta = Math.sqrt(1 - Math.pow(this.cos_beta, 2));
+	
+		this.primitiveType = this.scene.gl.TRIANGLES;
+		this.initGLBuffers();
+	}
 
-/*
+	updateTextCoords(length_s, length_t){
 		this.texCoords = [
 			(this.c - this.a*this.cos_beta)/length_s, (length_t - this.a*this.sin_beta)/length_t,
 			0, 1,
 			this.c/length_s, 1
 		];
-		*/
+
 		this.updateTexCoordsGLBuffers();
-	
-		this.primitiveType = this.scene.gl.TRIANGLES;
-		this.initGLBuffers();
 	}
 }

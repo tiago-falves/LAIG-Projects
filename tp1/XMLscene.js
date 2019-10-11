@@ -102,6 +102,8 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
     }
 
+    //regist number of clicks on M key
+
     /**
      * Displays the scene.
      */

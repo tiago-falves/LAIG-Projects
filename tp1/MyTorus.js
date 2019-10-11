@@ -34,12 +34,10 @@ class MyTorus extends CGFobject {
 					this.inner * Math.sin(beta)
 				);
 
-				
-
 				this.normals.push(
 					Math.cos(alfa) * Math.cos(beta), 
                     Math.sin(alfa) * Math.cos(beta),
-                    0
+                    Math.sin(beta)
 				);
 
 			}
@@ -57,5 +55,15 @@ class MyTorus extends CGFobject {
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
-    };
+	};
+	
+	updateTextCoords(length_s, length_t){
+		this.texCoords = [
+			(this.c - this.a*this.cos_beta)/length_s, (length_t - this.a*this.sin_beta)/length_t,
+			0, 1,
+			this.c/length_s, 1
+		];
+
+		this.updateTexCoordsGLBuffers();
+	}
 };
