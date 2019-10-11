@@ -1031,7 +1031,7 @@ class MySceneGraph {
         // loop children if component processNode(idChild)
 
 
-        this.processNode(this.idRoot);
+        this.processNode(this.idRoot, null, null, 1, 1);
 
         //To test the parsing/creation of the primitives, call the display function directly
         //this.primitives['demoRectangle'].display();
@@ -1041,11 +1041,27 @@ class MySceneGraph {
         //this.primitives['demoTorus'].display();
     }
 
-    processNode(idNode){
+    processNode(idNode, matParent, texParent, length_s, length_t){
         if(idNode){
+            //materials
+            let material;
+            let materialID = this.components[idNode].materials[0]; // 0 -> clickM % materials.length
+            if(materialID == "inherit"){
+                console.log("inherit material");
+                material = this.materials[matParent];
+            }
+            else material = this.materials[materialID];
+
+            let textureID = this.components[idNode].texture;
+            if(textureID == "inherit"){
+                console.log("inherit texture");
+                material.setTexture(this.textures[texParent]);
+            }
+            else if(textureID == "none"){
+                material.setTexture(null);
+            }
+            else material.setTexture(this.textures[textureID]);
             
-            let material = this.materials[this.components[idNode].materials[0]]; //get materials
-            material.setTexture(this.textures[this.components[idNode].textures]); //get textures
             material.apply();
 
             this.scene.pushMatrix();
@@ -1055,7 +1071,7 @@ class MySceneGraph {
 
             for(let i = 0; i < children.length; i++){
                 if(this.components[children[i]])
-                    this.processNode(children[i]);
+                    this.processNode(children[i], materialID, textureID, 1, 1);
                 else if(this.primitives[children[i]])
                     this.primitives[children[i]].display();
             }

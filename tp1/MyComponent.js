@@ -5,7 +5,7 @@ class MyComponent{
     }
 
     createTextures(texture){
-        this.textures = texture;
+        this.texture = texture;
     }
 
     createMaterial(material){

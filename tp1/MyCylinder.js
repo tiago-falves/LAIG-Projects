@@ -40,7 +40,7 @@ class MyCylinder extends CGFobject {
 
                 this.texCoords.push(
                     j/this.slices,
-                    1 - j/this.stacks
+                    1 - i/this.stacks
                 );
             }
         }
