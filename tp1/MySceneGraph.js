@@ -1044,9 +1044,9 @@ class MySceneGraph {
     processNode(idNode){
         if(idNode){
             
-            /*let material = this.materials[this.components[idNode].materials[0]]; //get materials
-            material.setTexture(this.textures[this.components[idNode].textures[0]]); //get textures
-            material.apply();*/
+            let material = this.materials[this.components[idNode].materials[0]]; //get materials
+            material.setTexture(this.textures[this.components[idNode].textures]); //get textures
+            material.apply();
 
             this.scene.pushMatrix();
             this.scene.multMatrix(this.components[idNode].transformation);
