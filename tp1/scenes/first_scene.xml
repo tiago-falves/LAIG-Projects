@@ -35,7 +35,7 @@
         <texture id="woodTexture" file="scenes/images/wood.jpg" />
         <texture id="metalTexture" file="scenes/images/metal-texture.jpg" />
         <texture id="cubeMapTopTexture" file="scenes/images/sandcastle_up.png" />
-        <texture id="cubeMapBottomTexture" file="scenes/images/sandcastle_dn.png" />
+        <texture id="cubeMapBottomTexture" file="scenes/images/grass.jpg" />
         <texture id="cubeMapFrontTexture" file="scenes/images/sandcastle_ft.png" />
         <texture id="cubeMapBackTexture" file="scenes/images/sandcastle_bk.png" />
         <texture id="cubeMapLeftTexture" file="scenes/images/sandcastle_lf.png" />
@@ -733,7 +733,7 @@
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="courtTexture" length_s="0.2" length_t="0.2"/>
+            <texture id="cubeMapBottomTexture" length_s="0.2" length_t="0.2"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
