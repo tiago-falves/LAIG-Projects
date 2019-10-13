@@ -34,6 +34,12 @@
         <texture id="snitchTexture" file="scenes/images/snitch.JPG" />
         <texture id="woodTexture" file="scenes/images/wood.jpg" />
         <texture id="metalTexture" file="scenes/images/metal-texture.jpg" />
+        <texture id="cubeMapTopTexture" file="scenes/images/sandcastle_up.png" />
+        <texture id="cubeMapBottomTexture" file="scenes/images/sandcastle_dn.png" />
+        <texture id="cubeMapFrontTexture" file="scenes/images/sandcastle_ft.png" />
+        <texture id="cubeMapBackTexture" file="scenes/images/sandcastle_bk.png" />
+        <texture id="cubeMapLeftTexture" file="scenes/images/sandcastle_lf.png" />
+        <texture id="cubeMapRightTexture" file="scenes/images/sandcastle_rt.png" />
     </textures>
 
     <materials>
@@ -44,6 +50,18 @@
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
         </material>
         <material id="goldenMaterial" shininess="10">
+            <emission r="0.83" g="0.68" b="0.215" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="0.83" g="0.68" b="0.215" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+        </material>
+        <material id="whiteMaterial" shininess="1">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+        </material>
+        <material id="darkerMaterial" shininess="10">
             <emission r="0.4" g="0.4" b="0.4" a="1.0" />
             <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
             <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
@@ -88,14 +106,15 @@
     <components>
         <component id="Field">
             <transformation>
-                <scale x="10" y="1" z="16" />
+                <translate x = "0" y = "0.05" z= "0"/>
+                <scale x="10" y="-1" z="16" />
                 <rotate axis="x" angle="90"/>
                 <translate x = "-0.5" y = "-0.5" z= "0"/>
             </transformation>
             <materials>
-                <material id="goldenMaterial" />
+                <material id="NeutralMaterial" />
             </materials>
-            <texture id="none"/>
+            <texture id="courtTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -108,7 +127,7 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="woodTexture"/>
             <children>
@@ -204,7 +223,7 @@
                 <translate x = "0" y = "0" z = "-9.5"/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="whiteMaterial" />
             </materials>
             <texture id="metalTexture"/>
             <children>
@@ -222,7 +241,7 @@
                 <rotate axis="y" angle="180"/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="whiteMaterial" />
             </materials>
             <texture id="metalTexture"/>
             <children>
@@ -509,7 +528,7 @@
                 <scale x= "0.8" y = "1" z = "0.8" />
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -644,7 +663,7 @@
                 <scale x="0.05" y="0.05" z="0.05"/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="goldenMaterial" />
             </materials>
             <texture id="snitchTexture"/>
             <children>
@@ -653,6 +672,106 @@
                 <primitiveref id="Sphere"/>
             </children>
         </component>
+
+        
+        <component id="cubeMapBack">
+            <transformation>
+
+                <translate x="0" y="10" z="-20"/>
+                <scale x="40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+                
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="cubeMapBackTexture" length_s="0.2" length_t="0.2"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+         <component id="cubeMapTop">
+            <transformation>
+                <translate x="0" y="20" z="0"/>
+                <rotate axis="x" angle="90"/>
+                <scale x="40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="cubeMapTopTexture" length_s="0.2" length_t="0.2"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeMapFront">
+            <transformation>
+                <translate x="0" y="10" z="20"/>
+                <rotate axis="x" angle="180"/>
+                <scale x="40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="cubeMapFrontTexture" length_s="0.2" length_t="0.2"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeMapBottom">
+            <transformation>
+                
+                <rotate axis="x" angle="270"/>
+                <scale x="40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="courtTexture" length_s="0.2" length_t="0.2"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeMapRight">
+            <transformation>
+                <translate x="20" y="10" z="0"/>
+                <rotate axis="y" angle="-90"/>
+                <scale x="40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="cubeMapRightTexture" length_s="0.2" length_t="0.2"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeMapLeft">
+            <transformation>
+                <translate x="-20" y="10" z="0"/>
+                <rotate axis="y" angle="90"/>
+                <scale x="40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="cubeMapLeftTexture" length_s="0.2" length_t="0.2"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+
         
         <component id="Root">
             <transformation> 
@@ -660,6 +779,8 @@
             <materials>
                 <material id="NeutralMaterial" />
                 <material id="goldenMaterial" />
+                <material id="whiteMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>
@@ -675,6 +796,13 @@
                 <componentref id="Tower6"/>
                 <componentref id="MirroredTowers"/>
                 <componentref id="Snitch"/>
+                <componentref id="cubeMapBack"/>
+                <componentref id="cubeMapFront"/>
+                <componentref id="cubeMapTop"/>
+                <componentref id="cubeMapLeft"/>
+                <componentref id="cubeMapRight"/>
+                <componentref id="cubeMapBottom"/>
+                
             </children>
         </component>
     </components>
