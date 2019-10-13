@@ -481,6 +481,41 @@
             </children>
         </component>
 
+        <component id="Pyramid">
+            <transformation>                  
+            </transformation>
+            <materials>
+                <material id="darkerMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="tower_top_right" />
+                <componentref id="tower_top_left" />
+                <componentref id="tower_top_back" />
+                <componentref id="tower_top_front" />
+            </children>
+        </component>
+
+        <component id="floatingPyramid">
+            <transformation> 
+            <scale x= "10" y = "-5" z = "16" />
+            <translate x= "-0.5" y = "-4" z = "-0.5" />                 
+            
+            </transformation>
+            <materials>
+                <material id="darkerMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="tower_top_right" />
+                <componentref id="tower_top_left" />
+                <componentref id="tower_top_back" />
+                <componentref id="tower_top_front" />
+            </children>
+        </component>
+
+
+
         <component id="FlagPole">
             <transformation>
                 <translate x= "1" y = "0" z = "0.5" />
@@ -546,10 +581,8 @@
                 <componentref id="tower_middle2_left" />
                 <componentref id="tower_middle2_right" />
                 <componentref id="tower_middle2_back" />
-                <componentref id="tower_top_front" />
-                <componentref id="tower_top_back"/>
-                <componentref id="tower_top_right"/>
-                <componentref id="tower_top_left"/>
+                <componentref id="Pyramid" />
+                
                 <componentref id="tower_middle3_front"/>
                 <componentref id="tower_middle3_back"/>
                 <componentref id="Flag"/>
@@ -745,6 +778,7 @@
 
         <component id="cubeMapBottom">
             <transformation>
+            <translate x="0" y="-10" z="0"/>
                 
                 <rotate axis="x" angle="270"/>
                 <scale x="40" y="40" z="0.05"/>
@@ -792,7 +826,8 @@
         </component>
 
         <component id="cubeMap">
-            <transformation>        
+            <transformation>       
+            <translate x="0" y="-5" z="0"/> 
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
@@ -833,6 +868,7 @@
                 <componentref id="Tower3"/>
                 <componentref id="Tower4"/>
                 <componentref id="Tower5"/>
+                <componentref id="floatingPyramid"/>
                 <componentref id="MirroredTowers"/>
                 <componentref id="Snitch"/>
                 <componentref id="cubeMap"/>
