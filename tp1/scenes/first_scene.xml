@@ -29,8 +29,11 @@
     <textures>
         <texture id="Texture" file="scenes/images/vidral.jpg" />
         <texture id="courtTexture" file="scenes/images/court1.jpg" />
-        <texture id="griffindorTexture" file="scenes/images/gryffindor.jpg" />
+        <texture id="howgwartsTexture" file="scenes/images/howgwarts.jpg" />
+        <texture id="gryffindorTexture" file="scenes/images/gryffindor.jpg" />
         <texture id="slytherinTexture" file="scenes/images/slytherin.jpg" />
+        <texture id="hufflepuffTexture" file="scenes/images/hufflepuff.jpg" />
+        <texture id="ravenclawTexture" file="scenes/images/ravenclaw.jpg" />
         <texture id="snitchTexture" file="scenes/images/snitch.JPG" />
         <texture id="woodTexture" file="scenes/images/wood.jpg" />
         <texture id="metalTexture" file="scenes/images/metal-texture.jpg" />
@@ -40,6 +43,7 @@
         <texture id="cubeMapBackTexture" file="scenes/images/sandcastle_bk.png" />
         <texture id="cubeMapLeftTexture" file="scenes/images/sandcastle_lf.png" />
         <texture id="cubeMapRightTexture" file="scenes/images/sandcastle_rt.png" />
+        <texture id="bronzeTexture" file="scenes/images/bronze_texture.jpg" />
     </textures>
 
     <materials>
@@ -225,7 +229,7 @@
             <materials>
                 <material id="whiteMaterial" />
             </materials>
-            <texture id="metalTexture"/>
+            <texture id="bronzeTexture"/>
             <children>
                 <componentref id="Goal_Poll_Big" />
                 <componentref id="Goal_Torus1" />
@@ -243,7 +247,7 @@
             <materials>
                 <material id="whiteMaterial" />
             </materials>
-            <texture id="metalTexture"/>
+            <texture id="bronzeTexture"/>
             <children>
                 <componentref id="Goal1" />
             </children>
@@ -523,7 +527,7 @@
         </component>
 
         <component id="Tower">
-            <transformation>    
+            <transformation>      
                 <translate x= "-5" y = "0" z = "-0.5" />   
                 <scale x= "0.8" y = "1" z = "0.8" />
             </transformation>
@@ -553,7 +557,20 @@
             </children>
         </component>
 
-        <component id="Tower2">
+        <component id="TowerHowgwarts">
+            <transformation>    
+                <translate x= "0" y = "0" z = "0" />   
+            </transformation>
+            <materials>
+                <material id="darkerMaterial" />
+            </materials>
+            <texture id="howgwartsTexture"/>
+            <children>
+                <componentref id="Tower" />
+            </children>
+        </component>
+
+        <component id="TowerSlytherin">
             <transformation>      
                 <translate x= "1" y = "0" z = "-5" />   
             </transformation>
@@ -566,33 +583,33 @@
             </children>
         </component>
 
-        <component id="Tower3">
+        <component id="TowerGriffindor">
             <transformation>      
                 <translate x= "1" y = "0" z = "5" />   
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="griffindorTexture"/>
+            <texture id="gryffindorTexture"/>
             <children>
                 <componentref id="Tower" />
             </children>
         </component>
 
-        <component id="Tower4">
+        <component id="TowerHufflepuff">
             <transformation>      
                 <translate x= "0" y = "0" z = "-2.5" />   
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="griffindorTexture"/>
+            <texture id="hufflepuffTexture"/>
             <children>
                 <componentref id="Tower" />
             </children>
         </component>
 
-        <component id="Tower5">
+        <component id="TowerRavenclaw">
             <transformation>     
                 <translate x= "0" y = "0" z = "2.5" />   
                 
@@ -600,33 +617,26 @@
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="griffindorTexture"/>
+            <texture id="ravenclawTexture"/>
             <children>
                 <componentref id="Tower" />
             </children>
         </component>
 
-    
-        
-
         <component id="MirroredTowers">
             <transformation>      
-            
                 <rotate axis="y" angle="180"/>   
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="slytherinTexture"/>
+            <texture id="none"/>
             <children>
-                <componentref id="Tower" />
-                <componentref id="Tower2" />
-                <componentref id="Tower3" />
-                <componentref id="Tower4" />
-                <componentref id="Tower5" />
-            
-                
-                
+                <componentref id="TowerHowgwarts"/>
+                <componentref id="TowerSlytherin"/>
+                <componentref id="TowerGriffindor"/>
+                <componentref id="TowerHufflepuff"/>
+                <componentref id="TowerRavenclaw"/>
             </children>
         </component>
 
@@ -788,12 +798,11 @@
                 <componentref id="Stage"/>
                 <componentref id="Goal1" />
                 <componentref id="Goal2"/>
-                <componentref id="Tower"/>
-                <componentref id="Tower2"/>
-                <componentref id="Tower3"/>
-                <componentref id="Tower4"/>
-                <componentref id="Tower5"/>
-                <componentref id="Tower6"/>
+                <componentref id="TowerHowgwarts"/>
+                <componentref id="TowerSlytherin"/>
+                <componentref id="TowerGriffindor"/>
+                <componentref id="TowerHufflepuff"/>
+                <componentref id="TowerRavenclaw"/>
                 <componentref id="MirroredTowers"/>
                 <componentref id="Snitch"/>
                 <componentref id="cubeMapBack"/>

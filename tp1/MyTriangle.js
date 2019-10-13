@@ -62,15 +62,23 @@ class MyTriangle extends CGFobject {
 		this.cos_beta = (Math.pow(this.a,2) - Math.pow(this.b,2) + Math.pow(this.c,2))/(2*this.a*this.c);
 		this.sin_beta = Math.sqrt(1 - Math.pow(this.cos_beta, 2));
 	
+		this.texCoords = [
+			0, 1,
+			1, 1,
+			0, 0,
+			1, 0
+		];
+
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	}
 
 	updateTextCoords(length_s, length_t){
 		this.texCoords = [
-			(this.c - this.a*this.cos_beta)/length_s, (length_t - this.a*this.sin_beta)/length_t,
-			0, 1,
-			this.c/length_s, 1
+			0, 0,
+			this.a/length_s, 0,
+			0, 0,
+			this.c * this.cos_beta / length_s, this.c * this.sin_beta / length_t
 		];
 
 		this.updateTexCoordsGLBuffers();

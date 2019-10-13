@@ -4,8 +4,10 @@ class MyComponent{
         this.id=id;
     }
 
-    createTextures(texture){
+    createTextures(texture, length_s, length_t){
         this.texture = texture;
+        this.length_s = length_s;
+        this.length_t = length_t;
     }
 
     createMaterial(material){

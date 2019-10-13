@@ -45,6 +45,8 @@ class MyCylinder extends CGFobject {
             }
         }
 
+        this.initialTexCoords = this.texCoords;
+
         for (let i = 0; i < this.stacks; ++i) {
 			for(let j = 0; j < this.slices; ++j) {
 				this.indices.push(
@@ -84,5 +86,16 @@ class MyCylinder extends CGFobject {
 */
         this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
-    }
+    };
+
+    updateTextCoords(length_s, length_t){
+		this.texCoords = this.initialTexCoords;
+
+		for(var i = 0; i < this.texCoords.length; i += 2){
+			this.texCoords[i] /= length_s;
+			this.texCoords[i + 1] /= length_t;
+		}
+
+		this.updateTexCoordsGLBuffers();
+	};
 }

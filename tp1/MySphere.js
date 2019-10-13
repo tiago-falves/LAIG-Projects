@@ -42,13 +42,17 @@ class MySphere extends CGFobject
 				);
 
 				this.texCoords.push(
-                    ((Math.cos(y_angle*y)*Math.cos(xz_angle*xz))+1)/2, 
-                    1 - ((Math.cos(y_angle*y)*Math.sin(xz_angle*xz))+1)/2
+					1 - xz/this.slices,
+					1 - (1/2 + y/this.stacks)
+                  //  ((Math.cos(y_angle*y)*Math.cos(xz_angle*xz))+1)/2, 
+                    //1 - ((Math.cos(y_angle*y)*Math.sin(xz_angle*xz))+1)/2
 				);
 
 			}
 
 		}
+
+		this.initialTexCoords = this.texCoords;
 
 		for (var i = 0; i < this.slices; ++i) {
 			for(var j = 0; j < this.stacks; ++j) {
@@ -61,5 +65,16 @@ class MySphere extends CGFobject
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
+	};
+
+	updateTextCoords(length_s, length_t){
+		this.texCoords = this.initialTexCoords;
+
+		for(var i = 0; i < this.texCoords.length; i += 2){
+			this.texCoords[i] /= length_s;
+			this.texCoords[i + 1] /= length_t;
+		}
+
+		this.updateTexCoordsGLBuffers();
 	};
 };
