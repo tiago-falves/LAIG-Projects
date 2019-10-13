@@ -35,13 +35,14 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
         this.appearance = new CGFappearance(this);
+        
         this.setUpdatePeriod(100);
     }
 
     /**
      * Initializes the scene cameras.
      */
-    /*initCameras() {
+    initCameras() {
         
         
         
@@ -64,7 +65,7 @@ class XMLscene extends CGFscene {
 
         this.interface.setActiveCamera(this.camera);
         
-    }*/
+    }
 
 
     updateCamera(newCamera){
@@ -139,6 +140,7 @@ class XMLscene extends CGFscene {
         
         this.initLights();
 
+        //Descomentar para descobrir erro das cameras
         //this.interface.addViews(this.graph.views);
 
         this.sceneInited = true;
