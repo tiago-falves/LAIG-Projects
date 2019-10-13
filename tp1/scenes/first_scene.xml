@@ -44,6 +44,7 @@
         <texture id="cubeMapLeftTexture" file="scenes/images/sandcastle_lf.png" />
         <texture id="cubeMapRightTexture" file="scenes/images/sandcastle_rt.png" />
         <texture id="bronzeTexture" file="scenes/images/bronze_texture.jpg" />
+        <texture id="fireTexture" file="scenes/images/fire.jpg" />
     </textures>
 
     <materials>
@@ -508,7 +509,7 @@
             <materials>
                 <material id="darkerMaterial" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="fireTexture"/>
             <children>
                 <componentref id="tower_top_right" />
                 <componentref id="tower_top_left" />

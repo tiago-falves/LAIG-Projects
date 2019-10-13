@@ -240,10 +240,13 @@ class MySceneGraph {
         for (let i = 0; i < children.length; i++) {
 
             let child = children[i];
+
+            
             if (child.nodeName != "perspective" && child .nodeName != "ortho") {
                 this.onXMLMinorError("unknown tag <" + child .nodeName + ">");
                 continue;
             }
+            
             var viewId = this.reader.getString(child,'id');
             
             if (viewId == null) 
@@ -252,6 +255,8 @@ class MySceneGraph {
             if (this.camera[viewId] != null) 
                 return "Camera IDs cannot be repeated";
             
+            
+            //Gets correspondent near and far values for this child
             var nearView = this.reader.getFloat(child, 'near');
             var farView = this.reader.getFloat(child, 'far');
             
@@ -259,29 +264,37 @@ class MySceneGraph {
             if (nearView >= farView) return "Near paramter must be smaller than far paramter";
             
 
-            
-
-            let grandChild = child.children;
+            //Checks if it has the atribute form, returns error if it doesn't
             let fromList = child.getElementsByTagName("from");
             if (fromList.lenght == 0) {return "Atribute from not provided";}
 
+
+            //Gets correspondent coordinates of the from atribute
             var fX = this.reader.getFloat(fromList[0], 'x');
             var fY = this.reader.getFloat(fromList[0], 'y');
             var fZ = this.reader.getFloat(fromList[0], 'z');
-
+            
+            //Checks if it has the atribute to, returns error if it doesn't
             let toList = child.getElementsByTagName("to");
+            if(toList.length == 0) { return"Atribute to not provided!";}
+
+            
+            //Gets correspondent coordinates of the to atribute
             var toX = this.reader.getFloat(toList[0], 'x');
             var toY = this.reader.getFloat(toList[0], 'y');
             var toZ = this.reader.getFloat(toList[0], 'z');
 
-            if(toList.length == 0) { return"Atribute to not provided!";}
-
+            //create object with current View to add to our views array
             let currentView = {id:viewId, near:nearView, far:farView, from: vec3.fromValues(fX,fY,fZ), to: vec3.fromValues(toX,toY,toZ)}
             
+
+            //Checks if it has the atribute angle, returns error if it doesn't
             var angleView = this.reader.getFloat(child, 'angle');
             if (angleView == null) {  return "No camera angle provided";  }
             currentView.angle = angleView;
 
+
+            //Depending on the view type adds information to current view
             if (child.nodeName == "perspective") {
                 currentView.type = "perspective";
                
@@ -479,18 +492,18 @@ class MySceneGraph {
         this.textures = [];
         
         
-
         if(children.length == 0)
-            this.onXMLMinorError("No Textures in file");
+            return "No Textures in file";
 
 
+        //Iterates for each Texture
         for (let i = 0; i < children.length; i++) {
             
             if (children[i].nodeName != "texture") {
-                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-                continue;
+                return "unknown texture tag " + children[i].nodeName;
             }
             
+            //Gets corresponding ID
             var textureId = this.reader.getString(children[i], 'id');
 
             if (textureId == null)
@@ -500,17 +513,15 @@ class MySceneGraph {
             if (this.textures[textureId] != null)
                 return "ID must be unique for each primitive (conflict: ID = " + textureID + ")";
             
-            
-           
 
-
+            //Gets the file path
             var filePath = this.reader.getString(children[i], 'file');
 
             if (filePath == null)   {
                 this.onXMLError("no file defined for texture");
             }
             
-
+            //Creates Texture and adds it to the array
             var new_texture = new CGFtexture(this.scene, filePath);
             this.textures[textureId] = new_texture;
         }
@@ -660,6 +671,7 @@ class MySceneGraph {
                         transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle*DEGREE_TO_RAD, vector);
                 }
             }
+
             this.transformations[transformationID] = transfMatrix;
         }
 
@@ -735,35 +747,47 @@ class MySceneGraph {
                 this.primitives[primitiveId] = rect;
             }
             else if(primitiveType == 'cylinder'){
+
+                //Cylinder base radius
                 var base = this.reader.getFloat(grandChildren[0], 'base');
                 if (!(base != null && !isNaN(base)))
                     return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
-
+                //Cylinder Top radius
                 var top = this.reader.getFloat(grandChildren[0], 'top');
                 if (!(top != null && !isNaN(top)))
                     return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
-                
+                //Height
                 var height = this.reader.getFloat(grandChildren[0], 'height');
                 if (!(height != null && !isNaN(height)))
                     return "unable to parse height of the primitive coordinates for ID = " + primitiveId;
 
+                //Slices
                 var slices = this.reader.getFloat(grandChildren[0], 'slices');
                 if (!(slices != null && !isNaN(slices)))
                     return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;    
 
-
+                //Stacks
                 var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
                 if (!(stacks != null && !isNaN(stacks)))
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;    
 
+                //Creates cylinder and adds it to the primitives
                 var cylinder = new MyCylinder(this.scene, base, top, height, slices, stacks);
                 this.primitives[primitiveId] = cylinder;
             }
+
             else if(primitiveType == 'sphere'){
+
+                //Radius
                 var radius = this.reader.getFloat(grandChildren[0], 'radius');
+
+                //Slices
                 var slices = this.reader.getFloat(grandChildren[0], 'slices');
+
+                //Stacks
                 var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
 
+                //Creates shere and adds it to the primitive array
                 var sphere = new MySphere(this.scene, radius, slices, stacks);
                 this.primitives[primitiveId] = sphere;
             }
@@ -795,27 +819,32 @@ class MySceneGraph {
                 // z3
                 var z3 = this.reader.getFloat(grandChildren[0], 'z3');
 
+                //Creates Triangle and adds it to primitive array
                 var triangle = new MyTriangle(this.scene, primitiveId, x1, y1, z1, x2, y2, z2, x3, y3, z3);
-
                 this.primitives[primitiveId] = triangle;
             }
 
             else if(primitiveType == 'torus'){
 
+                //Inner Radius, the one of the circle which goes around
                 var inner = this.reader.getFloat(grandChildren[0], 'inner');
                
+                //Outer Radius, from the center to the center of the inner Radius
                 var outer = this.reader.getFloat(grandChildren[0], 'outer');
                 if (!(outer != null && !isNaN(outer)))
                     return "unable to parse outer of the primitive coordinates for ID = " + primitiveId;
                 
+                //Slices
                 var slices = this.reader.getFloat(grandChildren[0], 'slices');
                 if (!(slices != null && !isNaN(slices)))
                     return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
 
+                //Loops
                 var loops = this.reader.getFloat(grandChildren[0], 'loops');
                 if (!(loops != null && !isNaN(loops)))
                     return "unable to parse loops of the primitive coordinates for ID = " + primitiveId;    
 
+                //Creates Torus and adds it to the primitive array
                 var torus = new MyTorus(this.scene, inner, outer, slices, loops);
                 this.primitives[primitiveId] = torus;
             }
@@ -862,6 +891,7 @@ class MySceneGraph {
                 nodeNames.push(grandChildren[j].nodeName);
             }
 
+            //Gets correspondent IDs
             var transformationIndex = nodeNames.indexOf("transformation");
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
@@ -903,17 +933,23 @@ class MySceneGraph {
                         matrix_transformation = mat4.rotate(matrix_transformation, matrix_transformation, angle*DEGREE_TO_RAD, vector);
                         break;
                 }
-             //   this.transformations[transformationIndex] = matrix_transformation;
+
             }
 
             component.createTransformation(matrix_transformation);
 
             // Materials
+
             var materials = grandChildren[materialsIndex].children;
             var materialIDs = [];
             
+            //Iterates all the Materials
+
             for (let j = 0; j < materials.length; j++) {
+
+                //Gets Material ID
                 materialIDs.push(this.reader.getString(materials[j],'id'));
+
                 if (materialIDs == null){
                     this.onXMLError("Component has no ID: " + componentID );
                 }
@@ -936,6 +972,7 @@ class MySceneGraph {
 
             component.createChildren(childrenIDs);
 
+            //Adds component with all attributes to the array
             this.components[componentID] = component;
         }
 
