@@ -6,6 +6,10 @@
             <from x="6" y="10" z="8" />
             <to x="0" y="-2" z="0" />
         </perspective>
+        <perspective id="h" near="0.1" far="50" angle="23">
+            <from x="10.5" y="7" z="20" />
+            <to x="10.5" y="1" z="0" />
+        </perspective>
     </views>
 
     <globals>
@@ -26,17 +30,24 @@
         <texture id="Texture" file="scenes/images/vidral.jpg" />
         <texture id="courtTexture" file="scenes/images/court1.jpg" />
         <texture id="griffindorTexture" file="scenes/images/gryffindor.jpg" />
+        <texture id="slytherinTexture" file="scenes/images/slytherin.jpg" />
         <texture id="snitchTexture" file="scenes/images/snitch.JPG" />
         <texture id="woodTexture" file="scenes/images/wood.jpg" />
         <texture id="metalTexture" file="scenes/images/metal-texture.jpg" />
     </textures>
 
     <materials>
-        <material id="Material" shininess="10">
+        <material id="NeutralMaterial" shininess="10">
             <emission r="0.8" g="0.8" b="0.8" a="1.0" />
             <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
             <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
             <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+        <material id="goldenMaterial" shininess="10">
+            <emission r="0.4" g="0.4" b="0.4" a="1.0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
+            <specular r="0.4" g="0.4" b="0.4" a="1.0" />
         </material>
     </materials>
 
@@ -82,9 +93,9 @@
                 <translate x = "-0.5" y = "-0.5" z= "0"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="goldenMaterial" />
             </materials>
-            <texture id="courtTexture"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -97,7 +108,7 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
             <texture id="woodTexture"/>
             <children>
@@ -193,7 +204,7 @@
                 <translate x = "0" y = "0" z = "-9.5"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
             <texture id="metalTexture"/>
             <children>
@@ -211,7 +222,7 @@
                 <rotate axis="y" angle="180"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
             <texture id="metalTexture"/>
             <children>
@@ -457,7 +468,7 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
             <texture id="woodTexture"/>
             <children>
@@ -470,9 +481,9 @@
                 <scale x= "0.5" y = "0.2" z = "1" />
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
-            <texture id="griffindorTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -483,9 +494,9 @@
                 <rotate axis="y" angle="90"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="FlagRec"/>
                 <componentref id="FlagPole"/>
@@ -498,9 +509,9 @@
                 <scale x= "0.8" y = "1" z = "0.8" />
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
-            <texture id="griffindorTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="tower_bottom_front" />
                 <componentref id="tower_bottom_left" />
@@ -528,9 +539,9 @@
                 <translate x= "1" y = "0" z = "-5" />   
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
-            <texture id="griffindorTexture"/>
+            <texture id="slytherinTexture"/>
             <children>
                 <componentref id="Tower" />
             </children>
@@ -541,7 +552,7 @@
                 <translate x= "1" y = "0" z = "5" />   
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
             <texture id="griffindorTexture"/>
             <children>
@@ -554,7 +565,7 @@
                 <translate x= "0" y = "0" z = "-2.5" />   
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
             <texture id="griffindorTexture"/>
             <children>
@@ -568,7 +579,7 @@
                 
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
             <texture id="griffindorTexture"/>
             <children>
@@ -576,32 +587,7 @@
             </children>
         </component>
 
-        <component id="Tower6">
-            <transformation>      
-                <translate x= "2.5" y = "0" z = "7" />   
-            </transformation>
-            <materials>
-                <material id="Material" />
-            </materials>
-            <texture id="griffindorTexture"/>
-            <children>
-                <componentref id="Tower" />
-            </children>
-        </component>
-
-        <component id="Tower7">
-            <transformation>      
-                <translate x= "2.5" y = "0" z = "-7" />   
-            </transformation>
-            <materials>
-                <material id="Material" />
-            </materials>
-            <texture id="griffindorTexture"/>
-            <children>
-                <componentref id="Tower" />
-            </children>
-        </component>
-
+    
         
 
         <component id="MirroredTowers">
@@ -610,16 +596,16 @@
                 <rotate axis="y" angle="180"/>   
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="slytherinTexture"/>
             <children>
                 <componentref id="Tower" />
                 <componentref id="Tower2" />
                 <componentref id="Tower3" />
                 <componentref id="Tower4" />
                 <componentref id="Tower5" />
-                <componentref id="Tower6" />
+            
                 
                 
             </children>
@@ -632,9 +618,9 @@
                 <scale x="3" y="1" z="1"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
-            <texture id="snitchTexture"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Triangle"/>
             </children>
@@ -644,9 +630,9 @@
                 <scale x="-1" y="1" z="1"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
-            <texture id="snitchTexture"/>
+            <texture id="inherit"/>
             <children>
                 <componentref id="wingLeft"/>
             </children>
@@ -658,7 +644,7 @@
                 <scale x="0.05" y="0.05" z="0.05"/>
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
             </materials>
             <texture id="snitchTexture"/>
             <children>
@@ -672,7 +658,8 @@
             <transformation> 
             </transformation>
             <materials>
-                <material id="Material" />
+                <material id="NeutralMaterial" />
+                <material id="goldenMaterial" />
             </materials>
             <texture id="Texture"/>
             <children>

@@ -227,11 +227,10 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        /*this.onXMLMinorError("To do: Parse views and create cameras.");
+        
 
         var children = viewsNode.children;
         this.camera = [];
-        var grandChildren = [];
         this.views = [];
 
         if(children.lenght == 0){
@@ -239,12 +238,13 @@ class MySceneGraph {
         }
 
         for (let i = 0; i < children.length; i++) {
-            if (children[i].nodeName != "perspective") {
-                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+
+            let child = children[i];
+            if (child.nodeName != "perspective" && child .nodeName != "ortho") {
+                this.onXMLMinorError("unknown tag <" + child .nodeName + ">");
                 continue;
             }
-
-            var viewId = this.reader.getString(children[i],'id');
+            var viewId = this.reader.getString(child,'id');
             
             if (viewId == null) 
                 return "No cameras"
@@ -252,134 +252,69 @@ class MySceneGraph {
             if (this.camera[viewId] != null) 
                 return "Camera IDs cannot be repeated";
             
-            var nearView = this.reader.getFloat(children[i], 'near');
-            var farView = this.reader.getFloat(children[i], 'far');
-            var angleView = this.reader.getFloat(children[i], 'angle');
+            var nearView = this.reader.getFloat(child, 'near');
+            var farView = this.reader.getFloat(child, 'far');
+            
 
-            grandChildren = children[i].children;
-            let from = children[i].getElementsByTagName("from");
+            if (nearView >= farView) return "Near paramter must be smaller than far paramter";
+            
 
-            var fX = this.reader.getFloat(from[0], 'x');
-            var fY = this.reader.getFloat(from[0], 'y');
-            var fZ = this.reader.getFloat(from[0], 'z');
+            
 
-            let toList = children[i].getElementsByTagName("to");
+            let grandChild = child.children;
+            let fromList = child.getElementsByTagName("from");
+            if (fromList.lenght == 0) {return "Atribute from not provided";}
+
+            var fX = this.reader.getFloat(fromList[0], 'x');
+            var fY = this.reader.getFloat(fromList[0], 'y');
+            var fZ = this.reader.getFloat(fromList[0], 'z');
+
+            let toList = child.getElementsByTagName("to");
             var toX = this.reader.getFloat(toList[0], 'x');
             var toY = this.reader.getFloat(toList[0], 'y');
             var toZ = this.reader.getFloat(toList[0], 'z');
 
-            CGFcamera()
+            if(toList.length == 0) { return"Atribute to not provided!";}
+
             let currentView = {id:viewId, near:nearView, far:farView, from: vec3.fromValues(fX,fY,fZ), to: vec3.fromValues(toX,toY,toZ)}
+            
+            var angleView = this.reader.getFloat(child, 'angle');
+            if (angleView == null) {  return "No camera angle provided";  }
             currentView.angle = angleView;
-            
-            this.views.push(currentView);
-        }
-        return null;*/
-        //get Default View ID for the nodes
-        let defaultViewID = viewsNode.getAttribute("default");
-        if(defaultViewID == null) this.onXMLMinorError("No default view defined.");
 
-        this.views = [];
-        this.defaultView = defaultViewID;
-
-        let defaultViewExists = false;
-        
-        //get all views inside views element
-        let children = viewsNode.children;
-        if(children.length == 0) this.onXMLError("No views Provided!");
-        for(let i = 0; i < children.length; i++) {
-            let child = children[i];
-            let name = child.nodeName;
-            //if view has an invalid name throw error and proceed.
-            if(name != "ortho" && name != "perspective") {
-                this.onXMLMinorError("Unexpedted view: " + name);
-                continue;
-            }
-
-            //get ID and test for errors.
-            let viewId = child.getAttribute("id");
-            if(viewId == null) this.onXMLMinorError("ID for " + name + " view not provided!");
-            if(viewId == defaultViewID) defaultViewExists = true;
-            
-            //get near and far and test for errors.
-            let viewNear = parseFloat(child.getAttribute("near"));
-            if(viewNear == null) this.onXMLMinorError("Near attribute for " + name + " view not provided!");
-            let viewFar = parseFloat(child.getAttribute("far"));
-            if(viewFar == null) this.onXMLMinorError("Far attribute for " + name + " view not provided!");
-
-            //get from array values and test for errors.
-            let fromList = child.getElementsByTagName("from");
-            let fromX;
-            let fromY;
-            let fromZ;
-            if(fromList.length == 0) {
-                this.onXMLMinorError("From element for " + name + " view not provided!");
-            }
-            else if(fromList.length > 1) {
-                this.onXMLMinorError("More than 1 For element for " + name + " view provided!");
-            }
-            else {
-                fromX = parseFloat(fromList[0].getAttribute("x"));
-                fromY = parseFloat(fromList[0].getAttribute("y"));
-                fromZ = parseFloat(fromList[0].getAttribute("z"));
-            }
-
-            //get to array values and test for errors.
-            let toList = child.getElementsByTagName("to");
-            let toX;
-            let toY;
-            let toZ;
-            if(toList.length == 0) {
-                this.onXMLMinorError("To element for " + name + " view not provided!");
-            }
-            else if(toList.length > 1) {
-                this.onXMLMinorError("More than 1 To element for " + name + " view provided!");
-            }
-            else {
-                toX = parseFloat(toList[0].getAttribute("x"));
-                toY = parseFloat(toList[0].getAttribute("y"));
-                toZ = parseFloat(toList[0].getAttribute("z"));
-            }
-
-            //create object with currentView to add to our views array
-            let currentView = {id:viewId, near:viewNear, far:viewFar, from: vec3.fromValues(fromX,fromY,fromZ), to: vec3.fromValues(toX,toY,toZ)}
-
-            //complete currentView object with appropriate information depending on the view type
-            if(name = "perspective") {
-                let viewAngle = parseFloat(child.getAttribute("angle"));
-                if(viewAngle == null) this.onXMLMinorError("no angle attribute for " + name + " view provided!");
+            if (child.nodeName == "perspective") {
                 currentView.type = "perspective";
-
-                currentView.angle = viewAngle;
+               
             }
-            else if(name = "ortho") {
-                let viewTop = child.getAttribute("top");
-                let viewBottom = child.getAttribute("bottom");
-                let viewLeft = child.getAttribute("left");
-                let viewRight = child.getAttribute("right");
+            else if (child.nodeName == "ortho") {
+                var topView = this.reader.getFloat(child, 'top');
+                var bottomView = this.reader.getFloat(child, 'bottom');
+                var rightView = this.reader.getFloat(child, 'right');
+                var leftView = this.reader.getFloat(child, 'left');
 
-                let upList = child.child.getElementsByTagName("up");
-                let upX = parseFloat(upList[0].getAttribute("x"));
-                let upY = parseFloat(upList[0].getAttribute("y"));
-                let upZ = parseFloat(upList[0].getAttribute("z"));
-
+                let upList = child.etElementsByTagName("up");
+                let upX = this.reader.getFloat(upList[0], 'x');
+                let upY = this.reader.getFloat(upList[0], 'y');
+                let upZ = this.reader.getFloat(upList[0], 'z');
                 currentView.type = "ortho";
-                currentView.angle = viewAngle;
-                currentView.top = viewTop;
-                currentView.bottom = viewBottom;
-                currentView.left = viewLeft;
-                currentView.right = viewRight;
+                currentView.top = topView;
+                currentView.bottom = bottomView;
+                currentView.right = rightView;
+                currentView.left = leftView;
                 currentView.up = vec3.fromValues(upX, upY, upZ);
+                
             }
-
+            
             this.views.push(currentView);
+    
         }
-        if(this.views.length == 0) this.onXMLError("No Views successfully loaded!");
-        if(!defaultViewExists) this.onXMLMinorError("Default View doesn't exist");
-
+        if (this.views.length == 0) { return "Views not loaded";}
         return null;
+
+        
     }
 
+    
     /**
      * Parses the <global> node.
      * @param {global block element} globalsNode
@@ -594,19 +529,12 @@ class MySceneGraph {
      */
     parseMaterials(materialsNode) {
 
+       var children = materialsNode.children;
 
-        var children = materialsNode.children;
         this.materials = [];
-        
-        var grandChildren = [];
-        var nodeNames = [];
 
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
-
-            grandChildren= children[i].children;
-
-            //let material = new CGFappearance(this.scene);
 
             if (children[i].nodeName != "material") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -620,60 +548,49 @@ class MySceneGraph {
 
             // Checks for repeated IDs.
             if (this.materials[materialID] != null)
-                return "ID must be unique for each light (conflict: ID = " + materialID + ")";
+                return "ID must be unique for each material (conflict: ID = " + materialID + ")";
+
+            // Get shininess
+            let shininess = this.reader.getFloat(children[i], 'shininess');
+            if(shininess == null)
+                return materialID + " has no shininess";
+
+            // Get emission
+            let emission = children[i].getElementsByTagName("emission");
+            if(emission.length == 0)
+                return  materialID + " has no emission paramter";
+            else
+                emission = this.parseColor(emission[0], "emission in " + materialID + "has an incorrect format");
+
+            // Get ambient
+            let ambient = children[i].getElementsByTagName("ambient");
+            if(ambient.length == 0){return "no ambient provided for materia with ID: " + materialID;}
+            else  ambient = this.parseColor(ambient[0], "ambient in " + materialID + "has an incorrect format");
+
+            // Get diffuse
+            let diffuse = children[i].getElementsByTagName("diffuse");
+            if(diffuse.length == 0){return "no diffuse provided for materia with ID: " + materialID;}
+            else diffuse = this.parseColor(diffuse[0], "diffuse in " + materialID + "has an incorrect format");
             
+            // Get specular
+            let specular = children[i].getElementsByTagName("specular");
+            if(specular.length == 0){ return materialID + "has no specular paramter";}
+            else specular = this.parseColor(specular[0], "specular in " + materialID + "has an incorrect format");
 
-            //Continue here
-            var shininness = this.reader.getFloat(children[i], 'shininess')
-        
-            for (var i = 0; i < grandChildren.length; i++) {
-                nodeNames.push(grandChildren[i].nodeName);
-            }
+            // Creates Material
 
-            let emission = [];
-            let diffuse = [];
-            let ambient = [];
-            let specular = [];
-
-
-
-            for (let j = 0; j < nodeNames.length; j++) {
-                switch (nodeNames[j]) {
-                    case "emission":
-                        emission = this.parseColor(grandChildren[j],"emission");
-                        break;
-                    case "ambient":
-                        ambient = this.parseColor(grandChildren[j],"ambient");
-                        break;
-                    case "diffuse":
-                        diffuse = this.parseColor(grandChildren[j],"diffuse");
-                        break;
-                    case "specular":
-                        specular = this.parseColor(grandChildren[j],"specular");
-                        break;
-                   
-                    default:
-                        break;
-                }
-                
-            }
             let xMaterial = new CGFappearance(this.scene);
-            xMaterial.setShininess(shininness);
+            xMaterial.setShininess(shininess);
             xMaterial.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
             xMaterial.setDiffuse(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
             xMaterial.setSpecular(specular[0], specular[1], specular[2], specular[3]);
             xMaterial.setEmission(emission[0], emission[1], emission[2], emission[3]);
             this.materials[materialID] = xMaterial;
-
-
-            
-            
         }
 
         this.log("Parsed materials");
         return null;
-
-        
+    
     }
 
     /**
