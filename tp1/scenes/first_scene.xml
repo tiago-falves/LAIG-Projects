@@ -111,7 +111,7 @@
     <components>
         <component id="Field">
             <transformation>
-                <translate x = "0" y = "0.05" z= "0"/>
+                <translate x = "0" y = "0" z= "0"/>
                 <scale x="10" y="-1" z="16" />
                 <rotate axis="x" angle="90"/>
                 <translate x = "-0.5" y = "-0.5" z= "0"/>
@@ -197,7 +197,7 @@
 
         <component id="Goal_Torus3">
             <transformation>
-                <translate x= "-1" y = "-1" z = "0"/>
+                <translate x= "-1" y = "-0.7" z = "0"/>
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -211,7 +211,7 @@
         <component id="Goal_Poll_Small">
             <transformation>
                 <translate x = "-1" y = "0" z = "4.5" />
-                <scale x = "0.5" y = "0.7" z= "0.5"/>
+                <scale x = "0.5" y = "0.85" z= "0.5"/>
                 <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
@@ -262,7 +262,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1" length_t="0.25"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -276,7 +276,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1" length_t="0.25"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -290,7 +290,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1" length_t="0.25"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -303,7 +303,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1" length_t="0.25"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -317,7 +317,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1" length_t="0.25"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -357,7 +357,7 @@
                 <rotate axis = "x" angle = "180"/>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="inherit"/>
             </materials>
             <texture id="inherit"/>
             <children>
@@ -707,7 +707,7 @@
         <component id="Snitch">
             <transformation>
                 <translate x="0" y="2" z="0"/>
-                <scale x="0.05" y="0.05" z="0.05"/>
+                <scale x="0.1" y="0.1" z="0.1"/>
             </transformation>
             <materials>
                 <material id="goldenMaterial" />
@@ -732,7 +732,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapBackTexture" length_s="0.2" length_t="0.2"/>
+            <texture id="cubeMapBackTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -748,7 +748,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapTopTexture" length_s="0.2" length_t="0.2"/>
+            <texture id="cubeMapTopTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -764,7 +764,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapFrontTexture" length_s="0.2" length_t="0.2"/>
+            <texture id="cubeMapFrontTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -781,7 +781,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapBottomTexture" length_s="0.2" length_t="0.2"/>
+            <texture id="cubeMapBottomTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -797,7 +797,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapRightTexture" length_s="0.2" length_t="0.2"/>
+            <texture id="cubeMapRightTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -813,7 +813,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapLeftTexture" length_s="0.2" length_t="0.2"/>
+            <texture id="cubeMapLeftTexture"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -834,13 +834,8 @@
                 <componentref id="cubeMapBottom" />
                 <componentref id="cubeMapLeft" />
                 <componentref id="cubeMapRight" />
-                
-        
-                
             </children>
         </component>
-
-
         
         <component id="Root">
             <transformation> 
@@ -851,7 +846,7 @@
                 <material id="whiteMaterial" />
                 <material id="darkerMaterial" />
             </materials>
-            <texture id="Texture"/>
+            <texture id="none"/>
             <children>
                 <componentref id="Field" />
                 <componentref id="Stage"/>
