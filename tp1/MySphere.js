@@ -22,30 +22,27 @@ class MySphere extends CGFobject
 		this.normals = [];
 		this.texCoords = [];
 
-		var xz_angle = 2*Math.PI/this.slices;
-		var y_angle = 2*Math.PI/(this.stacks);
+		let phi = 2*Math.PI/this.slices;
+		let theta = Math.PI/this.stacks;
 
-		for(var xz = 0; xz <= this.slices; ++xz) {
-
-			for(var y = 0; y <= this.stacks; ++y) {
+		for(let i = -this.stacks/2; i < this.stacks/2; i++) {
+			for(let j = 0; j <= this.slices; j++) {
 
 				this.vertices.push(
-                    this.radius*Math.cos(y_angle*y)*Math.cos(xz_angle*xz), 
-                    this.radius*Math.cos(y_angle*y)*Math.sin(xz_angle*xz), 
-                    this.radius*Math.sin(y_angle*y)
+                    this.radius*Math.cos(theta*i)*Math.cos(phi*j), 
+                    this.radius*Math.cos(theta*i)*Math.sin(phi*j), 
+                    this.radius*Math.sin(theta*i)
 				);
 
 				this.normals.push(
-                    Math.cos(y_angle*y)*Math.cos(xz_angle*xz), 
-                    Math.cos(y_angle*y)*Math.sin(xz_angle*xz), 
-                    Math.sin(y_angle*y)
+                    Math.cos(phi*i)*Math.cos(theta*j), 
+                    Math.cos(phi*i)*Math.sin(theta*j), 
+                    Math.sin(phi*i)
 				);
 
 				this.texCoords.push(
-					1 - xz/this.slices,
-					1 - (1/2 + y/this.stacks)
-                  //  ((Math.cos(y_angle*y)*Math.cos(xz_angle*xz))+1)/2, 
-                    //1 - ((Math.cos(y_angle*y)*Math.sin(xz_angle*xz))+1)/2
+					1 - j/this.slices,
+					1 - (1/2 + i/this.stacks)
 				);
 
 			}
@@ -54,8 +51,8 @@ class MySphere extends CGFobject
 
 		this.initialTexCoords = this.texCoords;
 
-		for (var i = 0; i < this.slices; ++i) {
-			for(var j = 0; j < this.stacks; ++j) {
+		for (let i = 0; i < this.slices; ++i) {
+			for(let j = 0; j < this.stacks; ++j) {
 				this.indices.push(
                     (i+1)*(this.stacks+1) + j,  i*(this.stacks+1) + j,i*(this.stacks+1) + j+1,
                     i*(this.stacks+1) + j+1, (i+1)*(this.stacks+1) + j+1, (i+1)*(this.stacks+1) + j
@@ -67,7 +64,7 @@ class MySphere extends CGFobject
 		this.initGLBuffers();
 	};
 
-	updateTextCoords(length_s, length_t){
+	updateTexCoords(length_s, length_t){
 		this.texCoords = this.initialTexCoords;
 
 		for(var i = 0; i < this.texCoords.length; i += 2){

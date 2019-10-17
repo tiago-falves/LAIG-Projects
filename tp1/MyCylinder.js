@@ -88,7 +88,7 @@ class MyCylinder extends CGFobject {
         this.initGLBuffers();
     };
 
-    updateTextCoords(length_s, length_t){
+    updateTexCoords(length_s, length_t){
 		this.texCoords = this.initialTexCoords;
 
 		for(var i = 0; i < this.texCoords.length; i += 2){

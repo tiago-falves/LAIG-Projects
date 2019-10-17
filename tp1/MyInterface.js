@@ -61,7 +61,7 @@ class MyInterface extends CGFinterface {
         var controller = this.gui.add(this.scene, 'currentCamera', viewsID).name("Camera");
   
         controller.onChange(function(value){
-        this.scene.updateCamera(value);
+            this.scene.updateCamera(value);
         });
       }
 }

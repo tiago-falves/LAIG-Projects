@@ -237,6 +237,10 @@ class MySceneGraph {
             this.onXMLError("There are no defined views");
         }
 
+        this.cameraDefault = this.reader.getString(viewsNode, 'default')
+        if (this.cameraDefault == null)
+            return "no default camera defined";
+
         for (let i = 0; i < children.length; i++) {
 
             let child = children[i];
@@ -284,7 +288,7 @@ class MySceneGraph {
             var toY = this.reader.getFloat(toList[0], 'y');
             var toZ = this.reader.getFloat(toList[0], 'z');
 
-            //create object with current View to add to our views array
+            //create object with current View to add to our views array REDO CRIAR OBJETO CGF CAMERA OR CAMERA ORTHO AND SAVE IT ON THE LIST
             let currentView = {id:viewId, near:nearView, far:farView, from: vec3.fromValues(fX,fY,fZ), to: vec3.fromValues(toX,toY,toZ)}
             
 
@@ -319,7 +323,7 @@ class MySceneGraph {
             }
             
             this.views.push(currentView);
-    
+            //IF DEFAULT CAMERA CALL UPDATE CAMERA IN XMLSCENE
         }
         if (this.views.length == 0) { return "Views not loaded";}
         return null;
@@ -596,6 +600,7 @@ class MySceneGraph {
             xMaterial.setDiffuse(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
             xMaterial.setSpecular(specular[0], specular[1], specular[2], specular[3]);
             xMaterial.setEmission(emission[0], emission[1], emission[2], emission[3]);
+            xMaterial.setTextureWrap('REPEAT', 'REPEAT');
             this.materials[materialID] = xMaterial;
         }
 
@@ -960,7 +965,18 @@ class MySceneGraph {
             
             // Texture
             let texture = this.reader.getString(grandChildren[textureIndex],'id');
-            component.createTextures(texture);
+
+            let length_s = this.reader.getFloat(grandChildren[textureIndex],'length_s');
+            if(length_s == null){
+                length_s = 1;
+            }
+
+            let length_t = this.reader.getFloat(grandChildren[textureIndex],'length_t');
+            if(length_t == null){
+                length_t = 1;
+            }
+
+            component.createTextures(texture, length_s, length_t);
             
             // Children
             let component_children = grandChildren[childrenIndex].children;
@@ -1098,28 +1114,11 @@ class MySceneGraph {
      */
     displayScene() {
         //To do: Create display loop for transversing the scene graph
-        
-        //this.idRoot
-        //processNode(this.graph.idRoot);
-        //check if id exists
-        //getMaterial ->this.components[id].materials[0]
-        //get Texture
-        //material.apply
-        //this.scene.multMatrix(matrix);
-        // loop children if component processNode(idChild)
 
-
-        this.processNode(this.idRoot, null, null, 1, 1);
-
-        //To test the parsing/creation of the primitives, call the display function directly
-        //this.primitives['demoRectangle'].display();
-        //this.primitives['demoCylinder'].display();
-        //this.primitives['demoTriangle'].display();
-        //this.primitives['demoSphere'].display();
-        //this.primitives['demoTorus'].display();
+        this.processNode(this.idRoot, null, null);
     }
 
-    processNode(idNode, matParent, texParent, length_s, length_t){
+    processNode(idNode, matParent, texParent){
         if(idNode){
             //materials
             let material;
@@ -1138,7 +1137,10 @@ class MySceneGraph {
             else if(textureID == "none"){
                 textureID = null;
             }
-            
+
+            let length_s = this.components[idNode].length_s;
+            let length_t = this.components[idNode].length_t;
+
             material.setTexture(this.textures[textureID]);
 
             material.apply();
@@ -1150,9 +1152,12 @@ class MySceneGraph {
 
             for(let i = 0; i < children.length; i++){
                 if(this.components[children[i]])
-                    this.processNode(children[i], materialID, textureID, 1, 1);
-                else if(this.primitives[children[i]])
+                    this.processNode(children[i], materialID, textureID);
+                else if(this.primitives[children[i]]){
+                    this.primitives[children[i]].updateTexCoords(length_s,length_t);   
+
                     this.primitives[children[i]].display();
+                }
             }
             this.scene.popMatrix();
         }

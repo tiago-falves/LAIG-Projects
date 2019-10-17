@@ -66,7 +66,7 @@ class MyRectangle extends CGFobject {
 	 * Updates the list of texture coordinates of the rectangle
 	 * @param {Array} coords - Array of texture coordinates
 	 */
-	updateTextCoords(length_s, length_t){
+	updateTexCoords(length_s, length_t){
 		this.texCoords = [
 			0, 1/length_t,
 			1/length_s, 1/length_t,
