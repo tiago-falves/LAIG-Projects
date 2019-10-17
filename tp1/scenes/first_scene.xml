@@ -461,7 +461,7 @@
         <component id="tower_top_left">
             <transformation>
                 <translate x= "0" y = "4" z = "0.5" />
-                <rotate axis="y" angle="-90"/>
+                
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -503,6 +503,7 @@
         <component id="floatingPyramid">
             <transformation> 
             <scale x= "10" y = "-5" z = "16" />
+
             <translate x= "-0.5" y = "-4" z = "-0.5" />                 
             
             </transformation>
