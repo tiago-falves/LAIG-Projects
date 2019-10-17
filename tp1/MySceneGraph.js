@@ -237,8 +237,8 @@ class MySceneGraph {
             this.onXMLError("There are no defined views");
         }
 
-        this.cameraDefault = this.reader.getString(viewsNode, 'default')
-        if (this.cameraDefault == null)
+        this.defaultCamera = this.reader.getString(viewsNode, 'default')
+        if (this.defaultCamera == null)
             return "no default camera defined";
 
         for (let i = 0; i < children.length; i++) {
@@ -256,14 +256,19 @@ class MySceneGraph {
             if (viewId == null) 
                 return "No cameras"
             
-            if (this.camera[viewId] != null) 
+            if (this.views[viewId] != null) 
                 return "Camera IDs cannot be repeated";
             
             
             //Gets correspondent near and far values for this child
             var nearView = this.reader.getFloat(child, 'near');
+            if (nearView == null) {
+                return "View Lacks near property";
+            }
             var farView = this.reader.getFloat(child, 'far');
-            
+            if (farView == null) {
+                return "View Lacks near property";
+            }
 
             if (nearView >= farView) return "Near paramter must be smaller than far paramter";
             
@@ -295,12 +300,20 @@ class MySceneGraph {
             //Checks if it has the atribute angle, returns error if it doesn't
             var angleView = this.reader.getFloat(child, 'angle');
             if (angleView == null) {  return "No camera angle provided";  }
+
+            angleView = angleView * Math.PI/180;
             currentView.angle = angleView;
+
 
 
             //Depending on the view type adds information to current view
             if (child.nodeName == "perspective") {
                 currentView.type = "perspective";
+                let perspective = new CGFcamera(angleView,nearView,farView,vec3.fromValues(fX,fY,fZ),vec3.fromValues(toX,toY,toZ));
+                /*this.views.push(perspective) ;
+                if (viewsNode[viewId] == this.defaultCamera) {
+                    this.scene.updateCamera(perspective);
+                }*/
                
             }
             else if (child.nodeName == "ortho") {
@@ -313,6 +326,12 @@ class MySceneGraph {
                 let upX = this.reader.getFloat(upList[0], 'x');
                 let upY = this.reader.getFloat(upList[0], 'y');
                 let upZ = this.reader.getFloat(upList[0], 'z');
+                /*var ortho = new CGFcameraOrtho(leftView, rightView, bottomView, topView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ), vec3.fromValues(upX,upY,upZ));
+                if (viewsNode[viewId] == this.defaultCamera) {
+                    this.scene.updateCamera(ortho);
+                }
+                this.views.push(ortho);*/
+
                 currentView.type = "ortho";
                 currentView.top = topView;
                 currentView.bottom = bottomView;
@@ -321,10 +340,12 @@ class MySceneGraph {
                 currentView.up = vec3.fromValues(upX, upY, upZ);
                 
             }
-            
             this.views.push(currentView);
+            
+            
             //IF DEFAULT CAMERA CALL UPDATE CAMERA IN XMLSCENE
         }
+        
         if (this.views.length == 0) { return "Views not loaded";}
         return null;
 

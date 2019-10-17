@@ -51,17 +51,10 @@ class MyInterface extends CGFinterface {
 
     
 
-    addViews(views){
+    createMenus(){
+        this.gui.add(this.scene, 'currentCamera', this.scene.cameraIDs).name('Selected View').onChange(this.scene.updateCamera.bind(this.scene));
         
-  
-        var viewsID = [];
-        for (var key in views)
-          viewsID.push(key);
-  
-        var controller = this.gui.add(this.scene, 'currentCamera', viewsID).name("Camera");
-  
-        controller.onChange(function(value){
-            this.scene.updateCamera(value);
-        });
+        
+        
       }
 }

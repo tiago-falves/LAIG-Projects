@@ -12,7 +12,7 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
-        this.currentCamera;
+        
     }
 
     /**
@@ -24,7 +24,9 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = false;
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-        
+        this.cameraIDs = [];
+        this.currentCamera = null;;
+        this.lightIDs = new Object();
 
         this.enableTextures(true);
 
@@ -45,36 +47,39 @@ class XMLscene extends CGFscene {
     initCameras() {
         
         
-        
         //In case there is an error with the XML File
-        let currentCamera = this.graph.views[0];
+        this.currentCamera = this.graph.views[1];
         //Choose the camera with the appropriate default ID in case it exists.
 
         for(let key = 0; key < this.graph.views.length; key++) {
             let xmlView = this.graph.views[key];
-            if(xmlView.id = this.graph.defaultView) {
-                currentCamera = xmlView;
+            this.cameraIDs.push(key);
+            if(xmlView.id = this.graph.defaultCamera) {
+                this.currentCamera = xmlView;
                 break;
             }
         }
-        
-        if(currentCamera.type == "perspective"){
-            this.camera = new CGFcamera(currentCamera.angle, currentCamera.near, currentCamera.far, currentCamera.from, currentCamera.to);  
+        //PORQUE QUE NAO FUNCIONA??????
+        this.updateCamera();
+
+        //PORQUE QUE SE REMOVER ISTO NAO FUNCIONA??
+        if(this.currentCamera.type == "perspective"){
+            this.camera = new CGFcamera(this.currentCamera.angle, this.currentCamera.near, this.currentCamera.far, this.currentCamera.from, this.currentCamera.to);  
         }
   
 
-        this.interface.setActiveCamera(this.camera);
+        //this.interface.setActiveCamera(this.camera);
         
     }
 
 
-    updateCamera(newCamera){
-        this.currentCamera = newCamera;
+    updateCamera(){
+        
     
-        if(this.graph.views[newCamera].type == "perspective")
-          this.camera = new CGFcamera(this.graph.views[newCamera].angle, this.graph.views[newCamera].near, this.graph.views[newCamera].far, vec3.fromValues(this.graph.views[newCamera].from.x, this.graph.views[newCamera].from.y, this.graph.views[newCamera].from.z), vec3.fromValues(this.graph.views[newCamera].to.x, this.graph.views[newCamera].to.y, this.graph.views[newCamera].to.z));
-        else if(this.graph.views[newCamera].type == "ortho")
-          this.camera = new CGFcameraOrtho(this.graph.views[newCamera].left, this.graph.views[newCamera].right, this.graph.views[newCamera].bottom, this.graph.views[newCamera].top, this.graph.views[newCamera].near, this.graph.views[newCamera].far, vec3.fromValues(this.graph.views[newCamera].from.x, this.graph.views[newCamera].from.y, this.graph.views[newCamera].from.z), vec3.fromValues(this.graph.views[newCamera].to.x, this.graph.views[newCamera].to.y, this.graph.views[newCamera].to.z), vec3.fromValues(0,1,0));
+        if(this.currentCamera.type == "perspective")
+          this.camera = new CGFcamera(this.currentCamera.angle, this.currentCamera.near, this.currentCamera.far, vec3.fromValues(this.currentCamera.from.x, this.currentCamera.from.y, this.currentCamera.from.z), vec3.fromValues(this.currentCamera.to.x, this.currentCamera.to.y, this.currentCamera.to.z));
+        else if(this.currentCamera.type == "ortho")
+          this.camera = new CGFcameraOrtho(this.currentCamera.left, this.currentCamera.right, this.currentCamera.bottom, this.currentCamera.top, this.currentCamera.near, this.currentCamera.far, vec3.fromValues(this.currentCamera.from.x, this.currentCamera.from.y, this.currentCamera.from.z), vec3.fromValues(this.currentCamera.to.x, this.currentCamera.to.y, this.currentCamera.to.z), vec3.fromValues(0,1,0));
     
         this.interface.setActiveCamera(this.camera);
       }
@@ -90,7 +95,7 @@ class XMLscene extends CGFscene {
         for (var key in this.graph.lights) {
             if (i >= 8)
                 break;              // Only eight lights allowed by WebGL.
-
+            this.lightIDs[key] = i;
             if (this.graph.lights.hasOwnProperty(key)) {
                 var light = this.graph.lights[key];
 
@@ -142,7 +147,7 @@ class XMLscene extends CGFscene {
         this.initLights();
 
         //Descomentar para descobrir erro das cameras
-        //this.interface.addViews(this.graph.views);
+        this.interface.createMenus();
 
         this.sceneInited = true;
     }
