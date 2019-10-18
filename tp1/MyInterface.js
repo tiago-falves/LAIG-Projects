@@ -28,6 +28,45 @@ class MyInterface extends CGFinterface {
         return true;
     }
 
+    createMenus(){
+        this.createAxisCheckbox();
+        
+        this.createLightFolder();
+
+        this.createViewsFolder();
+
+        this.initKeys();
+    }
+
+    createLightFolder(){
+        var folder = this.gui.addFolder("Lights");
+
+        for(let key in this.scene.graph.lights){
+            folder.add(this.scene.graph.lights[key], "0").name(key);
+        }
+    }
+
+    createViewsFolder(){
+        var folder = this.gui.addFolder("Cameras");
+
+        var viewIDs = [];
+
+        for(let key in this.scene.graph.views){
+            viewIDs.push(key);
+        }
+
+        var firstView = {value:this.scene.graph.defaultCamera};
+
+        var parent = this.scene;
+
+        folder.add(firstView, "value", viewIDs).name("View").onChange(
+            function () {
+                parent.camera = parent.graph.views[firstView.value];
+                parent.updateCamera(parent.camera);
+            }
+        );
+    }
+
     /**
      * initKeys
      */
@@ -42,19 +81,29 @@ class MyInterface extends CGFinterface {
     };
 
     processKeyUp(event) {
+        if(this.isKeyPressed('KeyM')){
+            this.scene.clickM++;
+        }
         this.activeKeys[event.code]=false;
     };
 
     isKeyPressed(keyCode) {
-        return this.activeKeys[keyCode] || false;
+        return this.activeKeys[keyCode];
     }
 
-    
+    addViews(views){
+        var viewsID = [];
+        for (var key in views)
+          viewsID.push(key);
+  
+        var controller = this.gui.add(this.scene, 'currentCamera', viewsID).name("Camera");
+  
+        controller.onChange(function(value){
+            this.scene.updateCamera(value);
+        });
+    }
 
-    createMenus(){
-        this.gui.add(this.scene, 'currentCamera', this.scene.cameraIDs).name('Selected View').onChange(this.scene.updateCamera.bind(this.scene));
-        
-        
-        
-      }
+    createAxisCheckbox() {
+        this.gui.add(this.scene, 'axisIsActive');
+    }
 }

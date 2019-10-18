@@ -2,13 +2,13 @@
     <scene root="Root" axis_length="5"/>
 
     <views default="defaultCamera">
-        <perspective id="defaultCamera" near="1" far="90" angle="60">
-            <from x="8" y="10" z="13" />
-            <to x="0" y="0" z="0" />
+        <perspective id="defaultCamera" near="1" far="500" angle="45">
+            <from x="6" y="10" z="8" />
+            <to x="0" y="-2" z="0" />
         </perspective>
-        <perspective id="h" near="1" far="50" angle="70">
-            <from x="10.5" y="7" z="10" />
-            <to x="0" y="1" z="0" />
+        <perspective id="h" near="0.1" far="50" angle="23">
+            <from x="10.5" y="7" z="20" />
+            <to x="10.5" y="1" z="0" />
         </perspective>
     </views>
 
@@ -18,18 +18,28 @@
     </globals>
 
     <lights>
-        <omni id="Light" enabled="1">
-            <location x="90.8" y="11.9" z="10" w="1.0" />
+        <omni id="OmniLight" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
         </omni>
-        <omni id="Light1" enabled="1">
-            <location x="0" y="5" z="-3" w="1.0" />
+        <spot id="SpotLight1" enabled="1" angle="90" exponent="3">
+            <location x="0" y="5" z="0" w="1.0" />
+            <target x="-5" y="2" z="0" />
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
-        </omni>
+            <attenuation constant="1" linear="0" quadratic="0"/>
+        </spot>
+        <spot id="SpotLight2" enabled="1" angle="90" exponent="3">
+            <location x="0" y="5" z="0" w="1.0" />
+            <target x="5" y="2" z="0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0"/>
+        </spot>
     </lights>
 
     <textures>
@@ -67,7 +77,7 @@
             <specular r="1" g="1" b="1" a="1.0" />
         </material>
         <material id="whiteMaterial" shininess="1">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <emission r="1.0" g="1.0" b="1.0" a="1.0" />
             <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
             <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
             <specular r="1" g="1" b="1" a="1.0" />
@@ -77,6 +87,12 @@
             <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
             <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
             <specular r="0.4" g="0.4" b="0.4" a="1.0" />
+        </material>
+        <material id="redMaterial" shininess="10">
+            <emission r="1.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
         </material>
     </materials>
 
@@ -123,11 +139,46 @@
                 <translate x = "-0.5" y = "-0.5" z= "0"/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="whiteMaterial" />
+                <material id="darkerMaterial" />
+                <material id="redMaterial" />
             </materials>
-            <texture id="courtTexture"/>
+            <texture id="courtTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="Pyramid">
+            <transformation>                  
+            </transformation>
+            <materials>
+                <material id="darkerMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="tower_top_right" />
+                <componentref id="tower_top_left" />
+                <componentref id="tower_top_back" />
+                <componentref id="tower_top_front" />
+            </children>
+        </component>
+
+        <component id="floatingPyramid">
+            <transformation> 
+            <scale x= "10" y = "-5" z = "16" />
+            <translate x= "-0.5" y = "-4" z = "-0.5" />                 
+            
+            </transformation>
+            <materials>
+                <material id="darkerMaterial" />
+            </materials>
+            <texture id="fireTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="tower_top_right" />
+                <componentref id="tower_top_left" />
+                <componentref id="tower_top_back" />
+                <componentref id="tower_top_front" />
             </children>
         </component>
 
@@ -140,7 +191,7 @@
             <materials>
                 <material id="darkerMaterial" />
             </materials>
-            <texture id="woodTexture"/>
+            <texture id="woodTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="LessDefinedTorus" />
             </children>
@@ -236,7 +287,7 @@
             <materials>
                 <material id="whiteMaterial" />
             </materials>
-            <texture id="bronzeTexture"/>
+            <texture id="bronzeTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="Goal_Poll_Big" />
                 <componentref id="Goal_Torus1" />
@@ -254,7 +305,7 @@
             <materials>
                 <material id="whiteMaterial" />
             </materials>
-            <texture id="bronzeTexture"/>
+            <texture id="bronzeTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="Goal1" />
             </children>
@@ -268,7 +319,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="0.25"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -282,7 +333,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="0.25"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -296,7 +347,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="0.25"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -309,7 +360,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="0.25"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -323,7 +374,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="0.25"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -467,9 +518,7 @@
         <component id="tower_top_left">
             <transformation>
                 <translate x= "0" y = "4" z = "0.5" />
-                <rotate axis="y" angle = "-90"/>
-                
-                
+                <rotate axis="y" angle="-90"/>
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -493,41 +542,6 @@
             </children>
         </component>
 
-        <component id="Pyramid">
-            <transformation>                  
-            </transformation>
-            <materials>
-                <material id="darkerMaterial" />
-            </materials>
-            <texture id="inherit"/>
-            <children>
-                <componentref id="tower_top_right" />
-                <componentref id="tower_top_left" />
-                <componentref id="tower_top_back" />
-                <componentref id="tower_top_front" />
-            </children>
-        </component>
-
-        <component id="floatingPyramid">
-            <transformation> 
-            <scale x= "10" y = "-5" z = "16" />
-            <translate x= "-0.5" y = "-4" z = "-0.5" />                 
-            
-            </transformation>
-            <materials>
-                <material id="darkerMaterial" />
-            </materials>
-            <texture id="fireTexture"/>
-            <children>
-                <componentref id="tower_top_right" />
-                <componentref id="tower_top_left" />
-                <componentref id="tower_top_back" />
-                <componentref id="tower_top_front" />
-            </children>
-        </component>
-
-
-
         <component id="FlagPole">
             <transformation>
                 <translate x= "1" y = "0" z = "0.5" />
@@ -537,7 +551,7 @@
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="woodTexture"/>
+            <texture id="woodTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="Cylinder" />
             </children>
@@ -606,9 +620,9 @@
                 <translate x= "0" y = "0" z = "0" />   
             </transformation>
             <materials>
-                <material id="darkerMaterial" />
+                <material id="NeutralMaterial" />
             </materials>
-            <texture id="howgwartsTexture"/>
+            <texture id="howgwartsTexture" length_s="1" length_t="0.25"/>
             <children>
                 <componentref id="Tower" />
             </children>
@@ -621,7 +635,7 @@
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="slytherinTexture"/>
+            <texture id="slytherinTexture" length_s="1" length_t="0.25"/>
             <children>
                 <componentref id="Tower" />
             </children>
@@ -634,7 +648,7 @@
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="gryffindorTexture"/>
+            <texture id="gryffindorTexture" length_s="1" length_t="0.25"/>
             <children>
                 <componentref id="Tower" />
             </children>
@@ -647,7 +661,7 @@
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="hufflepuffTexture"/>
+            <texture id="hufflepuffTexture" length_s="1" length_t="0.25"/>
             <children>
                 <componentref id="Tower" />
             </children>
@@ -661,7 +675,7 @@
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="ravenclawTexture"/>
+            <texture id="ravenclawTexture" length_s="1" length_t="0.25"/>
             <children>
                 <componentref id="Tower" />
             </children>
@@ -691,7 +705,7 @@
                 <scale x="3" y="1" z="1"/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="whiteMaterial" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -703,7 +717,7 @@
                 <scale x="-1" y="1" z="1"/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="whiteMaterial" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -719,7 +733,7 @@
             <materials>
                 <material id="goldenMaterial" />
             </materials>
-            <texture id="snitchTexture"/>
+            <texture id="snitchTexture" length_s="1" length_t="1"/>
             <children>
                 <componentref id="wingLeft"/>
                 <componentref id="wingRight"/>
@@ -739,7 +753,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapBackTexture"/>
+            <texture id="cubeMapBackTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -755,7 +769,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapTopTexture"/>
+            <texture id="cubeMapTopTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -771,7 +785,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapFrontTexture"/>
+            <texture id="cubeMapFrontTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -788,7 +802,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapBottomTexture"/>
+            <texture id="cubeMapBottomTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -804,7 +818,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapRightTexture"/>
+            <texture id="cubeMapRightTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -820,7 +834,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="cubeMapLeftTexture"/>
+            <texture id="cubeMapLeftTexture" length_s="1" length_t="1"/>
             <children>
                 <primitiveref id="Rectangle" />
             </children>
@@ -832,6 +846,9 @@
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
+                <material id="goldenMaterial" />
+                <material id="whiteMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="none"/>
             <children>
@@ -849,9 +866,6 @@
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
-                <material id="goldenMaterial" />
-                <material id="whiteMaterial" />
-                <material id="darkerMaterial" />
             </materials>
             <texture id="none"/>
             <children>

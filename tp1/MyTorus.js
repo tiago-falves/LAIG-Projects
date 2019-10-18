@@ -32,15 +32,21 @@ class MyTorus extends CGFobject {
 					this.inner * Math.sin(phi)
 				);
 
+				let nx = Math.cos(phi) * Math.cos(theta);
+				let ny = Math.cos(phi) * Math.sin(theta);
+				let nz = Math.sin(phi);
+
+				let size = Math.sqrt(Math.pow(nx, 2) + Math.pow(ny, 2) + Math.pow(nz, 2));
+
 				this.normals.push(
-					Math.cos(phi) * Math.cos(theta), 
-                    Math.cos(phi) * Math.sin(theta),
-                    Math.sin(phi)
+					nx/size, 
+                    ny/size,
+                    nz/size
 				);
 
 				this.texCoords.push(
 					i/this.slices,
-					j/this.loops
+					1 - j/this.loops
 				);
 			}
 

@@ -30,13 +30,19 @@ class MyCylinder extends CGFobject {
                     radius_current*Math.cos(j*alphaAng),
                     radius_current*Math.sin(j*alphaAng),
                     i*section
-                );             
+                );      
+                
+                let nx = Math.cos(j*alphaAng);
+				let ny = Math.sin(j*alphaAng);
+				let nz = 0;
 
-                this.normals.push(
-                    Math.cos(j*alphaAng),
-                    Math.sin(j*alphaAng),
-                    0
-                );
+				let size = Math.sqrt(Math.pow(nx, 2) + Math.pow(ny, 2) + Math.pow(nz, 2));
+
+				this.normals.push(
+					nx/size, 
+                    ny/size,
+                    nz/size
+				);
 
                 this.texCoords.push(
                     j/this.slices,

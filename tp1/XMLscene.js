@@ -36,6 +36,8 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
+        this.axisIsActive = true;
+
         this.appearance = new CGFappearance(this);
         
         this.setUpdatePeriod(100);
@@ -45,42 +47,20 @@ class XMLscene extends CGFscene {
      * Initializes the scene cameras.
      */
     initCameras() {
-        
-        
         //In case there is an error with the XML File
-        this.currentCamera = this.graph.views[1];
+        let currentCamera = this.graph.views[this.graph.defaultCamera];
         //Choose the camera with the appropriate default ID in case it exists.
+       console.log(currentCamera); 
+       this.camera = currentCamera;
 
-        for(let key = 0; key < this.graph.views.length; key++) {
-            let xmlView = this.graph.views[key];
-            this.cameraIDs.push(key);
-            if(xmlView.id = this.graph.defaultCamera) {
-                this.currentCamera = xmlView;
-                break;
-            }
-        }
-        //PORQUE QUE NAO FUNCIONA??????
-        this.updateCamera();
-
-        //PORQUE QUE SE REMOVER ISTO NAO FUNCIONA??
-        if(this.currentCamera.type == "perspective"){
-            this.camera = new CGFcamera(this.currentCamera.angle, this.currentCamera.near, this.currentCamera.far, this.currentCamera.from, this.currentCamera.to);  
-        }
-  
-
-        //this.interface.setActiveCamera(this.camera);
+        this.interface.setActiveCamera(this.camera);
         
     }
 
 
-    updateCamera(){
-        
-    
-        if(this.currentCamera.type == "perspective")
-          this.camera = new CGFcamera(this.currentCamera.angle, this.currentCamera.near, this.currentCamera.far, vec3.fromValues(this.currentCamera.from.x, this.currentCamera.from.y, this.currentCamera.from.z), vec3.fromValues(this.currentCamera.to.x, this.currentCamera.to.y, this.currentCamera.to.z));
-        else if(this.currentCamera.type == "ortho")
-          this.camera = new CGFcameraOrtho(this.currentCamera.left, this.currentCamera.right, this.currentCamera.bottom, this.currentCamera.top, this.currentCamera.near, this.currentCamera.far, vec3.fromValues(this.currentCamera.from.x, this.currentCamera.from.y, this.currentCamera.from.z), vec3.fromValues(this.currentCamera.to.x, this.currentCamera.to.y, this.currentCamera.to.z), vec3.fromValues(0,1,0));
-    
+    updateCamera(newCamera){
+        this.currentCamera = newCamera;
+
         this.interface.setActiveCamera(this.camera);
       }
    
@@ -123,6 +103,30 @@ class XMLscene extends CGFscene {
         }
     }
 
+    updateLights(){
+        var i = 0;
+        // Lights index.
+
+        // Reads the lights from the scene graph.
+        for (var key in this.graph.lights) {
+            if (i >= 8)
+                break;              // Only eight lights allowed by WebGL.
+            this.lightIDs[key] = i;
+            if (this.graph.lights.hasOwnProperty(key)) {
+                var light = this.graph.lights[key];
+
+                if (light[0])
+                    this.lights[i].enable();
+                else
+                    this.lights[i].disable();
+
+                this.lights[i].update();
+
+                i++;
+            }
+        }
+    }
+
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
@@ -146,13 +150,14 @@ class XMLscene extends CGFscene {
         this.initCameras();
         this.initLights();
 
-        //Descomentar para descobrir erro das cameras
-        this.interface.createMenus();
-
         this.sceneInited = true;
+
+        this.interface.createMenus();
     }
 
-    //regist number of clicks on M key
+    toggleAxis() {
+		this.axisIsActive = !this.axisIsActive;
+	}
 
     /**
      * Displays the scene.
@@ -172,7 +177,10 @@ class XMLscene extends CGFscene {
         this.applyViewMatrix();
 
         this.pushMatrix();
-        this.axis.display();
+        if(this.axisIsActive)
+            this.axis.display();
+
+        this.updateLights();
 
         if (this.sceneInited) {
             for (var i = 0; i < this.graph.lights.length; i++) {
