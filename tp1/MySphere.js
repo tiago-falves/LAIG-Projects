@@ -34,10 +34,16 @@ class MySphere extends CGFobject
                     this.radius*Math.sin(theta*i)
 				);
 
+				let nx = Math.cos(phi*i)*Math.cos(theta*j);
+				let ny = Math.cos(phi*i)*Math.sin(theta*j);
+				let nz = Math.sin(phi*i);
+
+				let size = Math.sqrt(Math.pow(nx, 2) + Math.pow(ny, 2) + Math.pow(nz, 2));
+
 				this.normals.push(
-                    Math.cos(phi*i)*Math.cos(theta*j), 
-                    Math.cos(phi*i)*Math.sin(theta*j), 
-                    Math.sin(phi*i)
+					nx/size, 
+                    ny/size,
+                    nz/size
 				);
 
 				this.texCoords.push(

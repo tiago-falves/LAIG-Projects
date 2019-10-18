@@ -43,6 +43,8 @@ class MySceneGraph {
          * If any error occurs, the reader calls onXMLError on this object, with an error message
          */
         this.reader.open('scenes/' + filename, this);
+
+        this.scene.clickM = 0;
     }
 
     /*
@@ -227,8 +229,6 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        
-
         var children = viewsNode.children;
         this.camera = [];
         this.views = [];
@@ -256,19 +256,14 @@ class MySceneGraph {
             if (viewId == null) 
                 return "No cameras"
             
-            if (this.views[viewId] != null) 
+            if (this.camera[viewId] != null) 
                 return "Camera IDs cannot be repeated";
             
             
             //Gets correspondent near and far values for this child
             var nearView = this.reader.getFloat(child, 'near');
-            if (nearView == null) {
-                return "View Lacks near property";
-            }
             var farView = this.reader.getFloat(child, 'far');
-            if (farView == null) {
-                return "View Lacks near property";
-            }
+            
 
             if (nearView >= farView) return "Near paramter must be smaller than far paramter";
             
@@ -294,27 +289,17 @@ class MySceneGraph {
             var toZ = this.reader.getFloat(toList[0], 'z');
 
             //create object with current View to add to our views array REDO CRIAR OBJETO CGF CAMERA OR CAMERA ORTHO AND SAVE IT ON THE LIST
-            let currentView = {id:viewId, near:nearView, far:farView, from: vec3.fromValues(fX,fY,fZ), to: vec3.fromValues(toX,toY,toZ)}
-            
+            let currentView;
 
             //Checks if it has the atribute angle, returns error if it doesn't
             var angleView = this.reader.getFloat(child, 'angle');
-            if (angleView == null) {  return "No camera angle provided";  }
-
-            angleView = angleView * Math.PI/180;
-            currentView.angle = angleView;
-
+            if (angleView == null) 
+                {  return "No camera angle provided";  }
 
 
             //Depending on the view type adds information to current view
             if (child.nodeName == "perspective") {
-                currentView.type = "perspective";
-                let perspective = new CGFcamera(angleView,nearView,farView,vec3.fromValues(fX,fY,fZ),vec3.fromValues(toX,toY,toZ));
-                /*this.views.push(perspective) ;
-                if (viewsNode[viewId] == this.defaultCamera) {
-                    this.scene.updateCamera(perspective);
-                }*/
-               
+                currentView = new CGFcamera(angleView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ));
             }
             else if (child.nodeName == "ortho") {
                 var topView = this.reader.getFloat(child, 'top');
@@ -326,27 +311,17 @@ class MySceneGraph {
                 let upX = this.reader.getFloat(upList[0], 'x');
                 let upY = this.reader.getFloat(upList[0], 'y');
                 let upZ = this.reader.getFloat(upList[0], 'z');
-                /*var ortho = new CGFcameraOrtho(leftView, rightView, bottomView, topView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ), vec3.fromValues(upX,upY,upZ));
-                if (viewsNode[viewId] == this.defaultCamera) {
-                    this.scene.updateCamera(ortho);
-                }
-                this.views.push(ortho);*/
-
-                currentView.type = "ortho";
-                currentView.top = topView;
-                currentView.bottom = bottomView;
-                currentView.right = rightView;
-                currentView.left = leftView;
-                currentView.up = vec3.fromValues(upX, upY, upZ);
                 
+                currentView = new CGFcameraOrtho(leftView, rightView, bottomView, topView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ), vec3.fromValues(upX, upY, upZ));
             }
-            this.views.push(currentView);
             
+            this.views[viewId] = currentView;
             
+            if(viewId == this.defaultCamera)
+                this.scene.updateCamera(currentView);
             //IF DEFAULT CAMERA CALL UPDATE CAMERA IN XMLSCENE
         }
-        
-        if (this.views.length == 0) { return "Views not loaded";}
+        if ( Object.keys(this.views).length == 0) { return "Views not loaded";}
         return null;
 
         
@@ -986,15 +961,18 @@ class MySceneGraph {
             
             // Texture
             let texture = this.reader.getString(grandChildren[textureIndex],'id');
+            let length_s;
+            let length_t;
 
-            let length_s = this.reader.getFloat(grandChildren[textureIndex],'length_s');
-            if(length_s == null){
-                length_s = 1;
+            if(texture == 'inherit' || texture == 'none'){
+                if(this.reader.hasAttribute(grandChildren[textureIndex], 'length_s') || this.reader.hasAttribute(grandChildren[textureIndex], 'length_t')){
+                    this.onXMLMinorError(`Length_s and length_t should not be defined for ${texture} type`);
+                }
             }
+            else{
+                length_s = this.reader.getFloat(grandChildren[textureIndex],'length_s');
 
-            let length_t = this.reader.getFloat(grandChildren[textureIndex],'length_t');
-            if(length_t == null){
-                length_t = 1;
+                length_t = this.reader.getFloat(grandChildren[textureIndex],'length_t');
             }
 
             component.createTextures(texture, length_s, length_t);
@@ -1136,14 +1114,14 @@ class MySceneGraph {
     displayScene() {
         //To do: Create display loop for transversing the scene graph
 
-        this.processNode(this.idRoot, null, null);
+        this.processNode(this.idRoot, null, null, 1, 1);
     }
 
-    processNode(idNode, matParent, texParent){
+    processNode(idNode, matParent, texParent, lsParent, ltParent){
         if(idNode){
             //materials
             let material;
-            let materialID = this.components[idNode].materials[0]; // 0 -> clickM % materials.length
+            let materialID = this.components[idNode].materials[this.scene.clickM % this.components[idNode].materials.length]; // 0 -> clickM % materials.length
             if(materialID == "inherit"){
                 materialID = matParent;
             }
@@ -1152,15 +1130,17 @@ class MySceneGraph {
 
             let textureID = this.components[idNode].texture;
             
+            let length_s = this.components[idNode].length_s;
+            let length_t = this.components[idNode].length_t;
+
             if(textureID == "inherit"){
                 textureID = texParent;
+                length_s = lsParent;
+                length_t = ltParent;
             }
             else if(textureID == "none"){
                 textureID = null;
             }
-
-            let length_s = this.components[idNode].length_s;
-            let length_t = this.components[idNode].length_t;
 
             material.setTexture(this.textures[textureID]);
 
@@ -1173,7 +1153,7 @@ class MySceneGraph {
 
             for(let i = 0; i < children.length; i++){
                 if(this.components[children[i]])
-                    this.processNode(children[i], materialID, textureID);
+                    this.processNode(children[i], materialID, textureID, length_s, length_t);
                 else if(this.primitives[children[i]]){
                     this.primitives[children[i]].updateTexCoords(length_s,length_t);   
 
