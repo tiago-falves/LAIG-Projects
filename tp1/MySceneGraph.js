@@ -291,14 +291,14 @@ class MySceneGraph {
             //create object with current View to add to our views array REDO CRIAR OBJETO CGF CAMERA OR CAMERA ORTHO AND SAVE IT ON THE LIST
             let currentView;
 
-            //Checks if it has the atribute angle, returns error if it doesn't
-            var angleView = this.reader.getFloat(child, 'angle');
-            if (angleView == null) 
-                {  return "No camera angle provided";  }
-
+           
 
             //Depending on the view type adds information to current view
             if (child.nodeName == "perspective") {
+                 //Checks if it has the atribute angle, returns error if it doesn't
+                var angleView = this.reader.getFloat(child, 'angle');
+                if (angleView == null) {  return "No camera angle provided";  }
+
                 currentView = new CGFcamera(angleView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ));
             }
             else if (child.nodeName == "ortho") {
