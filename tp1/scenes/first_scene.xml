@@ -23,6 +23,8 @@
             <ambient r="0" g="0" b="0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0"/>
+
         </omni>
         <spot id="SpotLight1" enabled="1" angle="90" exponent="3">
             <location x="0" y="5" z="0" w="1.0" />
@@ -109,6 +111,7 @@
     </transformations>
 
     <primitives>
+        
         <primitive id="Rectangle">
             <rectangle x1="0" y1="0" x2="1" y2="1" />
         </primitive>
@@ -156,23 +159,7 @@
             </children>
         </component>
 
-        <component id="Field1">
-            <transformation>
-                <translate x = "-0" y = "2" z= "0"/>
-                <scale x="0.5" y="0.5" z="0.5" />
-                <rotate axis='x' angle ='90'/>
-                
-            </transformation>
-            <materials>
-                <material id="whiteMaterial" />
-                <material id="darkerMaterial" />
-                <material id="redMaterial" />
-            </materials>
-            <texture id="courtTexture"/>
-            <children>
-                <primitiveref id="Cylinder1" />
-            </children>
-        </component>
+       
 
         <component id="Pyramid">
             <transformation>                  
@@ -405,19 +392,7 @@
             </children>
         </component>
 
-        <component id="tower_middle_right">
-            <transformation>
-                <translate x= "0" y = "3" z = "1" />
-                <scale x = "0.3" y = "1" z = "1" />
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit"/>
-            <children>
-                <primitiveref id="Rectangle" />
-            </children>
-        </component>
+        
         <component id="tower_middle_back">
             <transformation>
                 <translate x = "0" y = "3" z = "0" />
@@ -624,14 +599,12 @@
                 <componentref id="tower_bottom_back" />
                 <componentref id="tower_bottom_right" />
                 <componentref id="tower_bottom_top" />
-                <componentref id="tower_middle_front" />
                 <componentref id="tower_middle_left" />
                 <componentref id="tower_middle_right" />
                 <componentref id="tower_middle_back" />
                 <componentref id="tower_middle2_front" />
                 <componentref id="tower_middle2_left" />
                 <componentref id="tower_middle2_right" />
-                <componentref id="tower_middle2_back" />
                 <componentref id="Pyramid" />
                 
                 <componentref id="tower_middle3_front"/>
@@ -1117,7 +1090,6 @@
             <texture id="none"/>
             <children>
                 <componentref id="Field" />
-                <componentref id="Field1" />
                 <componentref id="Stage"/>
                 <componentref id="Goal1" />
                 <componentref id="Goal2"/>

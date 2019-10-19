@@ -258,7 +258,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="fire" length_s="1" length_t="1" />
+            <texture id="volcano" length_s="1" length_t="1" />
             <children>
                 <primitiveref id="mountain" />
                 <componentref id="death_mountain_cloud" />
