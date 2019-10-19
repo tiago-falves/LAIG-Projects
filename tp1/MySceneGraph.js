@@ -965,15 +965,26 @@ class MySceneGraph {
             let length_s;
             let length_t;
 
+            if (texture == null) this.onXMLMinorError('Unable to parse Texture id');
+            if (componentID == this.idRoot && texture == "inherit") {
+                return "Root component ID " + componentID + " cannot inherit texture";
+            }
             if(texture == 'inherit' || texture == 'none'){
                 if(this.reader.hasAttribute(grandChildren[textureIndex], 'length_s') || this.reader.hasAttribute(grandChildren[textureIndex], 'length_t')){
                     this.onXMLMinorError(`Length_s and length_t should not be defined for ${texture} type`);
                 }
             }
-            else{
-                length_s = this.reader.getFloat(grandChildren[textureIndex],'length_s');
+            else if(this.reader.hasAttribute(grandChildren[textureIndex], 'length_s') || this.reader.hasAttribute(grandChildren[textureIndex], 'length_t')){
 
+                length_s = this.reader.getFloat(grandChildren[textureIndex],'length_s');
                 length_t = this.reader.getFloat(grandChildren[textureIndex],'length_t');
+            }
+            else{
+                this.onXMLMinorError(`Length_s and length_t  not be defined, assuming length_s=1 and length_t =1`);
+
+                length_s=1;
+                length_t = 1;
+
             }
 
             component.createTextures(texture, length_s, length_t);
