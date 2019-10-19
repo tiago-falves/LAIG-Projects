@@ -65,6 +65,8 @@
         <texture id="fireTexture" file="scenes/images/fire.jpg" />
         <texture id="catTexture" file="scenes/images/cat.jpg" />
         <texture id="catEyeTexture" file="scenes/images/catEye.png" />
+        <texture id="whiteFur" file="scenes/images/whiteFur.jpg"/>
+        <texture id="blackFur" file="scenes/images/blackFur.jpg"/>
     </textures>
 
     <materials>
@@ -861,16 +863,15 @@
 
         <component id="BroomStick">
             <transformation>
-                <scale x = '0.06' y='0.06' z = '0.7'/>
-                <translate x="0" y="0" z="0.7"/> 
-
+                <translate x="0" y="0" z="-0.2"/> 
+                <scale x="0.3" y="0.3" z="0.7"/> 
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
             <texture id="woodTexture" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="Sphere" />
+                <primitiveref id="Cylinder" />
             </children>
         </component>
 
@@ -891,7 +892,6 @@
         <component id="Broom">
             <transformation>
                 <translate x="0" y="1.5" z="-1"/> 
-                <scale x = '0.5' y='0.5' z = '0.5'/>
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
@@ -905,177 +905,131 @@
 
         <component id="CatBody">
             <transformation>
-                <translate x="0" y="1.8" z="-1"/> 
-                <scale x = '0.07' y='0.16' z = '0.07'/>
+                <translate x="0" y="0.05" z="0"/> 
+                <scale x = '0.2' y='0.15' z = '0.2'/>
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id = 'Sphere'/>
             </children>
         </component>
         <component id="CatHead">
             <transformation>
-                <translate x="0" y="2" z="-1"/> 
-                <scale x = '0.07' y='0.07' z = '0.07'/>
+                <translate x="0" y="0.22" z="0"/> 
+                <scale x = '0.15' y='0.15' z = '0.15'/>
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id = 'Sphere'/>
             </children>
         </component>
-        <component id="CatEar">
+        <component id="CatTail">
             <transformation>
-                
-                <translate x="-0.005" y="2.07" z="-1.05"/> 
-                <rotate axis='x' angle='-90'/>
-                <rotate axis='z' angle='-135'/>
-                <scale x = '0.03' y='0.03' z = '0.07'/>
+                <translate x="0" y="0" z="-0.18"/> 
+                <rotate axis="x" angle="-135"/>
+                <scale x = '0.15' y='0.15' z ='0.2'/>
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
-            <children>
-                <primitiveref id = 'Triangle'/>
-            </children>
-        </component>
-        <component id="CatEar1">
-            <transformation>
-                
-                <translate x="0.05" y="2.07" z="-1.05"/> 
-                <rotate axis='x' angle='-90'/>
-                <rotate axis='z' angle='-135'/>
-                <scale x = '0.03' y='0.03' z = '0.07'/>
-            </transformation>
-            <materials>
-                <material id="NeutralMaterial" />
-            </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
-            <children>
-                <primitiveref id = 'Triangle'/>
-            </children>
-        </component>
-
-        <component id="CatEye">
-            <transformation>
-                
-                <translate x="0.03" y="2.06" z="-0.98"/> 
-                <rotate axis='x' angle='-90'/>
-                <rotate axis='z' angle='-135'/>
-                <scale x = '0.01' y='0.01' z = '0.01'/>
-                <rotate axis='z' angle='-90'/>
-
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="catEyeTexture" length_s="1" length_t="1"/>
-            <children>
-                <primitiveref id = 'Sphere'/>
-            </children>
-        </component>
-        <component id="CatEye1">
-            <transformation>
-                
-                <translate x="-0.01" y="2.06" z="-0.98"/> 
-                <rotate axis='x' angle='-90'/>
-                <rotate axis='z' angle='-135'/>
-                <scale x = '0.01' y='0.01' z = '0.01'/>
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="catEyeTexture" length_s="1" length_t="1"/>
-            <children>
-                <primitiveref id = 'Sphere'/>
-            </children>
-        </component>
-        <component id="CatLeg">
-            <transformation>
-                <translate x="0.05" y="1.8" z="-1"/> 
-                <scale x = '0.15' y='0.15' z = '0.12'/>
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id = 'Cylinder'/>
             </children>
         </component>
-        <component id="CatLeg1">
+        <component id="CatEar">
             <transformation>
-                <translate x="-0.1" y="0" z="0"/> 
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
-            <children>
-                <componentref id = 'CatLeg'/>
-            </children>
-        </component>
-        <component id="CatLeg2">
-            <transformation>
-                <translate x="0.01" y="0" z="0"/> 
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
-            <children>
-                <componentref id = 'CatLeg'/>
-            </children>
-        </component>
-        <component id="CatLeg3">
-            <transformation>
-                <translate x="0" y="0.1" z="0"/> 
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
-            <children>
-                <componentref id = 'CatLeg'/>
-            </children>
-        </component>
-        <component id="CatLegs">
-            <transformation>
-                
-            </transformation>
-            <materials>
-                <material id="inherit" />
-            </materials>
-            <texture id="inherit" length_s="1" length_t="1"/>
-            <children>
-                <componentref id = 'CatLeg1'/>
-                <componentref id = 'CatLeg2'/>
-                <componentref id = 'CatLeg3'/>
-            </children>
-        </component>
-        <component id="Cat">
-            <transformation>
-                <translate x="0" y="0.8" z="-2.5"/> 
-                <rotate axis='x' angle='90'/>
+                <translate x="-0.1" y="0.3" z="0.05"/>
+                <rotate axis='z' angle='20'/>
+                <scale x = '0.1' y='0.1' z = '0.1'/>
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
             </materials>
-            <texture id="catTexture" length_s="1" length_t="1"/>
+            <texture id="blackFur" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Triangle'/>
+            </children>
+        </component>
+        <component id="CatEar2">
+            <transformation>
+                <scale x = '-1' y='1' z = '1'/>
+                <translate x="-0.1" y="0.3" z="0.05"/>
+                <rotate axis='z' angle='20'/>
+                <scale x = '0.1' y='0.1' z = '0.1'/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="blackFur" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Triangle'/>
+            </children>
+        </component>
+        <component id="CatEye">
+            <transformation>
+                <translate x="-0.05" y="0.3" z="0.12"/>
+                <scale x = '0.02' y='0.03' z = '0.02'/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="blackFur" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Sphere'/>
+            </children>
+        </component>
+        <component id="CatEye2">
+            <transformation>
+                <translate x="0.05" y="0.3" z="0.12"/>
+                <scale x = '0.02' y='0.03' z = '0.02'/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="blackFur" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Sphere'/>
+            </children>
+        </component>
+
+        <component id="CatNose">
+            <transformation>
+                <translate x="0" y="0.25" z="0.15"/>
+                <scale x = '0.02' y='0.01' z = '0.01'/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="blackFur" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Sphere'/>
+            </children>
+        </component>
+
+        <component id="Cat">
+            <transformation>
+                <translate x="0" y="1.55" z="-0.7"/> 
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="whiteFur" length_s="1" length_t="1"/>
             <children>
                 <componentref id="CatBody"/>
                 <componentref id="CatHead"/>
-                <componentref id="CatLegs"/>
                 <componentref id="CatEar"/>
-                <componentref id="CatEar1"/>
+                <componentref id="CatEar2"/>
                 <componentref id="CatEye"/>
-                <componentref id="CatEye1"/>
+                <componentref id="CatEye2"/>
+                <componentref id="CatNose"/>
+                <componentref id="CatTail"/>
             </children>
         </component>
 
