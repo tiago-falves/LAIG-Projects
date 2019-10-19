@@ -298,6 +298,7 @@ class MySceneGraph {
                  //Checks if it has the atribute angle, returns error if it doesn't
                 var angleView = this.reader.getFloat(child, 'angle');
                 if (angleView == null) {  return "No camera angle provided";  }
+                angleView = angleView * DEGREE_TO_RAD;
 
                 currentView = new CGFcamera(angleView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ));
             }
@@ -307,7 +308,7 @@ class MySceneGraph {
                 var rightView = this.reader.getFloat(child, 'right');
                 var leftView = this.reader.getFloat(child, 'left');
 
-                let upList = child.etElementsByTagName("up");
+                let upList = child.getElementsByTagName("up");
                 let upX = this.reader.getFloat(upList[0], 'x');
                 let upY = this.reader.getFloat(upList[0], 'y');
                 let upZ = this.reader.getFloat(upList[0], 'z');
@@ -1141,6 +1142,7 @@ class MySceneGraph {
             else if(textureID == "none"){
                 textureID = null;
             }
+            
 
             material.setTexture(this.textures[textureID]);
 

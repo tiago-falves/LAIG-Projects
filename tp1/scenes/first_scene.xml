@@ -1067,8 +1067,6 @@
             <transformation>
                 <translate x="0" y="0.8" z="-2.5"/> 
                 <rotate axis='x' angle='90'/>
-
-                
             </transformation>
             <materials>
                 <material id="NeutralMaterial" />
@@ -1086,11 +1084,6 @@
         </component>
 
 
-        
-         
-        
-        
-        
 
         <component id="Root">
             <transformation> 
