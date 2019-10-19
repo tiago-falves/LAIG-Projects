@@ -298,7 +298,7 @@ class MySceneGraph {
                  //Checks if it has the atribute angle, returns error if it doesn't
                 var angleView = this.reader.getFloat(child, 'angle');
                 if (angleView == null) {  return "No camera angle provided";  }
-               // angleView = angleView * DEGREE_TO_RAD;
+                angleView = angleView * DEGREE_TO_RAD;
 
                 currentView = new CGFcamera(angleView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ));
             }
