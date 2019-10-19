@@ -157,16 +157,19 @@
 
         <component id="Field1">
             <transformation>
+                <translate x = "-0" y = "2" z= "0"/>
+                <scale x="0.5" y="0.5" z="0.5" />
+                <rotate axis='x' angle ='90'/>
                 
-                <scale x = "0.5" y = "1.2" z= "0.5"/>
-                <rotate axis="x" angle="-90"/>
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="whiteMaterial" />
+                <material id="darkerMaterial" />
+                <material id="redMaterial" />
             </materials>
-            <texture id="woodTexture"/>
+            <texture id="courtTexture"/>
             <children>
-                <primitiveref id="Cylinder" />
+                <primitiveref id="Cylinder1" />
             </children>
         </component>
 
