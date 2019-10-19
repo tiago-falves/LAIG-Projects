@@ -1,12 +1,12 @@
 <lxs>
     <scene root="Root" axis_length="5"/>
 
-    <views default="defaultCamera">
-        <perspective id="defaultCamera" near="1" far="500" angle="45">
+    <views default="Arena View">
+        <perspective id="Arena View" near="1" far="500" angle="45">
             <from x="6" y="10" z="8" />
             <to x="0" y="-2" z="0" />
         </perspective>
-        <perspective id="h" near="0.1" far="50" angle="45">
+        <perspective id="Snitch View" near="0.1" far="50" angle="45">
             <from x="0" y="1" z="-3" />
             <to x="0" y="2" z="2" />
         </perspective>
@@ -61,6 +61,8 @@
         <texture id="cubeMapRightTexture" file="scenes/images/sandcastle_rt.png" />
         <texture id="bronzeTexture" file="scenes/images/bronze_texture.jpg" />
         <texture id="fireTexture" file="scenes/images/fire.jpg" />
+        <texture id="catTexture" file="scenes/images/cat.jpg" />
+        <texture id="catEyeTexture" file="scenes/images/catEye.png" />
     </textures>
 
     <materials>
@@ -860,7 +862,236 @@
                 <componentref id="cubeMapRight" />
             </children>
         </component>
+
+        <component id="BroomStick">
+            <transformation>
+                <scale x = '0.06' y='0.06' z = '0.7'/>
+                <translate x="0" y="0" z="0.7"/> 
+
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="woodTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Sphere" />
+            </children>
+        </component>
+
+        <component id="BroomStraw">
+            <transformation>
+                <scale x = '0.1' y='0.1' z = '0.3'/>
+                <translate x="0" y="0" z="-1"/> 
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="snitchTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Sphere" />
+            </children>
+        </component>
+
+        <component id="Broom">
+            <transformation>
+                <translate x="0" y="1.5" z="-1"/> 
+                <scale x = '0.5' y='0.5' z = '0.5'/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="none" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="BroomStraw" />
+                <componentref id="BroomStick" />
+            </children>
+        </component>
+
+        <component id="CatBody">
+            <transformation>
+                <translate x="0" y="1.8" z="-1"/> 
+                <scale x = '0.07' y='0.16' z = '0.07'/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Sphere'/>
+            </children>
+        </component>
+        <component id="CatHead">
+            <transformation>
+                <translate x="0" y="2" z="-1"/> 
+                <scale x = '0.07' y='0.07' z = '0.07'/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Sphere'/>
+            </children>
+        </component>
+        <component id="CatEar">
+            <transformation>
+                
+                <translate x="-0.005" y="2.07" z="-1.05"/> 
+                <rotate axis='x' angle='-90'/>
+                <rotate axis='z' angle='-135'/>
+                <scale x = '0.03' y='0.03' z = '0.07'/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Triangle'/>
+            </children>
+        </component>
+        <component id="CatEar1">
+            <transformation>
+                
+                <translate x="0.05" y="2.07" z="-1.05"/> 
+                <rotate axis='x' angle='-90'/>
+                <rotate axis='z' angle='-135'/>
+                <scale x = '0.03' y='0.03' z = '0.07'/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Triangle'/>
+            </children>
+        </component>
+
+        <component id="CatEye">
+            <transformation>
+                
+                <translate x="0.03" y="2.06" z="-0.98"/> 
+                <rotate axis='x' angle='-90'/>
+                <rotate axis='z' angle='-135'/>
+                <scale x = '0.01' y='0.01' z = '0.01'/>
+                <rotate axis='z' angle='-90'/>
+
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="catEyeTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Sphere'/>
+            </children>
+        </component>
+        <component id="CatEye1">
+            <transformation>
+                
+                <translate x="-0.01" y="2.06" z="-0.98"/> 
+                <rotate axis='x' angle='-90'/>
+                <rotate axis='z' angle='-135'/>
+                <scale x = '0.01' y='0.01' z = '0.01'/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="catEyeTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Sphere'/>
+            </children>
+        </component>
+        <component id="CatLeg">
+            <transformation>
+                <translate x="0.05" y="1.8" z="-1"/> 
+                <scale x = '0.15' y='0.15' z = '0.12'/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id = 'Cylinder'/>
+            </children>
+        </component>
+        <component id="CatLeg1">
+            <transformation>
+                <translate x="-0.1" y="0" z="0"/> 
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <componentref id = 'CatLeg'/>
+            </children>
+        </component>
+        <component id="CatLeg2">
+            <transformation>
+                <translate x="0.01" y="0" z="0"/> 
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <componentref id = 'CatLeg'/>
+            </children>
+        </component>
+        <component id="CatLeg3">
+            <transformation>
+                <translate x="0" y="0.1" z="0"/> 
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <componentref id = 'CatLeg'/>
+            </children>
+        </component>
+        <component id="CatLegs">
+            <transformation>
+                
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <componentref id = 'CatLeg1'/>
+                <componentref id = 'CatLeg2'/>
+                <componentref id = 'CatLeg3'/>
+            </children>
+        </component>
+        <component id="Cat">
+            <transformation>
+                <translate x="0" y="0.8" z="-2.5"/> 
+                <rotate axis='x' angle='90'/>
+
+                
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="catTexture" length_s="1" length_t="1"/>
+            <children>
+                <componentref id="CatBody"/>
+                <componentref id="CatHead"/>
+                <componentref id="CatLegs"/>
+                <componentref id="CatEar"/>
+                <componentref id="CatEar1"/>
+                <componentref id="CatEye"/>
+                <componentref id="CatEye1"/>
+            </children>
+        </component>
+
+
         
+         
+        
+        
+        
+
         <component id="Root">
             <transformation> 
             </transformation>
@@ -882,6 +1113,12 @@
                 <componentref id="floatingPyramid"/>
                 <componentref id="Snitch"/>
                 <componentref id="cubeMap"/>
+                <componentref id="Broom"/>
+                <componentref id="Cat"/>
+                
+                
+                
+                
             </children>
         </component>
     </components>
