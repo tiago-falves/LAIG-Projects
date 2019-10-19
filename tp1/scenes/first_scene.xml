@@ -407,7 +407,8 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
-         <component id="tower_middle_left">
+         
+        <component id="tower_middle_left">
             <transformation>
                 <translate x= "0" y = "4" z = "0" />
                 <scale x = "0.3" y = "1" z = "1" />
@@ -421,7 +422,22 @@
                 <primitiveref id="Rectangle" />
             </children>
         </component>
-        
+        <component id="tower_middle_right">
+            <transformation>
+                <translate x= "0" y = "4" z = "1" />
+                <scale x = "0.3" y = "1" z = "-1" />
+                <rotate axis = "x" angle = "180"/>
+            </transformation>
+            <materials>
+                <material id="inherit"/>
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+
         <component id="tower_middle2_right">
             <transformation>
                 <translate x= "0" y = "3.7" z = "1" />
@@ -606,7 +622,6 @@
                 <componentref id="tower_middle2_left" />
                 <componentref id="tower_middle2_right" />
                 <componentref id="Pyramid" />
-                
                 <componentref id="tower_middle3_front"/>
                 <componentref id="tower_middle3_back"/>
                 <componentref id="Flag"/>
