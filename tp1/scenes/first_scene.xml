@@ -182,12 +182,11 @@
             <transformation> 
             <scale x= "10" y = "-5" z = "16" />
             <translate x= "-0.5" y = "-4" z = "-0.5" />                 
-            
             </transformation>
             <materials>
                 <material id="darkerMaterial" />
             </materials>
-            <texture id="fireTexture" length_s="1" length_t="1"/>
+            <texture id="fireTexture" length_s="0.3" length_t="0.3"/>
             <children>
                 <componentref id="tower_top_right" />
                 <componentref id="tower_top_left" />
