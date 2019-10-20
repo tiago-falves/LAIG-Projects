@@ -338,7 +338,7 @@ class MySceneGraph {
                     }
                 }
                 
-                currentView = new CGFcameraOrtho(leftView, rightView, bottomView, topView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ), vec3.fromValues(upX, upY, upZ));
+                currentView = new CGFcameraOrtho(leftView, rightView, bottomView, topView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ), vec3.fromValues(...upList));
             }
             
             this.views[viewId] = currentView;
