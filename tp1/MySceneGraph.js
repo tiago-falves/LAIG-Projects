@@ -234,7 +234,7 @@ class MySceneGraph {
         this.views = [];
 
         if(children.lenght == 0){
-            this.onXMLError("There are no defined views");
+            this.onXMLMinorError("There are no defined views");
         }
 
         this.defaultCamera = this.reader.getString(viewsNode, 'default')
@@ -244,6 +244,12 @@ class MySceneGraph {
         for (let i = 0; i < children.length; i++) {
 
             let child = children[i];
+
+            let nodeNames = [];
+            let grandChildren = child.children;
+            for (var j = 0; j < grandChildren.length; j++) {
+                nodeNames.push(grandChildren[j].nodeName);
+            }
 
             
             if (child.nodeName != "perspective" && child .nodeName != "ortho") {
@@ -308,12 +314,32 @@ class MySceneGraph {
                 var rightView = this.reader.getFloat(child, 'right');
                 var leftView = this.reader.getFloat(child, 'left');
 
-                let upList = child.getElementsByTagName("up");
-                let upX = this.reader.getFloat(upList[0], 'x');
-                let upY = this.reader.getFloat(upList[0], 'y');
-                let upZ = this.reader.getFloat(upList[0], 'z');
+                if (!(topView != null && !isNaN(topView))) {
+                    return "unable to parse topView component of the view with ID " + viewId;
+                }
+                if (!(bottomView != null && !isNaN(bottomView))) {
+                    return "unable to parse bottomView component of the view with ID " + viewId;
+                }if (!(rightView != null && !isNaN(rightView))) {
+                    return "unable to parse rightView component of the view with ID " + viewId;
+                }if (!(leftView != null && !isNaN(leftView))) {
+                    return "unable to parse leftView component of the view with ID " + viewId;
+                }
+
+                let upList = [0,1,0];
+                let upId = nodeNames.indexOf("up");
+                if (grandChildren.length == 3 && upId == -1) {
+                    this.onXMLMinorError("unknow tag on " + viewId + "'s children; assuming up = (0, 1, 0)");
+                }
+                if (upId != -1) {
+                    upList = this.parseCoordinates3D(grandChildren[upId], "up component of view with ID " + viewId);
+                    if (!Array.isArray(upList)) {
+                        return upList;
+                    }
+                }
+
+               
                 
-                currentView = new CGFcameraOrtho(leftView, rightView, bottomView, topView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ), vec3.fromValues(upX, upY, upZ));
+                currentView = new CGFcameraOrtho(leftView, rightView, bottomView, topView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ), vec3.fromValues(...upList));
             }
             
             this.views[viewId] = currentView;
@@ -519,7 +545,7 @@ class MySceneGraph {
             var filePath = this.reader.getString(children[i], 'file');
 
             if (filePath == null)   {
-                this.onXMLError("no file defined for texture");
+                this.onXMLMinorError("no file defined for texture");
             }
             
             //Creates Texture and adds it to the array
@@ -953,7 +979,7 @@ class MySceneGraph {
                 materialIDs.push(this.reader.getString(materials[j],'id'));
 
                 if (materialIDs == null){
-                    this.onXMLError("Component has no ID: " + componentID );
+                    this.onXMLMinorError("Component has no ID: " + componentID );
                 }
                 else component.createMaterial(materialIDs);
             }
