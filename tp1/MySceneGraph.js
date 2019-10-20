@@ -1243,15 +1243,18 @@ class MySceneGraph {
             for(let i = 0; i < children.length; i++){
                 
                 if(this.components[children[i]]){
-                    console.log("Hello");
                     this.processNode(children[i], materialID, textureID, length_s, length_t);}
                 else if(this.primitives[children[i]]){
                     this.primitives[children[i]].updateTexCoords(length_s,length_t);   
 
                     this.primitives[children[i]].display();
+                    material.setTexture(this.textures[textureID]);
+
+                    material.apply();
                 }
             }
             this.scene.popMatrix();
         }
     } 
+   
 }
