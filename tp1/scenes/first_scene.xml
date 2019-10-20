@@ -1076,11 +1076,7 @@
                 <componentref id="Snitch"/>
                 <componentref id="cubeMap"/>
                 <componentref id="Broom"/>
-                <componentref id="Cat"/>
-                
-                
-                
-                
+                <componentref id="Cat"/>               
             </children>
         </component>
     </components>

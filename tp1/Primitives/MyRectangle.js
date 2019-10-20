@@ -71,11 +71,14 @@ class MyRectangle extends CGFobject {
 	 * @param {Array} coords - Array of texture coordinates
 	 */
 	updateTexCoords(length_s, length_t){
+		let diff_x = this.x2 - this.x1;
+		let diff_y = this.y2 - this.y1;
+
 		this.texCoords = [
-			0, 1/length_t,
-			1/length_s, 1/length_t,
+			0, diff_y / length_t,
+			diff_x/length_s, diff_y / length_t,
 			0, 0,
-			1/length_s, 0
+			diff_x/length_s, 0
 		];
 
 		this.updateTexCoordsGLBuffers();
