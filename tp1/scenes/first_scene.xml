@@ -3,13 +3,14 @@
 
     <views default="Arena View">
         <perspective id="Arena View" near="1" far="500" angle="50">
-            <from x="5" y="10" z="15" />
-            <to x="0" y="-2" z="-5" />
+            <from x="8" y="10" z="15" />
+            <to x="0" y="0" z="0" />
         </perspective>
         <perspective id="Floating View" near="1" far="500" angle="45">
             <from x="15" y="-4" z="15" />
             <to x="0" y="0" z="0" />
         </perspective>
+        
         <ortho id="CatView" near="-2" far="50" left="-3" right="3" top="2" bottom="-1">
             <to  x="-1" y="0" z="-3"/>
 			<from  x="0" y="1" z="-1"/>
@@ -746,7 +747,7 @@
         <component id="Snitch">
             <transformation>
                 <translate x="0" y="2" z="0"/>
-                <scale x="0.1" y="0.1" z="0.1"/>
+                <scale x="0.05" y="0.05" z="0.05"/>
             </transformation>
             <materials>
                 <material id="goldenMaterial" />
