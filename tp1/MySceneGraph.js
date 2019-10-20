@@ -455,9 +455,9 @@ class MySceneGraph {
                 if (attributeIndex != -1) {
                     if (attributeTypes[j] == "position")
                         var aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
-                    else
+                    else if (attributeTypes[j] == "color")
                         var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
-
+                    
                     if (!Array.isArray(aux))
                         return aux;
 
@@ -493,6 +493,23 @@ class MySceneGraph {
 
                 global.push(...[angle, exponent, targetLight])
             }
+
+            let attenuation = nodeNames.indexOf('attenuation');
+            if (attenuation == null) {
+                return "Unable to get attenuation";     
+            }
+
+            let constant = this.reader.getFloat(grandChildren[attenuation],'constant');
+            if (constant == null) {return "Unable to parse constant attenuation"; }
+
+            let linear = this.reader.getFloat(grandChildren[attenuation],'linear');
+            if (linear == null) {return "Unable to parse linear attenuation"; }
+
+            let quadratic = this.reader.getFloat(grandChildren[attenuation],'quadratic');
+            if (quadratic == null) {return "Unable to parse quadratic attenuation"; }
+            var aux = [constant,linear,quadratic];
+            global.push(...[constant,linear,quadratic]);
+            
 
             this.lights[lightId] = global;
             numLights++;
@@ -750,22 +767,22 @@ class MySceneGraph {
             if (primitiveType == 'rectangle') {
                 // x1
                 var x1 = this.reader.getFloat(grandChildren[0], 'x1');
-                if (!(x1 != null && !isNaN(x1)))
+                if (x1 ==null)
                     return "unable to parse x1 of the primitive coordinates for ID = " + primitiveId;
 
                 // y1
                 var y1 = this.reader.getFloat(grandChildren[0], 'y1');
-                if (!(y1 != null && !isNaN(y1)))
+                if (y1 == null)
                     return "unable to parse y1 of the primitive coordinates for ID = " + primitiveId;
 
                 // x2
                 var x2 = this.reader.getFloat(grandChildren[0], 'x2');
-                if (!(x2 != null && !isNaN(x2) && x2 > x1))
+                if (x2 == null)
                     return "unable to parse x2 of the primitive coordinates for ID = " + primitiveId;
 
                 // y2
                 var y2 = this.reader.getFloat(grandChildren[0], 'y2');
-                if (!(y2 != null && !isNaN(y2) && y2 > y1))
+                if (y2 == null )
                     return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
 
                 var rect = new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);
