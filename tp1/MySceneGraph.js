@@ -1200,15 +1200,23 @@ class MySceneGraph {
 
             for(let i = 0; i < children.length; i++){
                 
+<<<<<<< HEAD
                 if(this.components[children[i]]){ //call the child
+=======
+                if(this.components[children[i]]){
+>>>>>>> f408eeebfc71f0c1393443a252d516386e8b71f4
                     this.processNode(children[i], materialID, textureID, length_s, length_t);}
                 else if(this.primitives[children[i]]){ //draw the primitive
                     this.primitives[children[i]].updateTexCoords(length_s,length_t);   
 
                     this.primitives[children[i]].display();
+                    material.setTexture(this.textures[textureID]);
+
+                    material.apply();
                 }
             }
             this.scene.popMatrix();
         }
     } 
+   
 }

@@ -50,7 +50,6 @@ class XMLscene extends CGFscene {
         //In case there is an error with the XML File
         let currentCamera = this.graph.views[this.graph.defaultCamera];
         //Choose the camera with the appropriate default ID in case it exists.
-       console.log(currentCamera); 
        this.camera = currentCamera;
 
         this.interface.setActiveCamera(this.camera);
