@@ -237,10 +237,12 @@ class MySceneGraph {
             this.onXMLMinorError("There are no defined views");
         }
 
+        //Gets default Camera
         this.defaultCamera = this.reader.getString(viewsNode, 'default')
         if (this.defaultCamera == null)
             return "no default camera defined";
 
+        //Iterates through all the cameras
         for (let i = 0; i < children.length; i++) {
 
             let child = children[i];
@@ -252,12 +254,12 @@ class MySceneGraph {
                 nodeNames.push(grandChildren[j].nodeName);
             }
 
-            
+            //Cameras can only be of type ortho or perspective
             if (child.nodeName != "perspective" && child .nodeName != "ortho") {
                 this.onXMLMinorError("unknown tag <" + child .nodeName + ">");
                 continue;
             }
-            
+            //Gets view ID of current camera
             var viewId = this.reader.getString(child,'id');
             
             if (viewId == null) 
@@ -310,11 +312,14 @@ class MySceneGraph {
                 currentView = new CGFcamera(angleView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ));
             }
             else if (child.nodeName == "ortho") {
+
+                //Gets top, bottom, right and left attributes
                 var topView = this.reader.getFloat(child, 'top');
                 var bottomView = this.reader.getFloat(child, 'bottom');
                 var rightView = this.reader.getFloat(child, 'right');
                 var leftView = this.reader.getFloat(child, 'left');
 
+                //Checks if they are null
                 if (!(topView != null && !isNaN(topView))) {
                     return "unable to parse topView component of the view with ID " + viewId;
                 }
@@ -326,18 +331,22 @@ class MySceneGraph {
                     return "unable to parse leftView component of the view with ID " + viewId;
                 }
 
+                //Creates a default up array
                 let upList = [0,1,0];
+
+                //Chacks if exists
                 let upId = nodeNames.indexOf("up");
                 if (grandChildren.length == 3 && upId == -1) {
                     return "unable to get up values, assuming [0,1,0]";
                 }
+                //If exists parse it
                 if (upId !=-1) {
                     upList = this.parseCoordinates3D(grandChildren[upId],"Parsed up views");
                     if (!Array.isArray(upList)) {
                         return upList;
                     }
                 }
-                
+                //Creates new ortho camera
                 currentView = new CGFcameraOrtho(leftView, rightView, bottomView, topView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ), vec3.fromValues(...upList));
             }
             
@@ -493,21 +502,24 @@ class MySceneGraph {
 
                 global.push(...[angle, exponent, targetLight])
             }
+            //Attenuattion parsing
 
             let attenuation = nodeNames.indexOf('attenuation');
             if (attenuation == null) {
                 return "Unable to get attenuation";     
             }
-
+            //Constant parsing
             let constant = this.reader.getFloat(grandChildren[attenuation],'constant');
             if (constant == null) {return "Unable to parse constant attenuation"; }
 
+            //Linear parsing
             let linear = this.reader.getFloat(grandChildren[attenuation],'linear');
             if (linear == null) {return "Unable to parse linear attenuation"; }
 
+            //quadratic parsing
             let quadratic = this.reader.getFloat(grandChildren[attenuation],'quadratic');
             if (quadratic == null) {return "Unable to parse quadratic attenuation"; }
-            var aux = [constant,linear,quadratic];
+
             global.push(...[constant,linear,quadratic]);
             
 
@@ -712,6 +724,15 @@ class MySceneGraph {
                                 break;
                         }
                         transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle*DEGREE_TO_RAD, vector);
+                        break;
+                        
+                    case "transformationref":
+                        let transfRef = this.reader.getString(transformations[j],'id');
+                        if (this.transformations[transfRef] == null) {
+                            return "Unable to get transformation reference";
+                        }
+                        matrix_transformation = mat4.multiply(matrix_transformation,matrix_transformation,this.transformations[transfRef]);
+                        break;
                 }
             }
 
