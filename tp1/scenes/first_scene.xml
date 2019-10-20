@@ -2,13 +2,13 @@
     <scene root="Root" axis_length="5"/>
 
     <views default="Arena View">
-        <perspective id="Arena View" near="1" far="500" angle="45">
-            <from x="6" y="10" z="8" />
-            <to x="0" y="-2" z="0" />
+        <perspective id="Arena View" near="1" far="500" angle="50">
+            <from x="5" y="10" z="15" />
+            <to x="0" y="-2" z="-5" />
         </perspective>
-        <perspective id="Snitch View" near="0.1" far="50" angle="45">
-            <from x="0" y="1" z="-3" />
-            <to x="0" y="2" z="2" />
+        <perspective id="Floating View" near="1" far="500" angle="45">
+            <from x="15" y="-4" z="15" />
+            <to x="0" y="0" z="0" />
         </perspective>
         <ortho id="CatView" near="-2" far="50" left="-3" right="3" top="2" bottom="-1">
             <to  x="-1" y="0" z="-3"/>
@@ -60,7 +60,7 @@
         <texture id="woodTexture" file="scenes/images/wood.jpg" />
         <texture id="metalTexture" file="scenes/images/metal-texture.jpg" />
         <texture id="cubeMapTopTexture" file="scenes/images/sandcastle_up.png" />
-        <texture id="cubeMapBottomTexture" file="scenes/images/grass.jpg" />
+        <texture id="cubeMapBottomTexture" file="scenes/images/sandcastle_dn.png" />
         <texture id="cubeMapFrontTexture" file="scenes/images/sandcastle_ft.png" />
         <texture id="cubeMapBackTexture" file="scenes/images/sandcastle_bk.png" />
         <texture id="cubeMapLeftTexture" file="scenes/images/sandcastle_lf.png" />
