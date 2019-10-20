@@ -38,6 +38,7 @@ class MyInterface extends CGFinterface {
         this.initKeys();
     }
 
+    //Adds lights Menu
     createLightFolder(){
         var folder = this.gui.addFolder("Lights");
 
@@ -46,6 +47,7 @@ class MyInterface extends CGFinterface {
         }
     }
 
+    //Add Camera checkboxes
     createViewsFolder(){
         var folder = this.gui.addFolder("Cameras");
 
@@ -81,6 +83,7 @@ class MyInterface extends CGFinterface {
     };
 
     processKeyUp(event) {
+        //If letter M is clicked, changes materials
         if(this.isKeyPressed('KeyM')){
             this.scene.clickM++;
         }

@@ -26,12 +26,14 @@ class MyTorus extends CGFobject {
 			for(let j = 0; j <= this.loops; ++j) {
 				let phi = 2*Math.PI/this.loops * j;				
 
+				//Vertices
 				this.vertices.push(
 					(this.outer + this.inner*Math.cos(phi)) * Math.cos(theta), 
 					(this.outer + this.inner*Math.cos(phi)) * Math.sin(theta), 
 					this.inner * Math.sin(phi)
 				);
-
+				
+				//Normals
 				let nx = Math.cos(phi) * Math.cos(theta);
 				let ny = Math.cos(phi) * Math.sin(theta);
 				let nz = Math.sin(phi);
@@ -44,6 +46,7 @@ class MyTorus extends CGFobject {
                     nz/size
 				);
 
+				//TextCoords
 				this.texCoords.push(
 					i/this.slices,
 					1 - j/this.loops

@@ -18,6 +18,7 @@ class MyCylinder extends CGFobject {
         this.normals = [];
         this.texCoords = [];
 
+        //Define angles and radius
         let alphaAng = 2 * Math.PI / this.slices;
         let section = this.height/this.stacks;
         let radius_diff = (this.radius_top-this.radius_bottom)/this.stacks;
@@ -26,12 +27,15 @@ class MyCylinder extends CGFobject {
             let radius_current = this.radius_bottom + i*radius_diff;
 
             for (let j = 0; j <= this.slices; j++) {
+
+                //Vertices
                 this.vertices.push(
                     radius_current*Math.cos(j*alphaAng),
                     radius_current*Math.sin(j*alphaAng),
                     i*section
                 );      
-                
+
+                //Normals
                 let nx = Math.cos(j*alphaAng);
 				let ny = Math.sin(j*alphaAng);
 				let nz = 0;
@@ -44,6 +48,7 @@ class MyCylinder extends CGFobject {
                     nz/size
 				);
 
+                //TextCoords
                 this.texCoords.push(
                     j/this.slices,
                     1 - i/this.stacks

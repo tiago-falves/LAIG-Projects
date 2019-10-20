@@ -508,17 +508,27 @@ class MySceneGraph {
             if (attenuation == null) {
                 return "Unable to get attenuation";     
             }
+            
             //Constant parsing
             let constant = this.reader.getFloat(grandChildren[attenuation],'constant');
-            if (constant == null) {return "Unable to parse constant attenuation"; }
+            if (constant == null) {
+                constant = 0;
+                this.onXMLMinorError( "Unable to parse constant attenuation, has now value 0");
+            }
 
             //Linear parsing
             let linear = this.reader.getFloat(grandChildren[attenuation],'linear');
-            if (linear == null) {return "Unable to parse linear attenuation"; }
+            if (linear == null) {
+                linear=1;
+                this.onXMLMinorError( "Unable to parse constant attenuation, has now value 0");
+            }
 
             //quadratic parsing
             let quadratic = this.reader.getFloat(grandChildren[attenuation],'quadratic');
-            if (quadratic == null) {return "Unable to parse quadratic attenuation"; }
+            if (quadratic == null) {
+                quadratic =0;
+                this.onXMLMinorError( "Unable to parse constant attenuation, has now value 0");
+            }
 
             global.push(...[constant,linear,quadratic]);
             

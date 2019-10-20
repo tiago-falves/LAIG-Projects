@@ -22,12 +22,15 @@ class MySphere extends CGFobject
 		this.normals = [];
 		this.texCoords = [];
 
+
+		//Define angles
 		let phi = 2*Math.PI/this.slices;
 		let theta = Math.PI/this.stacks;
 
 		for(let i = 0; i < this.stacks; i++) {
 			for(let j = 0; j <= this.slices; j++) {
 
+				//Vertices and Normals
 				let x = this.radius*Math.sin(theta*i)*Math.cos(phi*j); 
 				let y = this.radius*Math.sin(theta*i)*Math.sin(phi*j);
 				let z = this.radius*Math.cos(theta*i);
@@ -41,6 +44,7 @@ class MySphere extends CGFobject
 
 		this.initialTexCoords = this.texCoords;
 
+		//indices
 		for (let i = 0; i < this.stacks; i++) {
 			for (let j = 0; j < this.slices; j++) {
 				this.indices.push(i * (this.slices + 1) + j, (i + 1) * (this.slices + 1) + j, (i + 1) * (this.slices + 1) + j + 1);
@@ -52,6 +56,7 @@ class MySphere extends CGFobject
 		this.initGLBuffers();
 	};
 
+	//Text Coords
 	updateTexCoords(length_s, length_t){
 		this.texCoords = this.initialTexCoords;
 
