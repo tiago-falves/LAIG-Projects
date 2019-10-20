@@ -35,8 +35,10 @@ class MySphere extends CGFobject
 				let y = this.radius*Math.sin(theta*i)*Math.sin(phi*j);
 				let z = this.radius*Math.cos(theta*i);
 
+				let size = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2) + Math.pow(z, 2));
+				
 				this.vertices.push(x,y,z);
-				this.normals.push(x,y,z);
+				this.normals.push(x/size,y/size,z/size);
 
 				this.texCoords.push(j/this.slices,1 - i/this.stacks);
 			}

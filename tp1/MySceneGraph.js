@@ -352,6 +352,7 @@ class MySceneGraph {
             
             this.views[viewId] = currentView;
             
+            //if it is the default camera, we update the view
             if(viewId == this.defaultCamera)
                 this.scene.updateCamera(currentView);
             
@@ -673,6 +674,52 @@ class MySceneGraph {
      * Parses the <transformations> block.
      * @param {transformations block element} transformationsNode
      */
+    getTransformationMatrix(transformations, transformationIndex){
+        let matrix_transformation = mat4.create();
+           
+        for (let j = 0; j < transformations.length; j++) {
+            let coordinates = [];
+            switch(transformations[j].nodeName){
+                case "translate":
+                    coordinates = this.parseCoordinates3D(transformations[j], "translate transformation for ID " + transformationIndex);
+                    matrix_transformation = mat4.translate(matrix_transformation, matrix_transformation, coordinates);
+                    break;
+                case "scale":
+                    coordinates = this.parseCoordinates3D(transformations[j], "scale transformation for ID " + transformationIndex);
+                    matrix_transformation = mat4.scale(matrix_transformation, matrix_transformation, coordinates);
+                    break;
+                    
+                case "rotate":
+                    let axis = this.reader.getString(transformations[j], 'axis');
+                    let angle = this.reader.getFloat(transformations[j], 'angle'); 
+                    let vector;
+
+                    switch(axis){
+                        case 'x':
+                            vector = [1, 0, 0];
+                            break;
+                        case 'y':
+                            vector = [0, 1, 0];
+                            break;
+                        case 'z':
+                            vector = [0, 0, 1];
+                            break;
+                    }
+                    matrix_transformation = mat4.rotate(matrix_transformation, matrix_transformation, angle*DEGREE_TO_RAD, vector);
+                    break;
+                case "transformationref": //this case applies only to transformations references on the components parsing
+                    let transfRef = this.reader.getString(transformations[j],'id');
+                    if (this.transformations[transfRef] == null) {
+                        return "Unable to get transformation reference";
+                    }
+                    matrix_transformation = mat4.multiply(matrix_transformation,matrix_transformation,this.transformations[transfRef]);
+                    break;
+            }
+        }
+
+        return matrix_transformation;
+    }
+
     parseTransformations(transformationsNode) {
 
         var children = transformationsNode.children;
@@ -699,54 +746,7 @@ class MySceneGraph {
             grandChildren = children[i].children;
             // Specifications for the current transformation.
 
-            var transfMatrix = mat4.create();
-
-            for (var j = 0; j < grandChildren.length; j++) {
-                switch (grandChildren[j].nodeName) {
-                    case 'translate':
-                        var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
-                        if (!Array.isArray(coordinates))
-                            return coordinates;
-
-                        transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
-                        break;
-                    case 'scale':                        
-                        var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
-                        if (!Array.isArray(coordinates))
-                            return coordinates;
-
-                        transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
-                        break;
-                    case 'rotate':
-                        let axis = this.reader.getString(grandChildren[j], 'axis');
-                        let angle = this.reader.getFloat(grandChildren[j], 'angle'); 
-                        let vector;
-
-                        switch(axis){
-                            case 'x':
-                                vector = [1, 0, 0];
-                                break;
-                            case 'y':
-                                vector = [0, 1, 0];
-                                break;
-                            case 'z':
-                                vector = [0, 0, 1];
-                                break;
-                        }
-                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle*DEGREE_TO_RAD, vector);
-                        break;
-                        
-                    case "transformationref":
-                        let transfRef = this.reader.getString(transformations[j],'id');
-                        if (this.transformations[transfRef] == null) {
-                            return "Unable to get transformation reference";
-                        }
-                        matrix_transformation = mat4.multiply(matrix_transformation,matrix_transformation,this.transformations[transfRef]);
-                        break;
-                }
-            }
-
-            this.transformations[transformationID] = transfMatrix;
+            this.transformations[transformationID] = this.getTransformationMatrix(grandChildren, transformationID);
         }
 
         this.log("Parsed transformations");
@@ -973,50 +973,10 @@ class MySceneGraph {
 
             //create new component
             let component = new MyComponent(this.scene, componentID);
-            let transformations = grandChildren[transformationIndex].children;
-            let matrix_transformation = mat4.create();
-           
-            for (let j = 0; j < transformations.length; j++) {
-                let coordinates = [];
-                switch(transformations[j].nodeName){
-                    case "translate":
-                        coordinates = this.parseCoordinates3D(transformations[j], "translate transformation for ID " + transformationIndex);
-                        matrix_transformation = mat4.translate(matrix_transformation, matrix_transformation, coordinates);
-                        break;
-                    case "scale":
-                        coordinates = this.parseCoordinates3D(transformations[j], "scale transformation for ID " + transformationIndex);
-                        matrix_transformation = mat4.scale(matrix_transformation, matrix_transformation, coordinates);
-                        break;
-                        
-                    case "rotate":
-                        let axis = this.reader.getString(transformations[j], 'axis');
-                        let angle = this.reader.getFloat(transformations[j], 'angle'); 
-                        let vector;
 
-                        switch(axis){
-                            case 'x':
-                                vector = [1, 0, 0];
-                                break;
-                            case 'y':
-                                vector = [0, 1, 0];
-                                break;
-                            case 'z':
-                                vector = [0, 0, 1];
-                                break;
-                        }
-                        matrix_transformation = mat4.rotate(matrix_transformation, matrix_transformation, angle*DEGREE_TO_RAD, vector);
-                        break;
-                    case "transformationref":
-                        let transfRef = this.reader.getString(transformations[j],'id');
-                        if (this.transformations[transfRef] == null) {
-                            return "Unable to get transformation reference";
-                        }
-                        matrix_transformation = mat4.multiply(matrix_transformation,matrix_transformation,this.transformations[transfRef]);
-                        break;
-                }
-            }
+            let transformations = grandChildren[transformationIndex].children;
             
-            component.createTransformation(matrix_transformation);
+            component.createTransformation(this.getTransformationMatrix(transformations, transformationIndex));
             
 
             // Materials
@@ -1036,8 +996,6 @@ class MySceneGraph {
                 }
                 else {component.createMaterial(materialIDs);}
             }
-
-           
             
             // Texture
             let texture = this.reader.getString(grandChildren[textureIndex],'id');
@@ -1048,7 +1006,7 @@ class MySceneGraph {
             if (componentID == this.idRoot && texture == "inherit") {
                 return "Root component ID " + componentID + " cannot inherit texture";
             }
-            if(texture == 'inherit' || texture == 'none'){
+            if(texture == 'inherit' || texture == 'none'){ //no length_s or t must be applied when texture is inherited or inexistent
                 if(this.reader.hasAttribute(grandChildren[textureIndex], 'length_s') || this.reader.hasAttribute(grandChildren[textureIndex], 'length_t')){
                     this.onXMLMinorError(`Length_s and length_t should not be defined for ${texture} type`);
                 }
@@ -1058,14 +1016,14 @@ class MySceneGraph {
                 length_s = this.reader.getFloat(grandChildren[textureIndex],'length_s');
                 length_t = this.reader.getFloat(grandChildren[textureIndex],'length_t');
             }
-            else{
+            else{ //when a texture referes no length s or t, we assume the values 1 for both
 
                 this.onXMLMinorError(`Length_s and length_t  not be defined, assuming length_s=1 and length_t =1`);
                 length_s=1;
                 length_t = 1;
             }
 
-            component.createTextures(texture, length_s, length_t);
+            component.createTextures(texture, length_s, length_t); //add texture
             
             // Children
             let component_children = grandChildren[childrenIndex].children;
@@ -1075,7 +1033,7 @@ class MySceneGraph {
                 childrenIDs.push(this.reader.getString(component_children[j],'id'));
             }        
 
-            component.createChildren(childrenIDs);
+            component.createChildren(childrenIDs); //register the components children
 
             //Adds component with all attributes to the array
             this.components[componentID] = component;
@@ -1209,8 +1167,8 @@ class MySceneGraph {
         if(idNode){
             //materials
             let material;
-            let materialID = this.components[idNode].materials[this.scene.clickM % this.components[idNode].materials.length]; // 0 -> clickM % materials.length
-            if(materialID == "inherit"){
+            let materialID = this.components[idNode].materials[this.scene.clickM % this.components[idNode].materials.length]; //get material depending on the amount of clicks on the M key
+            if(materialID == "inherit"){ //preserve the parent's material if inherit
                 materialID = matParent;
             }
 
@@ -1221,7 +1179,7 @@ class MySceneGraph {
             let length_s = this.components[idNode].length_s;
             let length_t = this.components[idNode].length_t;
 
-            if(textureID == "inherit"){
+            if(textureID == "inherit"){ //preserve the parent's texture if inherit
                 textureID = texParent;
                 length_s = lsParent;
                 length_t = ltParent;
@@ -1236,16 +1194,15 @@ class MySceneGraph {
             material.apply();
 
             this.scene.pushMatrix();
-            this.scene.multMatrix(this.components[idNode].transformation);
+            this.scene.multMatrix(this.components[idNode].transformation); 
 
             let children = this.components[idNode].children;
 
             for(let i = 0; i < children.length; i++){
                 
-                if(this.components[children[i]]){
-                    console.log("Hello");
+                if(this.components[children[i]]){ //call the child
                     this.processNode(children[i], materialID, textureID, length_s, length_t);}
-                else if(this.primitives[children[i]]){
+                else if(this.primitives[children[i]]){ //draw the primitive
                     this.primitives[children[i]].updateTexCoords(length_s,length_t);   
 
                     this.primitives[children[i]].display();
