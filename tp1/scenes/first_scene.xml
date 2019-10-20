@@ -571,7 +571,7 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="woodTexture" length_s="1" length_t="1"/>
             <children>
@@ -584,7 +584,7 @@
                 <scale x= "0.5" y = "0.2" z = "1" />
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -597,7 +597,7 @@
                 <rotate axis="y" angle="90"/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="inherit"/>
             <children>

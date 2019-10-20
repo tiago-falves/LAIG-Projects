@@ -925,25 +925,9 @@ class MySceneGraph {
 
             //create new component
             let component = new MyComponent(this.scene, componentID);
+            let transformations = grandChildren[transformationIndex].children;
             let matrix_transformation = mat4.create();
            
-            var transformations = grandChildren[transformationIndex].children;
-            if (transformations.length == 0) {
-                matrix_transformation = mat4.create();
-            }
-            else if (transformations[0].nodeName == "transformationref" ) 
-            {
-                let transfRef = this.reader.getString(transformations[0],'id');
-                if (transRef == null) { 
-                    return "Unable to parse Transformation Reference";
-                }
-                matrix_transformation = this.transformations[transfRef];
-                if (matrix_transformation == null) {
-                    return "Transformation reference doesen't exist";
-                }    
-            }
-            
-            matrix_transformation = mat4.create();
             for (let j = 0; j < transformations.length; j++) {
                 let coordinates = [];
                 switch(transformations[j].nodeName){
@@ -973,6 +957,13 @@ class MySceneGraph {
                                 break;
                         }
                         matrix_transformation = mat4.rotate(matrix_transformation, matrix_transformation, angle*DEGREE_TO_RAD, vector);
+                        break;
+                    case "transformationref":
+                        let transfRef = this.reader.getString(transformations[j],'id');
+                        if (this.transformations[transfRef] == null) {
+                            return "Unable to get transformation reference";
+                        }
+                        matrix_transformation = mat4.multiply(matrix_transformation,matrix_transformation,this.transformations[transfRef]);
                         break;
                 }
             }
