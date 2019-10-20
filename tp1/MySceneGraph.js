@@ -247,7 +247,7 @@ class MySceneGraph {
             let grandChildren= child.children;
             
             let nodeNames = [];
-            let grandChildren = children[i].children;
+            
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
@@ -328,7 +328,7 @@ class MySceneGraph {
 
                 let upList = [0,1,0];
                 let upId = nodeNames.indexOf("up");
-                if (grandchildren.length == 3 && upId == -1) {
+                if (grandChildren.length == 3 && upId == -1) {
                     return "unable to get up values, assuming [0,1,0]";
                 }
                 if (upId !=-1) {
@@ -942,46 +942,43 @@ class MySceneGraph {
                     return "Transformation reference doesen't exist";
                 }    
             }
-            else
-            {
-                matrix_transformation = mat4.create();
-                for (let j = 0; j < transformations.length; j++) 
-                {
-                    let coordinates = [];
-                    switch(transformations[j].nodeName){
-                        case "translate":
-                            coordinates = this.parseCoordinates3D(transformations[j], "translate transformation for ID " + transformationIndex);
-                            matrix_transformation = mat4.translate(matrix_transformation, matrix_transformation, coordinates);
-                            break;
-                        case "scale":
-                            coordinates = this.parseCoordinates3D(transformations[j], "scale transformation for ID " + transformationIndex);
-                            matrix_transformation = mat4.scale(matrix_transformation, matrix_transformation, coordinates);
-                            break;
-                            
-                        case "rotate":
-                            let axis = this.reader.getString(transformations[j], 'axis');
-                            let angle = this.reader.getFloat(transformations[j], 'angle'); 
-                            let vector;
-
-                            switch(axis){
-                                case 'x':
-                                    vector = [1, 0, 0];
-                                    break;
-                                case 'y':
-                                    vector = [0, 1, 0];
-                                    break;
-                                case 'z':
-                                    vector = [0, 0, 1];
-                                    break;
-                            }
-                            matrix_transformation = mat4.rotate(matrix_transformation, matrix_transformation, angle*DEGREE_TO_RAD, vector);
-                            break;
-                        }
-                    }
-                }
-                component.createTransformation(matrix_transformation);
             
+            matrix_transformation = mat4.create();
+            for (let j = 0; j < transformations.length; j++) {
+                let coordinates = [];
+                switch(transformations[j].nodeName){
+                    case "translate":
+                        coordinates = this.parseCoordinates3D(transformations[j], "translate transformation for ID " + transformationIndex);
+                        matrix_transformation = mat4.translate(matrix_transformation, matrix_transformation, coordinates);
+                        break;
+                    case "scale":
+                        coordinates = this.parseCoordinates3D(transformations[j], "scale transformation for ID " + transformationIndex);
+                        matrix_transformation = mat4.scale(matrix_transformation, matrix_transformation, coordinates);
+                        break;
+                        
+                    case "rotate":
+                        let axis = this.reader.getString(transformations[j], 'axis');
+                        let angle = this.reader.getFloat(transformations[j], 'angle'); 
+                        let vector;
 
+                        switch(axis){
+                            case 'x':
+                                vector = [1, 0, 0];
+                                break;
+                            case 'y':
+                                vector = [0, 1, 0];
+                                break;
+                            case 'z':
+                                vector = [0, 0, 1];
+                                break;
+                        }
+                        matrix_transformation = mat4.rotate(matrix_transformation, matrix_transformation, angle*DEGREE_TO_RAD, vector);
+                        break;
+                }
+            }
+            
+            component.createTransformation(matrix_transformation);
+            
 
             // Materials
 
@@ -998,7 +995,7 @@ class MySceneGraph {
                 if (materialIDs == null){
                     this.onXMLMinorError("Component has no ID: " + componentID );
                 }
-                else component.createMaterial(materialIDs);
+                else {component.createMaterial(materialIDs);}
             }
 
            
@@ -1023,11 +1020,10 @@ class MySceneGraph {
                 length_t = this.reader.getFloat(grandChildren[textureIndex],'length_t');
             }
             else{
-                this.onXMLMinorError(`Length_s and length_t  not be defined, assuming length_s=1 and length_t =1`);
 
+                this.onXMLMinorError(`Length_s and length_t  not be defined, assuming length_s=1 and length_t =1`);
                 length_s=1;
                 length_t = 1;
-
             }
 
             component.createTextures(texture, length_s, length_t);
@@ -1044,9 +1040,7 @@ class MySceneGraph {
 
             //Adds component with all attributes to the array
             this.components[componentID] = component;
-        }
-
-       
+        }  
     }
 
 
