@@ -882,7 +882,7 @@
                 <scale x="0.3" y="0.3" z="0.7"/> 
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="inherit" />
             </materials>
             <texture id="woodTexture" length_s="1" length_t="1"/>
             <children>
@@ -909,7 +909,7 @@
                 <translate x="0" y="1.5" z="-1"/> 
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="none"/>
             <children>
@@ -924,7 +924,7 @@
                 <scale x = '0.2' y='0.15' z = '0.2'/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -937,7 +937,7 @@
                 <scale x = '0.15' y='0.15' z = '0.15'/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -951,7 +951,7 @@
                 <scale x = '0.15' y='0.15' z ='0.2'/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -965,7 +965,7 @@
                 <scale x = '0.1' y='0.1' z = '0.1'/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="blackFur" length_s="1" length_t="1"/>
             <children>
@@ -980,7 +980,7 @@
                 <scale x = '0.1' y='0.1' z = '0.1'/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="blackFur" length_s="1" length_t="1"/>
             <children>
@@ -993,7 +993,7 @@
                 <scale x = '0.02' y='0.03' z = '0.02'/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="blackFur" length_s="1" length_t="1"/>
             <children>
@@ -1006,7 +1006,7 @@
                 <scale x = '0.02' y='0.03' z = '0.02'/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="blackFur" length_s="1" length_t="1"/>
             <children>
@@ -1020,7 +1020,7 @@
                 <scale x = '0.02' y='0.01' z = '0.01'/>
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="blackFur" length_s="1" length_t="1"/>
             <children>
@@ -1033,7 +1033,7 @@
                 <translate x="0" y="1.55" z="-0.7"/> 
             </transformation>
             <materials>
-                <material id="NeutralMaterial" />
+                <material id="darkerMaterial" />
             </materials>
             <texture id="whiteFur" length_s="1" length_t="1"/>
             <children>
