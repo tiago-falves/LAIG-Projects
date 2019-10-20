@@ -244,9 +244,10 @@ class MySceneGraph {
         for (let i = 0; i < children.length; i++) {
 
             let child = children[i];
-
+            let grandChildren= child.children;
+            
             let nodeNames = [];
-            let grandChildren = child.children;
+            let grandChildren = children[i].children;
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
@@ -327,31 +328,28 @@ class MySceneGraph {
 
                 let upList = [0,1,0];
                 let upId = nodeNames.indexOf("up");
-                if (grandChildren.length == 3 && upId == -1) {
-                    this.onXMLMinorError("unknow tag on " + viewId + "'s children; assuming up = (0, 1, 0)");
+                if (grandchildren.length == 3 && upId == -1) {
+                    return "unable to get up values, assuming [0,1,0]";
                 }
-                if (upId != -1) {
-                    upList = this.parseCoordinates3D(grandChildren[upId], "up component of view with ID " + viewId);
+                if (upId !=-1) {
+                    upList = this.parseCoordinates3D(grandChildren[upId],"Parsed up views");
                     if (!Array.isArray(upList)) {
                         return upList;
                     }
                 }
-
-               
                 
-                currentView = new CGFcameraOrtho(leftView, rightView, bottomView, topView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ), vec3.fromValues(...upList));
+                currentView = new CGFcameraOrtho(leftView, rightView, bottomView, topView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ), vec3.fromValues(upX, upY, upZ));
             }
             
             this.views[viewId] = currentView;
             
             if(viewId == this.defaultCamera)
                 this.scene.updateCamera(currentView);
-            //IF DEFAULT CAMERA CALL UPDATE CAMERA IN XMLSCENE
+            
         }
         if ( Object.keys(this.views).length == 0) { return "Views not loaded";}
         return null;
 
-        
     }
 
     
@@ -927,44 +925,63 @@ class MySceneGraph {
 
             //create new component
             let component = new MyComponent(this.scene, componentID);
+            let matrix_transformation = mat4.create();
            
             var transformations = grandChildren[transformationIndex].children;
-            var matrix_transformation = mat4.create();
-            for (let j = 0; j < transformations.length; j++) {
-                let coordinates = [];
-                switch(transformations[j].nodeName){
-                    case "translate":
-                        coordinates = this.parseCoordinates3D(transformations[j], "translate transformation for ID " + transformationIndex);
-                        matrix_transformation = mat4.translate(matrix_transformation, matrix_transformation, coordinates);
-                        break;
-                    case "scale":
-                        coordinates = this.parseCoordinates3D(transformations[j], "scale transformation for ID " + transformationIndex);
-                        matrix_transformation = mat4.scale(matrix_transformation, matrix_transformation, coordinates);
-                        break;
-                        
-                    case "rotate":
-                        let axis = this.reader.getString(transformations[j], 'axis');
-                        let angle = this.reader.getFloat(transformations[j], 'angle'); 
-                        let vector;
-
-                        switch(axis){
-                            case 'x':
-                                vector = [1, 0, 0];
-                                break;
-                            case 'y':
-                                vector = [0, 1, 0];
-                                break;
-                            case 'z':
-                                vector = [0, 0, 1];
-                                break;
-                        }
-                        matrix_transformation = mat4.rotate(matrix_transformation, matrix_transformation, angle*DEGREE_TO_RAD, vector);
-                        break;
-                }
-
+            if (transformations.length == 0) {
+                matrix_transformation = mat4.create();
             }
+            else if (transformations[0].nodeName == "transformationref" ) 
+            {
+                let transfRef = this.reader.getString(transformations[0],'id');
+                if (transRef == null) { 
+                    return "Unable to parse Transformation Reference";
+                }
+                matrix_transformation = this.transformations[transfRef];
+                if (matrix_transformation == null) {
+                    return "Transformation reference doesen't exist";
+                }    
+            }
+            else
+            {
+                matrix_transformation = mat4.create();
+                for (let j = 0; j < transformations.length; j++) 
+                {
+                    let coordinates = [];
+                    switch(transformations[j].nodeName){
+                        case "translate":
+                            coordinates = this.parseCoordinates3D(transformations[j], "translate transformation for ID " + transformationIndex);
+                            matrix_transformation = mat4.translate(matrix_transformation, matrix_transformation, coordinates);
+                            break;
+                        case "scale":
+                            coordinates = this.parseCoordinates3D(transformations[j], "scale transformation for ID " + transformationIndex);
+                            matrix_transformation = mat4.scale(matrix_transformation, matrix_transformation, coordinates);
+                            break;
+                            
+                        case "rotate":
+                            let axis = this.reader.getString(transformations[j], 'axis');
+                            let angle = this.reader.getFloat(transformations[j], 'angle'); 
+                            let vector;
 
-            component.createTransformation(matrix_transformation);
+                            switch(axis){
+                                case 'x':
+                                    vector = [1, 0, 0];
+                                    break;
+                                case 'y':
+                                    vector = [0, 1, 0];
+                                    break;
+                                case 'z':
+                                    vector = [0, 0, 1];
+                                    break;
+                            }
+                            matrix_transformation = mat4.rotate(matrix_transformation, matrix_transformation, angle*DEGREE_TO_RAD, vector);
+                            break;
+                        }
+                    }
+                }
+                component.createTransformation(matrix_transformation);
+            
+
 
             // Materials
 
