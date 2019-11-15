@@ -78,6 +78,7 @@ class MyTriangle extends CGFobject {
 			this.a/length_s, 0,
 			this.c * this.cos_beta / length_s, this.c * this.sin_beta / length_t
 		];
+		// To do coordenada como se fosse um triangulo equilatero
 
 		this.updateTexCoordsGLBuffers();
 	}
