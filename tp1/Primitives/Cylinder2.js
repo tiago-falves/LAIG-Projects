@@ -53,8 +53,7 @@ class Cylinder2 extends CGFobject {
         this.controlPointsLower = [];
         
         //Calculates Height of P according to castlejau algorithm
-        this.castlejauPHeight = 2*this.radius_bottom * (2/3);
-        this.castlejauPHeight = 2*this.radius_top * (2/3);
+        this.castlejauPHeight = 2 * (2/3);
         
 		this.controlPointsUpper = 
 		[	// U0
