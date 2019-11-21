@@ -145,22 +145,42 @@
     
     <animations>
         <animation id="CatchTheSnitch" >
-            <keyframe instant="2">
+            <keyframe instant="1">
                 <translate x="0" y="0" z="0" />
                 <rotate angle_x="0" angle_y="0" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
-            <keyframe instant="7">
-                <translate x="10" y="10" z="-3" />
-                <rotate angle_x="12" angle_y="90" angle_z="27" />
+            <keyframe instant="5">
+                <translate x="10" y="10" z="10" />
+                <rotate angle_x="20" angle_y="-40" angle_z="20" />
+                <scale x="3" y="3" z="3" />
+            </keyframe>
+            <keyframe instant="8">
+                <translate x="-2" y="5" z="7" />
+                <rotate angle_x="12" angle_y="-90" angle_z="90" />
                 <scale x="2" y="2" z="2" />
             </keyframe>
             <keyframe instant="10">
-                <translate x="-5" y="15" z="-15" />
-                <rotate angle_x="12" angle_y="90" angle_z="27" />
+                <translate x="-5" y="5" z="2" />
+                <rotate angle_x="0" angle_y="-180" angle_z="-10" />
                 <scale x="2" y="2" z="2" />
             </keyframe>
-            <keyframe instant="15">
+            <keyframe instant="11">
+                <translate x="6" y="3" z="-8" />
+                <rotate angle_x="0" angle_y="90" angle_z="10" />
+                <scale x="2" y="2" z="2" />
+            </keyframe>
+            <keyframe instant="13">
+                <translate x="0" y="10" z="-6" />
+                <rotate angle_x="0" angle_y="-20" angle_z="10" />
+                <scale x="2" y="2" z="2" />
+            </keyframe>
+            <keyframe instant="14">
+                <translate x="0" y="5" z="-3" />
+                <rotate angle_x="-20" angle_y="30" angle_z="0" />
+                <scale x="2" y="2" z="2" />
+            </keyframe>
+            <keyframe instant="16">
                 <translate x="0" y="0" z="0" />
                 <rotate angle_x="0" angle_y="0" angle_z="0" />
                 <scale x="1" y="1" z="1" />
@@ -183,12 +203,12 @@
         <animation id="Wing" >
             <keyframe instant="0.1">
                 <translate x="0" y="0" z="0" />
-                <rotate angle_x="0" angle_y="35" angle_z="0" />
+                <rotate angle_x="0" angle_y="45" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
             <keyframe instant="0.3">
                 <translate x="0" y="0" z="0" />
-                <rotate angle_x="0" angle_y="-35" angle_z="0" />
+                <rotate angle_x="0" angle_y="-45" angle_z="0" />
                 <scale x="1" y="1" z="1" />
             </keyframe>
             <keyframe instant="0.4">

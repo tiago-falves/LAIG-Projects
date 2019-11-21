@@ -12,7 +12,6 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
-        
     }
 
     /**
@@ -29,6 +28,11 @@ class XMLscene extends CGFscene {
         this.lightIDs = new Object();
 
         this.enableTextures(true);
+
+        this.RTT = new CGFtextureRTT(this, window.innerWidth, window.innerHeight);
+        this.securityCamera = new MySecurityCamera(this, this.RTT);
+        this.cameraForSecurity = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));        
+
 
         this.gl.clearDepth(100.0);
         this.gl.enable(this.gl.DEPTH_TEST);
@@ -62,7 +66,6 @@ class XMLscene extends CGFscene {
        this.camera = currentCamera;
 
         this.interface.setActiveCamera(this.camera);
-        
     }
 
 
@@ -170,7 +173,22 @@ class XMLscene extends CGFscene {
     /**
      * Displays the scene.
      */
-    display() {
+    display(){
+        let previousCamera = this.camera;
+        this.RTT.attachToFrameBuffer();
+        this.render(this.cameraForSecurity);
+        this.RTT.detachFromFrameBuffer();
+        this.render(previousCamera);
+
+        this.gl.disable(this.gl.DEPTH_TEST);
+        this.securityCamera.display();
+        this.gl.enable(this.gl.DEPTH_TEST);
+    }
+
+    render(Camera) {
+        this.camera = Camera;
+        this.interface.setActiveCamera(this.camera);
+
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
