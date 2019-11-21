@@ -49,7 +49,7 @@ class MyTorus extends CGFobject {
 				//TextCoords
 				this.texCoords.push(
 					i/this.slices,
-					1 - j/this.loops
+					j/this.loops
 				);
 			}
 

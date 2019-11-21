@@ -40,7 +40,7 @@ class MySphere extends CGFobject
 				this.vertices.push(x,y,z);
 				this.normals.push(x/size,y/size,z/size);
 
-				this.texCoords.push(j/this.slices,1 - i/this.stacks);
+				this.texCoords.push(j/this.slices,i/this.stacks); //Esfera invertida
 			}
 		}
 

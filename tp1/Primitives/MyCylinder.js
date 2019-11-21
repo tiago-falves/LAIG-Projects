@@ -36,6 +36,8 @@ class MyCylinder extends CGFobject {
                 );      
 
                 //Normals
+
+                // To do Quando as bases tem tamanhos diferentes as normais nao sao alteradas
                 let nx = Math.cos(j*alphaAng);
 				let ny = Math.sin(j*alphaAng);
 				let nz = 0;
