@@ -94,12 +94,12 @@ class Primitives extends CGFobject {
                 //Creates cylinder and adds it to the primitives
                 if(primitiveType == 'cylinder')  {  
                     //Creates cylinder and adds it to the primitives
-                    var cylinder = new MyCylinder(this.scene, base, top, height, slices, stacks);
-                    this.primitives[primitiveId] = cylinder;
+                    let cylinder = new MyCylinder(this.scene, base, top, height, slices, stacks);
+                    this.graph.primitives[primitiveId] = cylinder;
                 }
                 else if(primitiveType == 'cylinder2'){
                     let cylinder2 = new Cylinder2(this.scene,base,top,height,slices,stacks);
-                    this.primitives[primitiveId] = cylinder2;
+                    this.graph.primitives[primitiveId] = cylinder2;
                 }
             }
 
@@ -177,34 +177,34 @@ class Primitives extends CGFobject {
             }
             
             else if (primitiveType == 'plane') {
-                let npartsU = this.reader.getFloat(grandChildren[0], 'npartsU');
+                let npartsU = this.graph.reader.getFloat(grandChildren[0], 'npartsU');
                 if (!(npartsU != null && !isNaN(npartsU)))
                     return "unable to parse npartsU of the primitive coordinates for ID = " + primitiveId;
 
-                let npartsV = this.reader.getFloat(grandChildren[0], 'npartsV');
+                let npartsV = this.graph.reader.getFloat(grandChildren[0], 'npartsV');
                 if (!(npartsV != null && !isNaN(npartsV)))
                     return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
                     
                 let plane = new Plane(this.scene,primitiveId,npartsU,npartsV);
-                this.primitives[primitiveId] = plane;
+                this.graph.primitives[primitiveId] = plane;
 
 
             }
             else if(primitiveType == 'patch'){
 
-                let npartsU = this.reader.getFloat(grandChildren[0], 'npartsU');
+                let npartsU = this.graph.reader.getFloat(grandChildren[0], 'npartsU');
                 if (!(npartsU != null && !isNaN(npartsU)))
                     return "unable to parse npartsU of the primitive coordinates for ID = " + primitiveId;
 
-                let npartsV = this.reader.getFloat(grandChildren[0], 'npartsV');
+                let npartsV = this.graph.reader.getFloat(grandChildren[0], 'npartsV');
                 if (!(npartsV != null && !isNaN(npartsV)))
                         return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
 
-                let npointsU = this.reader.getFloat(grandChildren[0],'npointsU');
+                let npointsU = this.graph.reader.getFloat(grandChildren[0],'npointsU');
                 if (!(npointsU != null && !isNaN(npointsU)))
                     return "unable to parse npointsU of the primitive coordinates for ID = " + primitiveId;
 
-                let npointsV = this.reader.getFloat(grandChildren[0], 'npointsV');
+                let npointsV = this.graph.reader.getFloat(grandChildren[0], 'npointsV');
                 if (!(npointsV != null && !isNaN(npointsV)))
                     return "unable to parse npointsV of the primitive coordinates for ID = " + primitiveId;
 
@@ -215,20 +215,20 @@ class Primitives extends CGFobject {
                     let vPoints = [];
                     for(let k = 0; k < npointsV; k++) {
                         vPoints.push([
-                            this.reader.getFloat(controlpoints[j*npointsV+k], 'xx'),
-                            this.reader.getFloat(controlpoints[j*npointsV+k], 'yy'),
-                            this.reader.getFloat(controlpoints[j*npointsV+k], 'zz'),
+                            this.graph.reader.getFloat(controlpoints[j*npointsV+k], 'xx'),
+                            this.graph.reader.getFloat(controlpoints[j*npointsV+k], 'yy'),
+                            this.graph.reader.getFloat(controlpoints[j*npointsV+k], 'zz'),
                             1.0
                         ]);
                     }
                     uPoints.push(vPoints);
                 }
                 let patch = new Patch(this.scene,primitiveId,npartsU,npartsV,npointsU,npointsV,uPoints);
-                this.primitives[primitiveId] = patch;
+                this.graph.primitives[primitiveId] = patch;
             }
 
         }
-        this.log("Parsed primitives");
+        console.log("Parsed primitives");
         return null;
     }
 }

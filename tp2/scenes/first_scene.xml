@@ -140,6 +140,22 @@
         <primitive id="LessDefinedTorus">
             <torus inner="0.03" outer = "0.3" slices="20" loops="10"/>
         </primitive>
+        <primitive id="Patch">
+             <patch npointsU="3" npointsV="2" npartsU="4" npartsV="4">
+                    <controlpoint xx="0.5" yy="0" zz="-0.5" />
+                    <controlpoint xx="0.5" yy="0" zz="0.5" />
+                    <controlpoint xx="0" yy="0.5" zz="-0.5" />
+                    <controlpoint xx="0" yy="0.5" zz="0.5" />
+                    <controlpoint xx="-0.5" yy="0" zz="-0.5" />
+                    <controlpoint xx="-0.5" yy="0" zz="0.5" />
+            </patch>
+        </primitive>
+        <primitive id="Plane">
+            <plane npartsU="15" npartsV="15" />
+        </primitive>
+        <primitive id="Cylinder2">
+            <cylinder2 base="1" top="1" height="2.5" slices="50" stacks="50" />
+        </primitive>
         
     </primitives>
     
@@ -222,10 +238,12 @@
     <components>
         <component id="Field">
             <transformation>
-                <translate x = "0" y = "0" z= "0"/>
-                <scale x="10" y="-1" z="16" />
-                <rotate axis="x" angle="90"/>
-                <translate x = "-0.5" y = "-0.5" z= "0"/>
+                <!-- <translate x = "0" y = "0" z= "0"/> -->
+                <!-- <scale x="10" y="-1" z="16" /> -->
+                <!-- <rotate axis="x" angle="90"/> -->
+                <!-- <translate x = "-0.5" y = "-0.5" z= "0"/> -->
+
+                <scale x="10" y="1" z="16" />
             </transformation>
             <materials>
                 <material id="whiteMaterial" />
@@ -234,7 +252,7 @@
             </materials>
             <texture id="courtTexture" length_s="1" length_t="1"/>
             <children>
-                <primitiveref id="Rectangle" />
+                <primitiveref id="Plane" />
             </children>
         </component>
 
