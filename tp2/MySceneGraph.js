@@ -242,137 +242,14 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        var children = viewsNode.children;
         this.camera = [];
         this.views = [];
 
-        if(children.length == 0){
-            this.onXMLMinorError("There are no defined views");
-        }
-
-        //Gets default Camera
-        this.defaultCamera = this.reader.getString(viewsNode, 'default')
-        if (this.defaultCamera == null)
-            return "no default camera defined";
-
-        //Iterates through all the cameras
-        for (let i = 0; i < children.length; i++) {
-
-            let child = children[i];
-            let grandChildren= child.children;
-            
-            let nodeNames = [];
-            
-            for (var j = 0; j < grandChildren.length; j++) {
-                nodeNames.push(grandChildren[j].nodeName);
-            }
-
-            //Cameras can only be of type ortho or perspective
-            if (child.nodeName != "perspective" && child .nodeName != "ortho") {
-                this.onXMLMinorError("unknown tag <" + child .nodeName + ">");
-                continue;
-            }
-            //Gets view ID of current camera
-            var viewId = this.reader.getString(child,'id');
-            
-            if (viewId == null) 
-                return "No cameras"
-            
-            if (this.camera[viewId] != null) 
-                return "Camera IDs cannot be repeated";
-            
-            
-            //Gets correspondent near and far values for this child
-            var nearView = this.reader.getFloat(child, 'near');
-            var farView = this.reader.getFloat(child, 'far');
-            
-
-            if (nearView >= farView) return "Near paramter must be smaller than far paramter";
-            
-
-            //Checks if it has the atribute form, returns error if it doesn't
-            let fromList = child.getElementsByTagName("from");
-            if (fromList.length == 0) {return "Atribute from not provided";}
-
-
-            //Gets correspondent coordinates of the from atribute
-            var fX = this.reader.getFloat(fromList[0], 'x');
-            var fY = this.reader.getFloat(fromList[0], 'y');
-            var fZ = this.reader.getFloat(fromList[0], 'z');
-            
-            //Checks if it has the atribute to, returns error if it doesn't
-            let toList = child.getElementsByTagName("to");
-            if(toList.length == 0) { return"Atribute to not provided!";}
-
-            
-            //Gets correspondent coordinates of the to atribute
-            var toX = this.reader.getFloat(toList[0], 'x');
-            var toY = this.reader.getFloat(toList[0], 'y');
-            var toZ = this.reader.getFloat(toList[0], 'z');
-
-            //create object with current View to add to our views array REDO CRIAR OBJETO CGF CAMERA OR CAMERA ORTHO AND SAVE IT ON THE LIST
-            let currentView;
-
-           
-
-            //Depending on the view type adds information to current view
-            if (child.nodeName == "perspective") {
-                 //Checks if it has the atribute angle, returns error if it doesn't
-                var angleView = this.reader.getFloat(child, 'angle');
-                if (angleView == null) {  return "No camera angle provided";  }
-                angleView = angleView * DEGREE_TO_RAD;
-
-                currentView = new CGFcamera(angleView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ));
-            }
-            else if (child.nodeName == "ortho") {
-
-                //Gets top, bottom, right and left attributes
-                var topView = this.reader.getFloat(child, 'top');
-                var bottomView = this.reader.getFloat(child, 'bottom');
-                var rightView = this.reader.getFloat(child, 'right');
-                var leftView = this.reader.getFloat(child, 'left');
-
-                //Checks if they are null
-                if (!(topView != null && !isNaN(topView))) {
-                    return "unable to parse topView component of the view with ID " + viewId;
-                }
-                if (!(bottomView != null && !isNaN(bottomView))) {
-                    return "unable to parse bottomView component of the view with ID " + viewId;
-                }if (!(rightView != null && !isNaN(rightView))) {
-                    return "unable to parse rightView component of the view with ID " + viewId;
-                }if (!(leftView != null && !isNaN(leftView))) {
-                    return "unable to parse leftView component of the view with ID " + viewId;
-                }
-
-                //Creates a default up array
-                let upList = [0,1,0];
-
-                //Chacks if exists
-                let upId = nodeNames.indexOf("up");
-                if (grandChildren.length == 3 && upId == -1) {
-                    return "unable to get up values, assuming [0,1,0]";
-                }
-                //If exists parse it
-                if (upId !=-1) {
-                    upList = this.parseCoordinates3D(grandChildren[upId],"Parsed up views");
-                    if (!Array.isArray(upList)) {
-                        return upList;
-                    }
-                }
-                //Creates new ortho camera
-                currentView = new CGFcameraOrtho(leftView, rightView, bottomView, topView, nearView, farView, vec3.fromValues(fX,fY,fZ), vec3.fromValues(toX,toY,toZ), vec3.fromValues(...upList));
-            }
-            
-            this.views[viewId] = currentView;
-            
-            //if it is the default camera, we update the view
-            if(viewId == this.defaultCamera)
-                this.scene.updateCamera(currentView);
-            
-        }
+        let result = new Views(this.scene);
+        result.getViews(viewsNode);
+       
         if ( Object.keys(this.views).length == 0) { return "Views not loaded";}
         return null;
-
     }
 
     
@@ -418,143 +295,10 @@ class MySceneGraph {
      */
     parseLights(lightsNode) {
         var children = lightsNode.children;
-
         this.lights = [];
-        var numLights = 0;
 
-        var grandChildren = [];
-        var nodeNames = [];
-
-        // Any number of lights.
-        for (var i = 0; i < children.length; i++) {
-
-            // Storing light information
-            var global = [];
-            var attributeNames = [];
-            var attributeTypes = [];
-
-            //Check type of light
-            if (children[i].nodeName != "omni" && children[i].nodeName != "spot") {
-                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-                continue;
-            }
-            else {
-                attributeNames.push(...["location", "ambient", "diffuse", "specular"]);
-                attributeTypes.push(...["position", "color", "color", "color"]);
-            }
-
-            // Get id of the current light.
-            var lightId = this.reader.getString(children[i], 'id');
-            if (lightId == null)
-                return "no ID defined for light";
-
-            // Checks for repeated IDs.
-            if (this.lights[lightId] != null)
-                return "ID must be unique for each light (conflict: ID = " + lightId + ")";
-
-            // Light enable/disable
-            var enableLight = true;
-            var aux = this.reader.getBoolean(children[i], 'enabled');
-            if (!(aux != null && !isNaN(aux) && (aux == true || aux == false)))
-                this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
-
-            enableLight = aux || 1;
-
-            //Add enabled boolean and type name to light info
-            global.push(enableLight);
-            global.push(children[i].nodeName);
-
-            grandChildren = children[i].children;
-            // Specifications for the current light.
-
-            nodeNames = [];
-            for (var j = 0; j < grandChildren.length; j++) {
-                nodeNames.push(grandChildren[j].nodeName);
-            }
-
-            for (var j = 0; j < attributeNames.length; j++) {
-                var attributeIndex = nodeNames.indexOf(attributeNames[j]);
-
-                if (attributeIndex != -1) {
-                    if (attributeTypes[j] == "position")
-                        var aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
-                    else if (attributeTypes[j] == "color")
-                        var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
-                    
-                    if (!Array.isArray(aux))
-                        return aux;
-
-                    global.push(aux);
-                }
-                else
-                    return "light " + attributeNames[i] + " undefined for ID = " + lightId;
-            }
-
-            // Gets the additional attributes of the spot light
-            if (children[i].nodeName == "spot") {
-                var angle = this.reader.getFloat(children[i], 'angle');
-                if (!(angle != null && !isNaN(angle)))
-                    return "unable to parse angle of the light for ID = " + lightId;
-
-                var exponent = this.reader.getFloat(children[i], 'exponent');
-                if (!(exponent != null && !isNaN(exponent)))
-                    return "unable to parse exponent of the light for ID = " + lightId;
-
-                var targetIndex = nodeNames.indexOf("target");
-
-                // Retrieves the light target.
-                var targetLight = [];
-                if (targetIndex != -1) {
-                    var aux = this.parseCoordinates3D(grandChildren[targetIndex], "target light for ID " + lightId);
-                    if (!Array.isArray(aux))
-                        return aux;
-
-                    targetLight = aux;
-                }
-                else
-                    return "light target undefined for ID = " + lightId;
-
-                global.push(...[angle, exponent, targetLight])
-            }
-            //Attenuattion parsing
-
-            let attenuation = nodeNames.indexOf('attenuation');
-            if (attenuation == null) {
-                return "Unable to get attenuation";     
-            }
-            
-            //Constant parsing
-            let constant = this.reader.getFloat(grandChildren[attenuation],'constant');
-            if (constant == null) {
-                constant = 0;
-                this.onXMLMinorError( "Unable to parse constant attenuation, has now value 0");
-            }
-
-            //Linear parsing
-            let linear = this.reader.getFloat(grandChildren[attenuation],'linear');
-            if (linear == null) {
-                linear=1;
-                this.onXMLMinorError( "Unable to parse constant attenuation, has now value 0");
-            }
-
-            //quadratic parsing
-            let quadratic = this.reader.getFloat(grandChildren[attenuation],'quadratic');
-            if (quadratic == null) {
-                quadratic =0;
-                this.onXMLMinorError( "Unable to parse constant attenuation, has now value 0");
-            }
-
-            global.push(...[constant,linear,quadratic]);
-            
-
-            this.lights[lightId] = global;
-            numLights++;
-        }
-
-        if (numLights == 0)
-            return "at least one light must be defined";
-        else if (numLights > 8)
-            this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
+        let result = new Lights(this.scene);
+        result.getLights(children);        
 
         this.log("Parsed lights");
         return null;
@@ -565,51 +309,15 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
-
         var children = texturesNode.children;
         this.textures = [];
         
-        
-        if(children.length == 0)
-            return "No Textures in file";
-
-
-        //Iterates for each Texture
-        for (let i = 0; i < children.length; i++) {
-            
-            if (children[i].nodeName != "texture") {
-                return "unknown texture tag " + children[i].nodeName;
-            }
-            
-            //Gets corresponding ID
-            var textureId = this.reader.getString(children[i], 'id');
-
-            if (textureId == null)
-                return "no ID defined for texture";
-
-            // Checks for repeated IDs.
-            if (this.textures[textureId] != null)
-                return "ID must be unique for each primitive (conflict: ID = " + textureID + ")";
-            
-
-            //Gets the file path
-            var filePath = this.reader.getString(children[i], 'file');
-
-            if (filePath == null)   {
-                this.onXMLMinorError("no file defined for texture");
-            }
-            
-            //Creates Texture and adds it to the array
-            var new_texture = new CGFtexture(this.scene, filePath);
-            this.textures[textureId] = new_texture;
-        }
+        let result = new Textures(this.scene);
+        result.getTextures(children);
 
         //For each texture in textures block, check ID and file URL
         this.log("Textures Parsed successfully")
         return null;
-
-      
-
     }
 
     /**
@@ -622,61 +330,8 @@ class MySceneGraph {
 
         this.materials = [];
 
-        // Any number of materials.
-        for (var i = 0; i < children.length; i++) {
-
-            if (children[i].nodeName != "material") {
-                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-                continue;
-            }
-
-            // Get id of the current material.
-            var materialID = this.reader.getString(children[i], 'id');
-            if (materialID == null)
-                return "no ID defined for material";
-
-            // Checks for repeated IDs.
-            if (this.materials[materialID] != null)
-                return "ID must be unique for each material (conflict: ID = " + materialID + ")";
-
-            // Get shininess
-            let shininess = this.reader.getFloat(children[i], 'shininess');
-            if(shininess == null)
-                return materialID + " has no shininess";
-
-            // Get emission
-            let emission = children[i].getElementsByTagName("emission");
-            if(emission.length == 0)
-                return  materialID + " has no emission paramter";
-            else
-                emission = this.parseColor(emission[0], "emission in " + materialID + "has an incorrect format");
-
-            // Get ambient
-            let ambient = children[i].getElementsByTagName("ambient");
-            if(ambient.length == 0){return "no ambient provided for materia with ID: " + materialID;}
-            else  ambient = this.parseColor(ambient[0], "ambient in " + materialID + "has an incorrect format");
-
-            // Get diffuse
-            let diffuse = children[i].getElementsByTagName("diffuse");
-            if(diffuse.length == 0){return "no diffuse provided for materia with ID: " + materialID;}
-            else diffuse = this.parseColor(diffuse[0], "diffuse in " + materialID + "has an incorrect format");
-            
-            // Get specular
-            let specular = children[i].getElementsByTagName("specular");
-            if(specular.length == 0){ return materialID + "has no specular paramter";}
-            else specular = this.parseColor(specular[0], "specular in " + materialID + "has an incorrect format");
-
-            // Creates Material
-
-            let xMaterial = new CGFappearance(this.scene);
-            xMaterial.setShininess(shininess);
-            xMaterial.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
-            xMaterial.setDiffuse(diffuse[0], diffuse[1], diffuse[2], diffuse[3]);
-            xMaterial.setSpecular(specular[0], specular[1], specular[2], specular[3]);
-            xMaterial.setEmission(emission[0], emission[1], emission[2], emission[3]);
-            xMaterial.setTextureWrap('REPEAT', 'REPEAT');
-            this.materials[materialID] = xMaterial;
-        }
+        let result = new Materials(this.scene);
+        result.getMaterials(children);
 
         this.log("Parsed materials");
         return null;
@@ -780,127 +435,15 @@ class MySceneGraph {
    * @param {components block element} componentsNode
    */
     parseComponents(componentsNode) {
-        var children = componentsNode.children;
+        let children = componentsNode.children;
 
         this.components = [];
 
-        var grandChildren = [];
-        var nodeNames = [];
+        let result = new Components(this.scene);
+        result.getComponents(children);
 
-        // Any number of components.
-        for (var i = 0; i < children.length; i++) {
-
-            if (children[i].nodeName != "component") {
-                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
-                continue;
-            }
-
-            // Get id of the current component.
-            var componentID = this.reader.getString(children[i], 'id');
-            if (componentID == null)
-                return "no ID defined for componentID";
-
-            // Checks for repeated IDs.
-            if (this.components[componentID] != null)
-                return "ID must be unique for each component (conflict: ID = " + componentID + ")";
-
-            grandChildren = children[i].children;
-
-            nodeNames = [];
-            for (var j = 0; j < grandChildren.length; j++) {
-                nodeNames.push(grandChildren[j].nodeName);
-            }
-
-            //Gets correspondent IDs
-            var transformationIndex = nodeNames.indexOf("transformation");
-            var materialsIndex = nodeNames.indexOf("materials");
-            var textureIndex = nodeNames.indexOf("texture");
-            var animationIndex = nodeNames.indexOf("animationref");
-            var childrenIndex = nodeNames.indexOf("children");
-
-            //create new component
-            let component = new MyComponent(this.scene, componentID);
-
-            let transformations = grandChildren[transformationIndex].children;
-            
-            component.createTransformation(this.getTransformationMatrix(transformations, transformationIndex));
-            
-
-            // Materials
-
-            var materials = grandChildren[materialsIndex].children;
-            var materialIDs = [];
-            
-            //Iterates all the Materials
-
-            for (let j = 0; j < materials.length; j++) {
-
-                //Gets Material ID
-                materialIDs.push(this.reader.getString(materials[j],'id'));
-
-                if (materialIDs == null){
-                    this.onXMLMinorError("Component has no ID: " + componentID );
-                }
-                else {component.createMaterial(materialIDs);}
-            }
-            
-            // Texture
-            let texture = this.reader.getString(grandChildren[textureIndex],'id');
-            let length_s;
-            let length_t;
-
-            if (texture == null) this.onXMLMinorError('Unable to parse Texture id');
-            if (componentID == this.idRoot && texture == "inherit") {
-                return "Root component ID " + componentID + " cannot inherit texture";
-            }
-            if(texture == 'inherit' || texture == 'none'){ //no length_s or t must be applied when texture is inherited or inexistent
-                if(this.reader.hasAttribute(grandChildren[textureIndex], 'length_s') || this.reader.hasAttribute(grandChildren[textureIndex], 'length_t')){
-                    this.onXMLMinorError(`Length_s and length_t should not be defined for ${texture} type`);
-                }
-            }
-            else if(this.reader.hasAttribute(grandChildren[textureIndex], 'length_s') || this.reader.hasAttribute(grandChildren[textureIndex], 'length_t')){
-
-                length_s = this.reader.getFloat(grandChildren[textureIndex],'length_s');
-                length_t = this.reader.getFloat(grandChildren[textureIndex],'length_t');
-            }
-            else{ //when a texture referes no length s or t, we assume the values 1 for both
-
-                this.onXMLMinorError(`Length_s and length_t  not be defined, assuming length_s=1 and length_t =1`);
-                length_s=1;
-                length_t = 1;
-            }
-
-            component.createTextures(texture, length_s, length_t); //add texture
-            
-            //animation
-            if(animationIndex != -1){
-                let animationID = this.reader.getString(grandChildren[animationIndex],'id');
-                if (animationID == null) this.onXMLError('Unable to get animation id.');
-                else{
-                    if(this.animations[animationID] == null) this.onXMLError('There is no animation available with this id.');
-                    else{
-                        if (this.reader.getString(grandChildren[animationIndex],'loop') == null)
-                            this.onXMLMinorError('There is no loop in this animation.');
-                        else this.animations[animationID].loop = true;
-                    }
-
-                    component.createAnimation(this.animations[animationID]);
-                } 
-            }
-
-            // Children
-            let component_children = grandChildren[childrenIndex].children;
-            let childrenIDs = [];
-            
-            for (let j = 0; j < component_children.length; j++) {
-                childrenIDs.push(this.reader.getString(component_children[j],'id'));
-            }        
-
-            component.createChildren(childrenIDs); //register the components children
-
-            //Adds component with all attributes to the array
-            this.components[componentID] = component;
-        }  
+        this.log("Parsed components");
+        return null;
     }
 
 
@@ -945,7 +488,6 @@ class MySceneGraph {
 
         if (!Array.isArray(position))
             return position;
-
 
         // w
         var w = this.reader.getFloat(node, 'w');
