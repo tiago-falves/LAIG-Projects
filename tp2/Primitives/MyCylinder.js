@@ -38,7 +38,7 @@ class MyCylinder extends CGFobject {
                 //Normals
                 let nx = Math.cos(j*alphaAng);
 				let ny = Math.sin(j*alphaAng);
-				let nz = 0;
+				let nz = this.radius_bottom - this.radius_top;
 
 				let size = Math.sqrt(Math.pow(nx, 2) + Math.pow(ny, 2) + Math.pow(nz, 2));
 

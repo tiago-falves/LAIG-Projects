@@ -31,7 +31,7 @@ class XMLscene extends CGFscene {
 
         this.RTT = new CGFtextureRTT(this, window.innerWidth, window.innerHeight);
         this.securityCamera = new MySecurityCamera(this, this.RTT);
-        this.cameraForSecurity = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));        
+        this.cameraForSecurity = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(-20, 10, 0), vec3.fromValues(0, 0, 0));        
 
 
         this.gl.clearDepth(100.0);
