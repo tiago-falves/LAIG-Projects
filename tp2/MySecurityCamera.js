@@ -10,13 +10,11 @@ class MySecurityCamera extends CGFobject {
         this.texture = RTT;
 
         this.shader = new CGFshader(this.scene.gl, "scenes/shaders/shader.vert", "scenes/shaders/shader.frag");
-
-      //  this.scene.setUpdatePeriod(50);
     }
 
-    // update(t) {
-	// 	this.shader.setUniformsValues({ timeFactor: t / 100 % 1000 });
-	// }
+    update(t) {
+		this.shader.setUniformsValues({ timeFactor: t / 10000 % 1000 });
+	}
     
     display() {       
         this.scene.pushMatrix();

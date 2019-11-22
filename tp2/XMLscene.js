@@ -54,6 +54,8 @@ class XMLscene extends CGFscene {
             this.initialTime = t;
             this.graph.updateInitialTimeAnimations(this.initialTime);
         } 
+
+        this.securityCamera.update(t);
     }
 
     /**
