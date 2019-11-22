@@ -31,8 +31,10 @@ class Primitives extends CGFobject {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'prism' )) {
-                return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus or prism)"
+                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'prism'
+                    && grandChildren[0].nodeName != 'plane' && grandChildren[0].nodeName != 'patch' 
+                    && grandChildren[0].nodeName != 'cylinder2')) {
+                return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus, prism, plane, patch or cylinder2)"
             }
 
             // Specifications for the current primitive.
@@ -64,7 +66,7 @@ class Primitives extends CGFobject {
 
                 this.graph.primitives[primitiveId] = rect;
             }
-            else if(primitiveType == 'cylinder'){
+            else if(primitiveType == 'cylinder'|| primitiveType == 'cylinder2'){
 
                 //Cylinder base radius
                 var base = this.graph.reader.getFloat(grandChildren[0], 'base');
@@ -90,8 +92,15 @@ class Primitives extends CGFobject {
                     return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;    
 
                 //Creates cylinder and adds it to the primitives
-                var cylinder = new MyCylinder(this.scene, base, top, height, slices, stacks);
-                this.graph.primitives[primitiveId] = cylinder;
+                if(primitiveType == 'cylinder')  {  
+                    //Creates cylinder and adds it to the primitives
+                    var cylinder = new MyCylinder(this.scene, base, top, height, slices, stacks);
+                    this.primitives[primitiveId] = cylinder;
+                }
+                else if(primitiveType == 'cylinder2'){
+                    let cylinder2 = new Cylinder2(this.scene,base,top,height,slices,stacks);
+                    this.primitives[primitiveId] = cylinder2;
+                }
             }
 
             else if(primitiveType == 'sphere'){
@@ -166,6 +175,60 @@ class Primitives extends CGFobject {
                 var torus = new MyTorus(this.scene, inner, outer, slices, loops);
                 this.graph.primitives[primitiveId] = torus;
             }
+            
+            else if (primitiveType == 'plane') {
+                let npartsU = this.reader.getFloat(grandChildren[0], 'npartsU');
+                if (!(npartsU != null && !isNaN(npartsU)))
+                    return "unable to parse npartsU of the primitive coordinates for ID = " + primitiveId;
+
+                let npartsV = this.reader.getFloat(grandChildren[0], 'npartsV');
+                if (!(npartsV != null && !isNaN(npartsV)))
+                    return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
+                    
+                let plane = new Plane(this.scene,primitiveId,npartsU,npartsV);
+                this.primitives[primitiveId] = plane;
+
+
+            }
+            else if(primitiveType == 'patch'){
+
+                let npartsU = this.reader.getFloat(grandChildren[0], 'npartsU');
+                if (!(npartsU != null && !isNaN(npartsU)))
+                    return "unable to parse npartsU of the primitive coordinates for ID = " + primitiveId;
+
+                let npartsV = this.reader.getFloat(grandChildren[0], 'npartsV');
+                if (!(npartsV != null && !isNaN(npartsV)))
+                        return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
+
+                let npointsU = this.reader.getFloat(grandChildren[0],'npointsU');
+                if (!(npointsU != null && !isNaN(npointsU)))
+                    return "unable to parse npointsU of the primitive coordinates for ID = " + primitiveId;
+
+                let npointsV = this.reader.getFloat(grandChildren[0], 'npointsV');
+                if (!(npointsV != null && !isNaN(npointsV)))
+                    return "unable to parse npointsV of the primitive coordinates for ID = " + primitiveId;
+
+                let controlpoints = grandChildren[0].children;
+
+                let uPoints = [];
+                for(let j = 0; j < npointsU; j++) {
+                    let vPoints = [];
+                    for(let k = 0; k < npointsV; k++) {
+                        vPoints.push([
+                            this.reader.getFloat(controlpoints[j*npointsV+k], 'xx'),
+                            this.reader.getFloat(controlpoints[j*npointsV+k], 'yy'),
+                            this.reader.getFloat(controlpoints[j*npointsV+k], 'zz'),
+                            1.0
+                        ]);
+                    }
+                    uPoints.push(vPoints);
+                }
+                let patch = new Patch(this.scene,primitiveId,npartsU,npartsV,npointsU,npointsV,uPoints);
+                this.primitives[primitiveId] = patch;
+            }
+
         }
+        this.log("Parsed primitives");
+        return null;
     }
 }
