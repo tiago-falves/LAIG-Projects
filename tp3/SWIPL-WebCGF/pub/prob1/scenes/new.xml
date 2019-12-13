@@ -50,28 +50,7 @@
     </lights>
 
     <textures>
-        <texture id="Texture" file="scenes/images/vidral.jpg" />
-        <texture id="courtTexture" file="scenes/images/court1.jpg" />
-        <texture id="howgwartsTexture" file="scenes/images/howgwarts.jpg" />
-        <texture id="gryffindorTexture" file="scenes/images/gryffindor.jpg" />
-        <texture id="slytherinTexture" file="scenes/images/slytherin.jpg" />
-        <texture id="hufflepuffTexture" file="scenes/images/hufflepuff.jpg" />
-        <texture id="ravenclawTexture" file="scenes/images/ravenclaw.jpg" />
-        <texture id="snitchTexture" file="scenes/images/snitch.JPG" />
-        <texture id="woodTexture" file="scenes/images/wood.jpg" />
-        <texture id="metalTexture" file="scenes/images/metal-texture.jpg" />
-        <texture id="cubeMapTopTexture" file="scenes/images/blue_up.png" />
-        <texture id="cubeMapBottomTexture" file="scenes/images/blue_dn.png" />
-        <texture id="cubeMapFrontTexture" file="scenes/images/blue_ft.png" />
-        <texture id="cubeMapBackTexture" file="scenes/images/blue_bk.png" />
-        <texture id="cubeMapLeftTexture" file="scenes/images/blue_lf.png" />
-        <texture id="cubeMapRightTexture" file="scenes/images/blue_rt.png" />
-        <texture id="bronzeTexture" file="scenes/images/bronze_texture.jpg" />
-        <texture id="fireTexture" file="scenes/images/fire.jpg" />
-        <texture id="catTexture" file="scenes/images/cat.jpg" />
-        <texture id="catEyeTexture" file="scenes/images/catEye.png" />
-        <texture id="whiteFur" file="scenes/images/whiteFur.jpg"/>
-        <texture id="blackFur" file="scenes/images/blackFur.jpg"/>
+
     </textures>
 
     <materials>
@@ -158,13 +137,11 @@
         </primitive>
         <primitive id="Cylinder2">
             <cylinder2 base="0.1" top="0.1" height="2" slices="50" stacks="50" />
-        </primitive>
-        
+        </primitive>  
     </primitives>
-    
+
     <animations>
         <animation id="CatchTheSnitch" >
-     
             <keyframe instant="3">
                 <translate x="0" y="4" z="7" />
                 <rotate angle_x="-45" angle_y="-45" angle_z="20" />

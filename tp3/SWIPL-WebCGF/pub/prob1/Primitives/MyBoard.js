@@ -6,7 +6,6 @@
 class MyBoard extends CGFobject {
 	constructor(scene, id, x1, x2, y1, y2) {
         super(scene);
-        this.position = [6.0, 2, -15];
         this.id = id;
 
         //Initialize scene objects
@@ -18,16 +17,25 @@ class MyBoard extends CGFobject {
     }
     
     initMaterials() {
+        // <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+        //     <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+        //     <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
+        //     <specular r="1" g="1" b="1" a="1.0" />
+
+        this.whiteMaterial = new CGFappearance(this.scene);
+        this.whiteMaterial.setAmbient(1.0, 1.0, 1.0, 1);
+        this.whiteMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.whiteMaterial.setSpecular(1, 1, 1, 1);
+        this.whiteMaterial.setShininess(10.0);
+
 
         this.boardMaterial = new CGFappearance(this.scene);
-        this.boardMaterial.setAmbient(0.1, 0.1, 0.1, 1);
+        this.boardMaterial.setAmbient(1.0, 1.0, 1.0, 1);
         this.boardMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.boardMaterial.setSpecular(0.1, 0.1, 0.1, 1);
+        this.boardMaterial.setSpecular(1, 1, 1, 1);
         this.boardMaterial.setShininess(10.0);
-        this.boardMaterial.loadTexture('../scenes/images/board.JPG');
+        this.boardMaterial.loadTexture('../prob1/scenes/images/board.JPG');
         this.boardMaterial.setTextureWrap('REPEAT', 'REPEAT');
-    
-
     }
     
     display(){
@@ -36,15 +44,14 @@ class MyBoard extends CGFobject {
         this.scene.pushMatrix();    
         this.scene.translate(-1,0,-1);
         this.scene.rotate(Math.PI/2, 1, 0, 0);
-  
         this.board.display();      
         this.boardMaterial.apply();
         this.scene.popMatrix(); 
 
         // Board Transformation
         this.scene.pushMatrix();    
-        this.scene.translate(-1,0.2,-1);
-        this.scene.rotate(Math.PI/2, 1, 0, 0);
+        this.scene.translate(-1,0.2,1);
+        this.scene.rotate(-Math.PI/2, 1, 0, 0);
         this.board.display();      
         this.boardMaterial.apply();
         this.scene.popMatrix(); 
@@ -54,33 +61,28 @@ class MyBoard extends CGFobject {
         this.scene.pushMatrix();    
         this.scene.translate(-1,0,1);
         this.boardSide.display();   
-        this.boardMaterial.apply();
+        this.whiteMaterial.apply();
         this.scene.popMatrix();    
 
         this.scene.pushMatrix();    
         this.scene.translate(1,0,1);
         this.scene.rotate(Math.PI/2, 0, 1, 0);
         this.boardSide.display();   
-        this.boardMaterial.apply();
+        this.whiteMaterial.apply();
         this.scene.popMatrix();    
 
         this.scene.pushMatrix();    
         this.scene.translate(-1,0,-1);
         this.boardSide.display();   
-        this.boardMaterial.apply();
+        this.whiteMaterial.apply();
         this.scene.popMatrix();  
 
         this.scene.pushMatrix();    
         this.scene.translate(-1,0,1);
         this.scene.rotate(Math.PI/2, 0, 1, 0);
-
         this.boardSide.display();   
-        this.boardMaterial.apply();
+        this.whiteMaterial.apply();
         this.scene.popMatrix();  
-
-
-
-        
         
     }
 
