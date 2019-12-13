@@ -7,6 +7,10 @@ class MyBoard extends CGFobject {
 	constructor(scene, id, x1, x2, y1, y2) {
         super(scene);
         this.id = id;
+        this.x1 =x1;
+        this.x2 =x2;
+        this.y1 =y1;
+        this.y2 =y2;
 
         //Initialize scene objects
 
@@ -42,7 +46,7 @@ class MyBoard extends CGFobject {
 
         // Board Transformation
         this.scene.pushMatrix();    
-        this.scene.translate(-1,0,-1);
+        //this.scene.translate(-(this.x2-this.x1)/2,0,-(this.x2-this.x1)/2);
         this.scene.rotate(Math.PI/2, 1, 0, 0);
         this.board.display();      
         this.boardMaterial.apply();
@@ -50,8 +54,8 @@ class MyBoard extends CGFobject {
 
         // Board Transformation
         this.scene.pushMatrix();    
-        this.scene.translate(-1,0.2,1);
-        this.scene.rotate(-Math.PI/2, 1, 0, 0);
+        this.scene.translate(0,0.2,0);
+        this.scene.rotate(Math.PI/2, 1, 0, 0);
         this.board.display();      
         this.boardMaterial.apply();
         this.scene.popMatrix(); 
@@ -59,30 +63,30 @@ class MyBoard extends CGFobject {
         //Sides
 
         this.scene.pushMatrix();    
-        this.scene.translate(-1,0,1);
+        //this.scene.translate(-(this.x2-this.x1)/2,0,(this.x2-this.x1)/2);
         this.boardSide.display();   
         this.whiteMaterial.apply();
         this.scene.popMatrix();    
 
         this.scene.pushMatrix();    
-        this.scene.translate(1,0,1);
+        this.scene.translate(0,0,(this.x2-this.x1));
         this.scene.rotate(Math.PI/2, 0, 1, 0);
         this.boardSide.display();   
         this.whiteMaterial.apply();
         this.scene.popMatrix();    
 
         this.scene.pushMatrix();    
-        this.scene.translate(-1,0,-1);
+        this.scene.translate(0,0,(this.x2-this.x1));
         this.boardSide.display();   
         this.whiteMaterial.apply();
         this.scene.popMatrix();  
 
         this.scene.pushMatrix();    
-        this.scene.translate(-1,0,1);
+        this.scene.translate((this.x2-this.x1),0,(this.x2-this.x1));
         this.scene.rotate(Math.PI/2, 0, 1, 0);
         this.boardSide.display();   
         this.whiteMaterial.apply();
-        this.scene.popMatrix();  
+        this.scene.popMatrix();     
         
     }
 
