@@ -70,6 +70,9 @@ class ChameleonPiece extends CGFobject {
     getTileColor(){
         return this.tileColor;
     }
+    setTileColor(tileColor){
+        this.tileColor = tileColor;
+    }
 
     setBoardCoordinates(row, col) {
         this.row = row;

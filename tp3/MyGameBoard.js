@@ -62,7 +62,8 @@ class MyGameBoard extends CGFobject {
         
     }
 
-    removePieceTile(){
+    removePieceTile(row,collumn){
+        this.boardCells[row][collumn].setPiece(null);
         
     }
     getPieceTile(row,collumn){
