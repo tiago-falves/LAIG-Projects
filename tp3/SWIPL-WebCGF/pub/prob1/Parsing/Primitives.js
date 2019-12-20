@@ -40,7 +40,7 @@ class Primitives extends CGFobject {
             var primitiveType = grandChildren[0].nodeName;
 
             // Retrieves the primitive coordinates.
-            if (primitiveType == 'rectangle' || primitiveType == 'board') {
+            if (primitiveType == 'rectangle') {
                 // x1
                 var x1 = this.graph.reader.getFloat(grandChildren[0], 'x1');
                 if (x1 ==null)
@@ -65,10 +65,7 @@ class Primitives extends CGFobject {
                     var rect = new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);
                     this.graph.primitives[primitiveId] = rect;
                 }
-                if(primitiveType == 'board'){
-                    var board = new MyBoard(this.scene, primitiveId, x1, x2, y1, y2);
-                    this.graph.primitives[primitiveId] = board;
-                }
+               
             }
             else if(primitiveType == 'cylinder'|| primitiveType == 'cylinder2'){
 

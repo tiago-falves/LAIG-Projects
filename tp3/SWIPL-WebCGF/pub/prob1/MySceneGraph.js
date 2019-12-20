@@ -46,6 +46,9 @@ class MySceneGraph {
         this.reader.open('scenes/' + filename, this);
 
         this.scene.clickM = 0;
+
+        
+
     }
 
     /*
@@ -564,9 +567,12 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
+        this.board = new Board(this.scene);
         //To do: Create display loop for transversing the scene graph
-
-        this.processNode(this.idRoot, null, null, 1, 1);
+        this.board.display();
+        let boardCell = new BoardCell(this.scene,0,0,1,1);
+        //boardCell.display();
+       //this.processNode(this.idRoot, null, null, 1, 1);
     }
 
     processNode(idNode, matParent, texParent, lsParent, ltParent){
