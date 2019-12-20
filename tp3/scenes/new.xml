@@ -84,16 +84,16 @@
             <board x1="-1" y1="0" x2="3" y2="3" />
         </primitive>
         <primitive id="RedWhitePiece">
-            <piece team = "red" nature = "white" />
+            <piece team = "red" nature = "wn" />
         </primitive>
         <primitive id="RedBlackPiece">
-            <piece team = "red" nature = "black" />
+            <piece team = "red" nature = "bn" />
         </primitive>
         <primitive id="BlueBlackPiece">
-            <piece team = "blue" nature = "black" />
+            <piece team = "blue" nature = "bn" />
         </primitive>
         <primitive id="BlueWhitePiece">
-            <piece team = "blue" nature = "white" />
+            <piece team = "blue" nature = "wn" />
         </primitive>
         <primitive id="Cylinder">
             <cylinder base="1" top="1" height="1" slices="20" stacks="10"/>
@@ -197,7 +197,7 @@
             <children>
                 <!-- <componentref id="RedBlackChameleon" /> -->
                 <primitiveref id="Board" />
-                <primitiveref id="RedWhitePiece" />
+                <!-- <primitiveref id="RedWhitePiece" /> -->
             </children>
         </component>
     </components>

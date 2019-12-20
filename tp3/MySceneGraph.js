@@ -568,7 +568,6 @@ class MySceneGraph {
      */
     displayScene() {
          
-     
        this.processNode(this.idRoot, null, null, 1, 1);
     }
 

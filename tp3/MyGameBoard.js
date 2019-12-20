@@ -7,21 +7,30 @@ class MyGameBoard extends CGFobject {
         super(scene);
 
         this.boardCells = [];
+        this.currentBoard = [
+                            [["blue","wn","bt"], ["blue","bn","wt"], ["blue","wn","bt"], ["blue","bn","wt"], ["blue","wn","bt"]],
+                            [["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"]],
+                            [["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"]],
+                            [["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"]],
+                            [["red","wn","bt"], ["red","bn","wt"], ["red","wn","bt"], ["red","bn","wt"], ["red","wn","bt"]]
+                            ];
+
+
         var width = 5;
         var height = 5;
         let  counter = 0;
 
         for (var i = 0; i < height; i++) {
             let boardCellsList = []
-            let color = "white";
             
             for (var j = 0; j < width; j++) {
-                if(counter % 2 == 0){
-                    color = "black";
-                }
-                else color = "white";
-                counter++;
-                boardCellsList.push(new BoardCell(scene, j, i,i, j,color));
+                let pieceList = this.getPieceTile(i,j);
+              
+                let piece = new ChameleonPiece(scene,pieceList);
+                piece.setCoordinates(j + 0.5,0.3,i + 0.5);
+
+                boardCellsList.push(new BoardCell(scene, j, i,i, j,piece));
+                
             }
             this.boardCells.push(boardCellsList);
         }
@@ -38,6 +47,12 @@ class MyGameBoard extends CGFobject {
             for (var j = 0; j < this.boardCells[i].length; j++) {
                 this.scene.registerForPick(j*5+i+1, this.boardCells[i][j]);
                 this.boardCells[i][j].display();
+                
+
+                if(this.boardCells[i][j].getPiece() != null){
+                    this.boardCells[i][j].getPiece().display();
+                    
+                }
             }
         }
 
@@ -50,8 +65,8 @@ class MyGameBoard extends CGFobject {
     removePieceTile(){
         
     }
-    getPieceTile(){
-
+    getPieceTile(row,collumn){
+        return this.currentBoard[row][collumn];
     }
 
     getTileByCoords(){

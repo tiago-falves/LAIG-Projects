@@ -180,18 +180,18 @@ class Primitives extends CGFobject {
                 this.graph.primitives[primitiveId] = torus;
             }
 
-            else if(primitiveType == 'piece'){
+            /*else if(primitiveType == 'piece'){
 
-                //Radius
+                //Team
                 var team = this.graph.reader.getString(grandChildren[0], 'team');
 
-                //Slices
+                //Nature
                 var nature = this.graph.reader.getString(grandChildren[0], 'nature');
 
                 //Creates shere and adds it to the primitive array
                 var piece = new ChameleonPiece(this.scene, team, nature,);
                 this.graph.primitives[primitiveId] = piece;
-            }
+            }*/
             
             else if (primitiveType == 'plane') {
                 let npartsU = this.graph.reader.getFloat(grandChildren[0], 'npartsU');

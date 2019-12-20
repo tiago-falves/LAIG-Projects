@@ -10,7 +10,7 @@
  */
 class BoardCell extends CGFobject {
 
-    constructor(scene, xPos, zPos, row, col,color) {
+    constructor(scene, xPos, zPos, row, col,piece) {
         super(scene);
 
         this.xPos = xPos;
@@ -18,11 +18,11 @@ class BoardCell extends CGFobject {
         this.zPos = zPos;
         this.row = row;
         this.col = col;
-        this.color = color;
+        this.piece = piece;
+        this.color = piece.getTileColor();
         this.side = 1;
         this.pickingEnabled = true;
-       
-
+   
         this.quad = new MyRectangle(scene, 1, 0, this.side, 0, this.side);
 
         this.blackappearance = new CGFappearance(this.scene);
@@ -56,9 +56,9 @@ class BoardCell extends CGFobject {
             this.scene.translate(this.xPos, this.yPos, this.zPos);
             this.scene.scale(1, 0.3, 1);
 
-            if(this.color == "black"){
+            if(this.color == "bt"){
                 this.blackappearance.apply();
-            }else if (this.color == "white"){
+            }else if (this.color == "wt"){
                 this.whiteAppearance.apply();
             }
 
@@ -114,7 +114,14 @@ class BoardCell extends CGFobject {
         return [this.xPos, this.yPos, this.zPos];
     }
     getPiece(){
-        
+        return this.piece;
+    }
+
+    setPiece(newPiece){
+        this.piece = newPiece;
+    }
+    unSetPiece(){
+        this.piece = null;
     }
 
  

@@ -5,11 +5,20 @@
 class ChameleonPiece extends CGFobject {
 
 
-    constructor(scene, team, nature) {
+    constructor(scene, pieceList) {
         super(scene);
         this.scene;
-        this.team = team;
-        this.nature = nature;
+        this.team = pieceList[0];
+        this.nature = pieceList[1];
+        this.tileColor = pieceList[2];
+            
+
+        this.xCoord = 0;
+        this.yCoord = 0;
+        this.zCoord = 0;
+
+        this.row = -1;
+        this.col = -1;
 
         this.body = new MyCylinder(this.scene, 1, 1, 1, 20, 10);
         this.head = new Circle(this.scene, 20);
@@ -47,6 +56,33 @@ class ChameleonPiece extends CGFobject {
         this.blackMaterial.setShininess(10.0);
     }
 
+
+    getTeam(){
+        return this.team;
+    }
+    getNature(){
+        return this.nature;
+    }
+
+    setTileColor(tileColor){
+        this.tileColor = tileColor;
+    }
+    getTileColor(){
+        return this.tileColor;
+    }
+
+    setBoardCoordinates(row, col) {
+        this.row = row;
+        this.col = col;
+    }
+    setCoordinates(xCoord, yCoord,zCoord) {
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+        this.zCoord = zCoord;
+    }
+
+
+
     displayBody(){
         this.scene.pushMatrix();
         if(this.team == "red")
@@ -62,9 +98,9 @@ class ChameleonPiece extends CGFobject {
     
 
         this.scene.pushMatrix();
-        if(this.nature == "white")
+        if(this.nature == "wn")
             this.whiteMaterial.apply();
-        else if(this.nature == "black"){
+        else if(this.nature == "bn"){
             this.blackMaterial.apply();
         }
 
@@ -78,14 +114,23 @@ class ChameleonPiece extends CGFobject {
         this.scene.popMatrix();
 
     }
+
+    displayPiece(){
+        if(this.team != "empty"){
+            this.displayBody();
+            this.displayHead();
+        }
+    }
     
     display() {
         this.scene.pushMatrix();
+            this.scene.translate(this.xCoord,this.yCoord,this.zCoord);
             this.scene.scale(0.3,0.3,0.3);
             this.scene.rotate(-Math.PI/2, 1,0,0);
 
-            this.displayBody();
-            this.displayHead();
+            this.displayPiece();
+
+            
 
         this.scene.popMatrix();
     }
