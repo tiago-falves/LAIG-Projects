@@ -7,78 +7,29 @@ class MyCylinder extends CGFobject {
         super(scene);
         this.radius_bottom = radius_bottom;
         this.radius_top = radius_top;
-        this.slices = slices;
         this.height = height;
-        this.stacks = stacks
-        this.initBuffers();
+
+        this.circle = new Circle(scene, slices);
+        this.side = new CylinderSide(scene, radius_bottom, radius_top, height, slices, stacks);
     }
-    initBuffers() {
-        this.vertices = [];
-        this.indices = [];
-        this.normals = [];
-        this.texCoords = [];
 
-        //Define angles and radius
-        let alphaAng = 2 * Math.PI / this.slices;
-        let section = this.height/this.stacks;
-        let radius_diff = (this.radius_top-this.radius_bottom)/this.stacks;
-
-        for(let i = 0; i <= this.stacks; i++){
-            let radius_current = this.radius_bottom + i*radius_diff;
-
-            for (let j = 0; j <= this.slices; j++) {
-
-                //Vertices
-                this.vertices.push(
-                    radius_current*Math.cos(j*alphaAng),
-                    radius_current*Math.sin(j*alphaAng),
-                    i*section
-                );      
-
-                //Normals
-                let nx = Math.cos(j*alphaAng);
-				let ny = Math.sin(j*alphaAng);
-				let nz = this.radius_bottom - this.radius_top;
-
-				let size = Math.sqrt(Math.pow(nx, 2) + Math.pow(ny, 2) + Math.pow(nz, 2));
-
-				this.normals.push(
-					nx/size, 
-                    ny/size,
-                    nz/size
-				);
-
-                //TextCoords
-                this.texCoords.push(
-                    j/this.slices,
-                    1 - i/this.stacks
-                );
-            }
-        }
-
-        this.initialTexCoords = this.texCoords;
-
-        for (let i = 0; i < this.stacks; ++i) {
-			for(let j = 0; j < this.slices; ++j) {
-				this.indices.push(
-                    j + i*(this.slices + 1), j + i*(this.slices + 1) + 1, j + (i + 1)*(this.slices + 1),
-                    j + (i + 1)*(this.slices + 1), j + i*(this.slices + 1) + 1, j + (i + 1)*(this.slices + 1) + 1
-				);
-			}
-		}
-
-        this.primitiveType = this.scene.gl.TRIANGLES;
-        this.initGLBuffers();
-    };
+    display(){
+        //Bottom cover
+        this.scene.pushMatrix();
+            this.scene.scale(this.radius_base, this.radius_base, 1);
+            this.scene.rotate(Math.PI, 0, 1, 0);
+            this.circle.display();
+        this.scene.popMatrix();
+        this.side.display();
+        //Top cover
+        this.scene.pushMatrix();
+            this.scene.translate(0, 0, this.height);
+            this.scene.scale(this.radius_top, this.radius_top, 1);
+            this.circle.display();
+        this.scene.popMatrix();
+    }
 
     updateTexCoords(length_s, length_t){
-		this.texCoords = this.initialTexCoords.slice();
-
-		for(var i = 0; i < this.texCoords.length; i += 2){
-			this.texCoords[i] /= length_s;
-			this.texCoords[i + 1] /= length_t;
-		}
-
-		this.updateTexCoordsGLBuffers();
-	};
+		this.side.updateTexCoords(length_s, length_t);
+    };
 }

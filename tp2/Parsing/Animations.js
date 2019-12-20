@@ -40,8 +40,6 @@ class Animations {
                     this.graph.onXMLMinorError("Unable to read instant in keyframe number " + j + " of animation " + animationID);
                     continue;    
                 }
-                //ASK: PODE HAVER DOIS KF NA MESMA ANIMAÇAO COM INSTANTES IGUAIS??
-                //DEVO ACEITAR OS KF APENAS SE ESTIVEREM POR ORDEM DE INSTANTE???
 
                 keyframe['instant'] = keyframeINSTANT;
 

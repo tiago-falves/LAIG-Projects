@@ -15,7 +15,6 @@ class MyKeyframeAnimation extends MyAnimation {
 
         this.keyframes.unshift(firstKeyframe);
 
-
         this.resultMatrix = mat4.create();
 
         this.currentKeyframe = firstKeyframe;
