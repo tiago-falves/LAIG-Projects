@@ -20,6 +20,7 @@ class BoardCell extends CGFobject {
         this.col = col;
         this.color = color;
         this.side = 1;
+        this.pickingEnabled = true;
        
 
         this.quad = new MyRectangle(scene, 1, 0, this.side, 0, this.side);

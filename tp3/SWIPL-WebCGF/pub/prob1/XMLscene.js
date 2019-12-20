@@ -42,6 +42,7 @@ class XMLscene extends CGFscene {
         this.appearance = new CGFappearance(this);
         
         this.setUpdatePeriod(100);
+        this.setPickEnabled(true);
     }
 
     update(t){
@@ -172,9 +173,28 @@ class XMLscene extends CGFscene {
     /**
      * Displays the scene.
      */
+
+    logPicking() {
+		if (this.pickMode == false) {
+			if (this.pickResults != null && this.pickResults.length > 0) {
+				for (var i = 0; i < this.pickResults.length; i++) {
+					var obj = this.pickResults[i][0];
+					if (obj instanceof BoardCell) {
+						var customId = this.pickResults[i][1];
+						console.log("Picked object: " + obj + ", with pick id " + customId);						
+						console.log("FACILLLLLLL");						
+					}
+				}
+				this.pickResults.splice(0, this.pickResults.length);
+			}
+		}
+	}
   
 
     display() {
+
+        this.logPicking();
+        this.clearPickRegistration();
      
         this.interface.setActiveCamera(this.camera);
 

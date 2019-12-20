@@ -36,6 +36,7 @@ class Board extends CGFobject {
 
         for (var i = 0; i < this.boardCells.length; i++) {
             for (var j = 0; j < this.boardCells[i].length; j++) {
+                this.scene.registerForPick(j*5+i+1, this.boardCells[i][j]);
                 this.boardCells[i][j].display();
             }
         }
