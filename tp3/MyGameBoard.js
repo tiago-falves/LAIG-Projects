@@ -44,7 +44,7 @@ class MyGameBoard extends CGFobject {
     }
 
     addPieceTile(){
-
+        
     }
 
     removePieceTile(){
