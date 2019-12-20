@@ -32,7 +32,7 @@ class Primitives extends CGFobject {
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
                     grandChildren[0].nodeName != 'torus'  && grandChildren[0].nodeName != 'plane' && grandChildren[0].nodeName != 'patch' 
-                    && grandChildren[0].nodeName != 'cylinder2' && grandChildren[0].nodeName != 'board')) {
+                    && grandChildren[0].nodeName != 'cylinder2' && grandChildren[0].nodeName != 'board' && grandChildren[0].nodeName != 'piece')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus, plane, patch,board  or cylinder2)"
             }
 
@@ -178,6 +178,19 @@ class Primitives extends CGFobject {
                 //Creates Torus and adds it to the primitive array
                 var torus = new MyTorus(this.scene, inner, outer, slices, loops);
                 this.graph.primitives[primitiveId] = torus;
+            }
+
+            else if(primitiveType == 'piece'){
+
+                //Radius
+                var team = this.graph.reader.getString(grandChildren[0], 'team');
+
+                //Slices
+                var nature = this.graph.reader.getString(grandChildren[0], 'nature');
+
+                //Creates shere and adds it to the primitive array
+                var piece = new ChameleonPiece(this.scene, team, nature,);
+                this.graph.primitives[primitiveId] = piece;
             }
             
             else if (primitiveType == 'plane') {
