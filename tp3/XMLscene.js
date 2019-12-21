@@ -183,9 +183,10 @@ class XMLscene extends CGFscene {
 			if (this.pickResults != null && this.pickResults.length > 0) {
 				for (var i = 0; i < this.pickResults.length; i++) {
 					var obj = this.pickResults[i][0];
-					if (obj instanceof ChameleonPiece) {
+					if (obj instanceof BoardCell) {
                         // obj.move
-						
+                        var customId = this.pickResults[i][1] // get id
+
 						console.log("Picked object: " + obj + ", with pick id " + customId);										
 					}
 				}
@@ -197,7 +198,7 @@ class XMLscene extends CGFscene {
 
     display() {
 
-        this.logPicking();
+        // this.logPicking();
         if(this.sceneInited){
             this.game.managePick(this.pickMode,this.pickResults);
         }    

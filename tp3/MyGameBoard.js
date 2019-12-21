@@ -52,6 +52,9 @@ class MyGameBoard extends CGFobject {
                 
                 if(this.boardCells[i][j].getPiece() != null){
                     this.boardCells[i][j].getPiece().display();
+                    // this.scene.registerForPick(j*5+i+1, this.boardCells[i][j].getPiece());
+
+                    
                     
                 }
             }
@@ -79,10 +82,12 @@ class MyGameBoard extends CGFobject {
         //TODO
         //Verify if valid move and that shit
         let piece = this.boardCells[row][collumn].getPiece();
-        let coords = this.boardCells[newRow][newColumn].getCoords();
-        this.removePieceTile(row,collumn);
-        this.boardCells[newRow][newColumn].setPiece(piece);
-        piece.setCoordinates(coords[0],coords[2]);
+        if(piece != null){
+            let coords = this.boardCells[newRow][newColumn].getCoords();
+            this.removePieceTile(row,collumn);
+            this.boardCells[newRow][newColumn].setPiece(piece);
+            piece.setCoordinates(coords[0],coords[2]);
+        }
                 
     }
 

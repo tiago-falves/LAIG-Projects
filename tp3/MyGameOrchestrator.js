@@ -9,6 +9,15 @@ class MyGameOrchestrator extends CGFobject {
 
 
         this.board = new MyGameBoard(this.scene);
+        this.gameStates = {
+            START: 0,
+            START_PLAY: 1,
+            MOVING_PIECE: 2,
+            GAME_OVER: 3
+        };
+
+        //Testing
+        this.currentState = this.gameStates.START_PLAY;
 
     };
 
@@ -24,41 +33,59 @@ class MyGameOrchestrator extends CGFobject {
         // this.animator.display();
     }
 
-    managePick(mode, results) {
-        if (mode == false /* && some other game conditions */){
-            if (results != null && results.length > 0) { // any results?
-                for (var i=0; i< results.length; i++) {
-                    var obj = pickResults[i][0]; // get object from result
-                    if (obj) { // exists?
-                        var uniqueId = pickResults[i][1] // get id
-                        this.OnObjectSelected(obj, uniqueId);
-                    }
-                }
-                // clear results
-                pickResults.splice(0, pickResults.length);
-            }
-        }
-    }
-
     onObjectSelected(obj, id) {
         if(obj instanceof ChameleonPiece){
             // do something with id knowing it is a piece
+            console.log("Picked object: " + obj + ", with pick id " + customId);										
+
         }
         else{
             if(obj instanceof BoardCell){
                 // do something with id knowing it is a tile
+                if(this.currentState == this.gameStates.START_PLAY){
+                    console.log("Picked object: " + obj + ", with pick id " + id);		
+                    this.originPos = obj.getRowColumn();
+                    console.log("MOVING PIECE row: " + this.originPos[0] + " col: " + this.originPos[1]);		
+
+                    this.currentState = this.gameStates.MOVING_PIECE
+                } else if (this.currentState == this.gameStates.MOVING_PIECE){
+                        console.log("Moved PIECE to row: " + obj.row + " col: " + obj.col);		
+
+                        this.board.movePiece(this.originPos[0],this.originPos[1],obj.row,obj.col);
+                        this.currentState = this.gameStates.START_PLAY;
+
+
+
+                }					
+
             }
         }   
     }
+
+    managePick(mode, results) {
+        if (mode == false /* && some other game conditions */){
+            if (results != null && results.length > 0) { // any results?
+                for (var i=0; i< results.length; i++) {
+                    var obj = results[i][0]; // get object from result
+                    if (obj) { // exists?
+                        var uniqueId = results[i][1] // get id
+                            this.onObjectSelected(obj, uniqueId);
+                    }
+                }
+                // clear results
+                results.splice(0, results.length);
+            }
+        }
+    }
+
+
+    
     
     
     update(time) {
         this.animator.update(time);
     }
-    ola(){
-        console.log("oi");
-    }
-
+  
 
     updateTexCoords(length_s,length_t) {};
 

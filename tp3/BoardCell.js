@@ -113,6 +113,10 @@ class BoardCell extends CGFobject {
     getCoords() {
         return [this.xPos, this.yPos, this.zPos];
     }
+
+    getRowColumn() {
+        return [this.row,this.col];
+    }
     getPiece(){
         return this.piece;
     }
