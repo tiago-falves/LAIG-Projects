@@ -24,16 +24,18 @@ class MyGameBoard extends CGFobject {
             let boardCellsList = []
             
             for (var j = 0; j < width; j++) {
-                let pieceList = this.getPieceTile(i,j);
+                let pieceList = this.getPieceList(i,j);
               
                 let piece = new ChameleonPiece(scene,pieceList);
-                piece.setCoordinates(j + 0.5,0.3,i + 0.5);
+                piece.setCoordinates(j ,i);
 
                 boardCellsList.push(new BoardCell(scene, j, i,i, j,piece));
-                
             }
             this.boardCells.push(boardCellsList);
         }
+     
+        
+
 
     };
 
@@ -48,7 +50,6 @@ class MyGameBoard extends CGFobject {
                 this.scene.registerForPick(j*5+i+1, this.boardCells[i][j]);
                 this.boardCells[i][j].display();
                 
-
                 if(this.boardCells[i][j].getPiece() != null){
                     this.boardCells[i][j].getPiece().display();
                     
@@ -66,7 +67,7 @@ class MyGameBoard extends CGFobject {
         this.boardCells[row][collumn].setPiece(null);
         
     }
-    getPieceTile(row,collumn){
+    getPieceList(row,collumn){
         return this.currentBoard[row][collumn];
     }
 
@@ -74,8 +75,15 @@ class MyGameBoard extends CGFobject {
 
     }
 
-    movePiece(){
-        
+    movePiece(row, collumn,newRow,newColumn){
+        //TODO
+        //Verify if valid move and that shit
+        let piece = this.boardCells[row][collumn].getPiece();
+        let coords = this.boardCells[newRow][newColumn].getCoords();
+        this.removePieceTile(row,collumn);
+        this.boardCells[newRow][newColumn].setPiece(piece);
+        piece.setCoordinates(coords[0],coords[2]);
+                
     }
 
 

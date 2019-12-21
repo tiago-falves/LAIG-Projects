@@ -14,7 +14,7 @@ class ChameleonPiece extends CGFobject {
             
 
         this.xCoord = 0;
-        this.yCoord = 0;
+        this.yCoord = 0.3;
         this.zCoord = 0;
 
         this.row = -1;
@@ -78,10 +78,9 @@ class ChameleonPiece extends CGFobject {
         this.row = row;
         this.col = col;
     }
-    setCoordinates(xCoord, yCoord,zCoord) {
-        this.xCoord = xCoord;
-        this.yCoord = yCoord;
-        this.zCoord = zCoord;
+    setCoordinates(xCoord,zCoord) {
+        this.xCoord = xCoord + 0.5;
+        this.zCoord = zCoord +0.5;
     }
 
 

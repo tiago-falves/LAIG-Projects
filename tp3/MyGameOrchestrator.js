@@ -5,6 +5,10 @@ class MyGameOrchestrator extends CGFobject {
      */
     constructor(scene) {
         super(scene);
+        this.scene;
+
+
+        this.board = new MyGameBoard(this.scene);
 
     };
 
@@ -13,10 +17,11 @@ class MyGameOrchestrator extends CGFobject {
      */
     display() {
         var degToRad = Math.PI / 180;
+        this.board.display();
 
-        this.theme.display();
-        this.gameboard.display();
-        this.animator.display();
+        // this.theme.display();
+        // this.gameboard.display();
+        // this.animator.display();
     }
 
     managePick(mode, results) {
@@ -49,6 +54,9 @@ class MyGameOrchestrator extends CGFobject {
     
     update(time) {
         this.animator.update(time);
+    }
+    ola(){
+        console.log("oi");
     }
 
 

@@ -12,6 +12,7 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
+    
     }
 
     /**
@@ -164,6 +165,9 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
 
         this.interface.createMenus();
+
+        this.game = this.graph.primitives["game"];
+
     }
 
     toggleAxis() {
@@ -179,8 +183,9 @@ class XMLscene extends CGFscene {
 			if (this.pickResults != null && this.pickResults.length > 0) {
 				for (var i = 0; i < this.pickResults.length; i++) {
 					var obj = this.pickResults[i][0];
-					if (obj instanceof BoardCell) {
-						var customId = this.pickResults[i][1];
+					if (obj instanceof ChameleonPiece) {
+                        // obj.move
+						
 						console.log("Picked object: " + obj + ", with pick id " + customId);										
 					}
 				}
@@ -193,6 +198,10 @@ class XMLscene extends CGFscene {
     display() {
 
         this.logPicking();
+        if(this.sceneInited){
+            this.game.managePick(this.pickMode,this.pickResults);
+        }    
+        
         this.clearPickRegistration();
      
         this.interface.setActiveCamera(this.camera);

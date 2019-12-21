@@ -32,7 +32,7 @@ class Primitives extends CGFobject {
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
                     grandChildren[0].nodeName != 'torus'  && grandChildren[0].nodeName != 'plane' && grandChildren[0].nodeName != 'patch' 
-                    && grandChildren[0].nodeName != 'cylinder2' && grandChildren[0].nodeName != 'board' && grandChildren[0].nodeName != 'piece')) {
+                    && grandChildren[0].nodeName != 'cylinder2' && grandChildren[0].nodeName != 'board' && grandChildren[0].nodeName != 'game' && grandChildren[0].nodeName != 'piece')) {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus, plane, patch,board  or cylinder2)"
             }
 
@@ -180,18 +180,12 @@ class Primitives extends CGFobject {
                 this.graph.primitives[primitiveId] = torus;
             }
 
-            /*else if(primitiveType == 'piece'){
-
-                //Team
-                var team = this.graph.reader.getString(grandChildren[0], 'team');
-
-                //Nature
-                var nature = this.graph.reader.getString(grandChildren[0], 'nature');
+            else if(primitiveType == 'game'){
 
                 //Creates shere and adds it to the primitive array
-                var piece = new ChameleonPiece(this.scene, team, nature,);
-                this.graph.primitives[primitiveId] = piece;
-            }*/
+                var game = new MyGameOrchestrator(this.scene);
+                this.graph.primitives[primitiveId] = game;
+            }
             
             else if (primitiveType == 'plane') {
                 let npartsU = this.graph.reader.getFloat(grandChildren[0], 'npartsU');

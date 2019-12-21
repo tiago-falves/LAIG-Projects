@@ -83,6 +83,9 @@
         <primitive id="Board">
             <board x1="-1" y1="0" x2="3" y2="3" />
         </primitive>
+        <primitive id="game">
+            <game />
+        </primitive>
         <primitive id="RedWhitePiece">
             <piece team = "red" nature = "wn" />
         </primitive>
@@ -196,7 +199,7 @@
             <texture id="none"/>
             <children>
                 <!-- <componentref id="RedBlackChameleon" /> -->
-                <primitiveref id="Board" />
+                <primitiveref id="game" />
                 <!-- <primitiveref id="RedWhitePiece" /> -->
             </children>
         </component>
