@@ -42,11 +42,41 @@ class ChameleonPiece extends CGFobject {
         this.blueMaterial.setSpecular(0.1, 0.1, 0.9, 1);
         this.blueMaterial.setShininess(10.0);
 
+        this.redWhite = new CGFappearance(this.scene);
+        this.redWhite.setAmbient(1.0, 1.0, 1.0, 1);
+        this.redWhite.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.redWhite.setSpecular(1, 1, 1, 1);
+        this.redWhite.setShininess(10.0);
+        this.redWhite.loadTexture("scenes/images/redWhite.png");
+
+        this.redBlack = new CGFappearance(this.scene);
+        this.redBlack.setAmbient(1.0, 1.0, 1.0, 1);
+        this.redBlack.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.redBlack.setSpecular(1, 1, 1, 1);
+        this.redBlack.setShininess(10.0);
+        this.redBlack.loadTexture("scenes/images/redBlack.png");
+
+        this.blueWhite = new CGFappearance(this.scene);
+        this.blueWhite.setAmbient(1.0, 1.0, 1.0, 1);
+        this.blueWhite.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.blueWhite.setSpecular(1, 1, 1, 1);
+        this.blueWhite.setShininess(10.0);
+        this.blueWhite.loadTexture("scenes/images/blueWhite.png");
+
+        this.blueBlack = new CGFappearance(this.scene);
+        this.blueBlack.setAmbient(1.0, 1.0, 1.0, 1);
+        this.blueBlack.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.blueBlack.setSpecular(1, 1, 1, 1);
+        this.blueBlack.setShininess(10.0);
+        this.blueBlack.loadTexture("scenes/images/blueBlack.png");
+
         this.whiteMaterial = new CGFappearance(this.scene);
         this.whiteMaterial.setAmbient(1.0, 1.0, 1.0, 1);
         this.whiteMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
         this.whiteMaterial.setSpecular(1, 1, 1, 1);
         this.whiteMaterial.setShininess(10.0);
+        // this.whiteMaterial.loadTexture("scenes/images/blueBlack.png");
+
         // Dar upload de uma textura que seja um circulo branco dentro de um preto...
 
         this.blackMaterial = new CGFappearance(this.scene);
@@ -87,11 +117,11 @@ class ChameleonPiece extends CGFobject {
 
     displayBody(){
         this.scene.pushMatrix();
-        if(this.team == "red")
-            this.redMaterial.apply();
-        else if(this.team == "blue")
-            this.blueMaterial.apply();
-        this.body.display();
+            if(this.team == "red")
+                this.redMaterial.apply();
+            else if(this.team == "blue")
+                this.blueMaterial.apply();
+            this.body.display();
         this.scene.popMatrix();
 
     
@@ -100,27 +130,36 @@ class ChameleonPiece extends CGFobject {
     
 
         this.scene.pushMatrix();
-        if(this.nature == "wn")
-            this.whiteMaterial.apply();
-        else if(this.nature == "bn"){
-            this.blackMaterial.apply();
-        }
+            if(this.nature == "wn" && this.team == "red")
+                this.redWhite.apply();
+            else if(this.nature == "bn" && this.team == "red"){
+                this.redBlack.apply();
+            }
+            if(this.nature == "wn" && this.team == "blue")
+                this.blueWhite.apply();
+            else if(this.nature == "bn" && this.team == "blue"){
+                this.blueBlack.apply();
+            }
 
-        this.scene.translate(0,0,1);
-        this.head.display();
+            this.scene.translate(0,0,1);
+            this.head.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.rotate(Math.PI,1,0,0);
-        this.head.display();
+            this.scene.rotate(Math.PI,1,0,0);
+            this.head.display();
         this.scene.popMatrix();
 
     }
 
     displayPiece(){
         if(this.team != "empty"){
-            this.displayBody();
-            this.displayHead();
+            this.scene.pushMatrix();
+                this.scene.scale(1,1,0.6);
+                this.displayBody();
+                this.displayHead();
+            this.scene.popMatrix();
+
         }
     }
     
