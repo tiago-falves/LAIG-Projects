@@ -45,6 +45,10 @@ class MyGameBoard extends CGFobject {
     display() {
         var degToRad = Math.PI / 180;
 
+        this.scene.pushMatrix();
+
+        this.scene.translate(-2.5, 0, -2.5);
+
         for (var i = 0; i < this.boardCells.length; i++) {
             for (var j = 0; j < this.boardCells[i].length; j++) {
                 this.scene.registerForPick(j*5+i+1, this.boardCells[i][j]);
@@ -59,6 +63,7 @@ class MyGameBoard extends CGFobject {
                 }
             }
         }
+        this.scene.popMatrix();
 
     }
 
