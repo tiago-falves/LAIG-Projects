@@ -15,9 +15,11 @@ class MyGameOrchestrator extends CGFobject {
             MOVING_PIECE: 2,
             GAME_OVER: 3
         };
-
+        this.currentPlayer = "red";
+        this.rotationCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 60, -60), vec3.fromValues(0, 10, 0));
+        
         //Testing
-        this.currentState = this.gameStates.START_PLAY;
+        this.initGame();
 
     };
 
@@ -33,6 +35,15 @@ class MyGameOrchestrator extends CGFobject {
         // this.animator.display();
     }
 
+    initGame(){
+        this.currentState = this.gameStates.START_PLAY;
+        this.gameLoop();  
+    }
+
+    gameLoop(){
+
+    }
+
     onObjectSelected(obj, id) {
         if(obj instanceof ChameleonPiece){
             // do something with id knowing it is a piece
@@ -42,24 +53,47 @@ class MyGameOrchestrator extends CGFobject {
         else{
             if(obj instanceof BoardCell){
                 // do something with id knowing it is a tile
-                if(this.currentState == this.gameStates.START_PLAY){
-                    console.log("Picked object: " + obj + ", with pick id " + id);		
-                    this.originPos = obj.getRowColumn();
-                    console.log("MOVING PIECE row: " + this.originPos[0] + " col: " + this.originPos[1]);		
+                if(this.currentState == this.gameStates.START_PLAY){ //){
+                    if(obj.getPiece() != null){
+                        if(obj.getPiece().getTeam()== this.currentPlayer) {
 
-                    this.currentState = this.gameStates.MOVING_PIECE
+                            console.log("Picked object: " + obj + ", with pick id " + id);		
+                            this.originPos = obj.getRowColumn();
+                            console.log("MOVING PIECE row: " + this.originPos[0] + " col: " + this.originPos[1]);		
+                            this.currentState = this.gameStates.MOVING_PIECE;
+                        }
+                    }
                 } else if (this.currentState == this.gameStates.MOVING_PIECE){
                         console.log("Moved PIECE to row: " + obj.row + " col: " + obj.col);		
-
                         this.board.movePiece(this.originPos[0],this.originPos[1],obj.row,obj.col);
                         this.currentState = this.gameStates.START_PLAY;
-
-
+                        this.changeTeam();
 
                 }					
-
             }
         }   
+    }
+
+    changeTeam(){
+        if(this.currentPlayer == "blue"){
+            this.currentPlayer = "red";
+            console.log("Mudei para red");
+        } else{
+            this.currentPlayer = "blue";
+            console.log("Mudei para blue");
+        }
+        this.rotateCamera();
+        
+    }
+
+
+    rotateCamera(deltaTime){
+        let delta = (Math.PI/2000)*deltaTime;
+        if(this.currentPlayer == "blue")
+            this.scene.currentCamera.setPosition(vec3.fromValues(0,10 , -15));
+        else{
+            this.scene.currentCamera.setPosition(vec3.fromValues(0,10,15));
+        }
     }
 
     managePick(mode, results) {
