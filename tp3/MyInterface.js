@@ -51,17 +51,9 @@ class MyInterface extends CGFinterface {
     createScenesFolder(){
         var folder = this.gui.addFolder("Scene");
         let scene = this.scene;
-        folder.add(this.scene, "currentScene" , ["new.xml", "new2.xml"]).name("Scene").onChange(function(value) {
+        folder.add(this.scene, "currentScene" , ["new.xml", "new2.xml"]).name("Current Scene").onChange(function(value) {
             scene.graph.changeScene(value);
         });
-
-        // let scenes = ['new.xml','new2.xml'];
-        // for(let key in scenes){
-        //     folder.add(key,"0").name(key);
-        // }
-        // scenes.onChange(function(value) {
-        //     this.scene.switchScene(value);
-        // });   
     }
 
     //Add Camera checkboxes

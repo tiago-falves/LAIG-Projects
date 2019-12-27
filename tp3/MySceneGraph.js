@@ -70,10 +70,14 @@ class MySceneGraph {
         this.loadedOk = true;
 
         // As the graph loaded ok, signal the scene so that any additional initialization depending on the graph can take place
-        this.scene.onGraphLoaded();
+
+        if(!this.changingScene)
+            this.scene.onGraphLoaded();
+     
     }
 
     changeScene(filename){
+        this.scene.graph.changingScene = true;
         this.reader.open('scenes/' + filename, this);
     }
     /**
