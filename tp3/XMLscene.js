@@ -165,6 +165,8 @@ class XMLscene extends CGFscene {
         this.initCameras();
         this.initLights();
 
+        this.currentScene = this.graph.filename;
+
         this.sceneInited = true;
 
         this.interface.createMenus();

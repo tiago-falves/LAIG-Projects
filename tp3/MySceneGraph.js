@@ -21,6 +21,7 @@ class MySceneGraph {
      */
     constructor(filename, scene) {
         this.loadedOk = null;
+        this.filename = filename;
 
         // Establish bidirectional references between scene and graph.
         this.scene = scene;
@@ -72,6 +73,9 @@ class MySceneGraph {
         this.scene.onGraphLoaded();
     }
 
+    changeScene(filename){
+        this.reader.open('scenes/' + filename, this);
+    }
     /**
      * Parses the XML file, processing each block.
      * @param {XML root element} rootElement

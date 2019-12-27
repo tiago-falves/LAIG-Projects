@@ -1,0 +1,555 @@
+<lxs>
+    <scene root="Root" axis_length="5"/>
+
+    <views default="Board View">
+        <perspective id="Board View" near="1" far="500" angle="50">
+            <from x="0" y="10" z="15" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <perspective id="Floating View" near="1" far="500" angle="45">
+            <from x="15" y="-4" z="15" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        
+        <ortho id="CatView" near="-2" far="50" left="-3" right="3" top="2" bottom="-1">
+            <to  x="-1" y="0" z="-3"/>
+			<from  x="0" y="1" z="-1"/>
+        </ortho>
+    </views>
+
+    <globals>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </globals>
+
+    <lights>
+        <omni id="OmniLight" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0"/>
+
+        </omni>
+        <spot id="SpotLight1" enabled="1" angle="45" exponent="10">
+            <location x="-2" y="1" z="0" w="1.0" />
+            <target x="-5" y="2" z="0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0"/>
+        </spot>
+        <spot id="SpotLight2" enabled="1" angle="45" exponent="10">
+            <location x="2" y="1" z="0" w="1.0" />
+            <target x="5" y="2" z="0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1" linear="0" quadratic="0"/>
+        </spot>
+    </lights>
+
+    <textures>
+        <texture id="black" file="scenes/images/black.jpg" />
+        <texture id="white" file="scenes/images/white.jpg" />
+        <texture id="blue" file="scenes/images/blue.png" />
+        <texture id="red" file="scenes/images/red.png" />
+        <texture id="cat" file="scenes/images/catFace.jpg" />
+        <texture id="cubeMapTopTexture" file="scenes/images/catFace.jpg" />
+        <texture id="cubeMapBottomTexture" file="scenes/images/catFace.jpg" />
+        <texture id="cubeMapFrontTexture" file="scenes/images/catFace.jpg" />
+        <texture id="cubeMapBackTexture" file="scenes/images/catFace.jpg" />
+        <texture id="cubeMapLeftTexture" file="scenes/images/catFace.jpg" />
+        <texture id="cubeMapRightTexture" file="scenes/images/catFace.jpg" />
+    </textures>
+
+    <materials>
+        <material id="NeutralMaterial" shininess="10">
+            <emission r="0.8" g="0.8" b="0.8" a="1.0" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
+            <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="Transform">
+            <translate x="4" y="5" z="6" />
+            <scale x="1" y="1" z="1" />
+            <rotate axis="x" angle="-45" />
+            <rotate axis="z" angle="-45" />
+        </transformation>
+    </transformations>
+
+
+
+    <primitives>
+        <primitive id="Rectangle">
+            <rectangle x1="0" y1="0" x2="1" y2="1" />
+        </primitive>
+        <primitive id="Board">
+            <board x1="-1" y1="0" x2="3" y2="3" />
+        </primitive>
+        <primitive id="game">
+            <game />
+        </primitive>
+        <primitive id="RedWhitePiece">
+            <piece team = "red" nature = "wn" />
+        </primitive>
+        <primitive id="RedBlackPiece">
+            <piece team = "red" nature = "bn" />
+        </primitive>
+        <primitive id="BlueBlackPiece">
+            <piece team = "blue" nature = "bn" />
+        </primitive>
+        <primitive id="BlueWhitePiece">
+            <piece team = "blue" nature = "wn" />
+        </primitive>
+        <primitive id="Cylinder">
+            <cylinder base="1" top="1" height="1" slices="20" stacks="10"/>
+        </primitive>
+        <primitive id="Patch">
+             <patch npointsU="3" npointsV="2" npartsU="4" npartsV="4">
+                    <controlpoint xx="0.3" yy="0" zz="-0.2" />
+                    <controlpoint xx="0.1" yy="0" zz="0.2" />
+                    <controlpoint xx="0" yy="0.3" zz="-0.2" />
+                    <controlpoint xx="0" yy="0.2" zz="0.2" />
+                    <controlpoint xx="-0.3" yy="0" zz="-0.2" />
+                    <controlpoint xx="-0.1" yy="0" zz="0.2" />
+            </patch>
+        </primitive>
+        <primitive id="Plane">
+            <plane npartsU="30" npartsV="30" />
+        </primitive>
+        <primitive id="Cylinder2">
+            <cylinder2 base="0.1" top="0.1" height="2" slices="50" stacks="50" />
+        </primitive>  
+    </primitives>
+
+    <animations>
+    </animations>
+
+
+    <components>
+        <component id="RedBody">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="red" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Cylinder"/>
+            </children>
+        </component>
+
+        <component id="BlueBody">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="blue" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Cylinder"/>
+            </children>
+        </component>
+
+        <component id="BlackHead">
+            <transformation>
+                <scale x="0.75" y="0.75" z="1.1"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="black" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Cylinder"/>
+            </children>
+        </component>
+
+        <component id="WhiteHead">
+            <transformation>
+                <translate x="0" y="0" z="0.1"/>
+                <scale x="0.75" y="0.75" z="1"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="white" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Cylinder"/>
+            </children>
+        </component>
+
+
+        <component id="RedBlackChameleon">
+            <transformation>
+                <rotate axis="x" angle="-90"/>
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial"/>
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="RedBody"/>
+                <componentref id="BlackHead"/>
+            </children>
+        </component>
+
+
+        <component id="cubeBack">
+            <transformation>
+
+                <translate x="0" y="0" z="-0.5"/>
+                <!-- <scale x="40" y="40" z="0.05"/> -->
+                <translate x="-0.5" y="-0.5" z="0"/>
+                
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+         <component id="cubeTop">
+            <transformation>
+                <translate x="0" y="0.5" z="0"/>
+                <rotate axis="x" angle="90"/>
+                <!-- <scale x="40" y="40" z="0.05"/> -->
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeFront">
+            <transformation>
+                <translate x="0" y="0" z="0.5"/>
+                <!-- <scale x="-40" y="40" z="0.05"/> -->
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeBottom">
+            <transformation>
+                <translate x="0" y="-0.5" z="0"/>  
+                <rotate axis="x" angle="270"/>
+                <!-- <scale x="40" y="40" z="0.05"/> -->
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeRight">
+            <transformation>
+                <translate x="0.5" y="0" z="0"/>
+                <rotate axis="y" angle="-90"/>
+                <!-- <scale x="40" y="40" z="0.05"/> -->
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeLeft">
+            <transformation>
+                <translate x="-0.5" y="0" z="0"/>
+                <rotate axis="y" angle="90"/>
+                <!-- <scale x="40" y="40" z="0.05"/> -->
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cube">
+            <transformation>       
+            <!-- <translate x="0" y="-5" z="0"/>  -->
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+                <!-- <material id="goldenMaterial" />
+                <material id="whiteMaterial" />
+                <material id="darkerMaterial" /> -->
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cubeFront" />
+                <componentref id="cubeBack" />
+                <componentref id="cubeTop" />
+                <componentref id="cubeBottom" />
+                <componentref id="cubeLeft" />
+                <componentref id="cubeRight" />
+            </children>
+        </component>
+
+        <component id="table">
+            <transformation>
+                <translate x="0" y="-1" z="0" />
+                <scale x="4" y="4" z="4" />
+
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="cat" length_s="1" length_t="1" />
+
+            <children>
+                <componentref id="table-top" />
+                <componentref id="table-leg-1" />
+                <componentref id="table-leg-2" />
+                <componentref id="table-leg-3" />
+                <componentref id="table-leg-4" />
+            </children>
+        </component>
+
+        <component id="table-top">
+            <transformation>
+               
+                <scale x="4" y="0.5" z="2" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+
+        <component id="table-leg-1">
+            <transformation>
+                <translate x="1.8" y="-1" z="0.8" />
+                <scale x="0.3" y="2" z="0.3" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1" length_t="1" />
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+
+        <component id="table-leg-2">
+            <transformation>
+                <translate x="-1.8" y="-1" z="0.8" />
+                <scale x="0.3" y="2" z="0.3" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="inherit" length_s="1" length_t="1" />
+
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+
+        <component id="table-leg-3">
+            <transformation>
+                <translate x="1.8" y="-1" z="-0.8" />
+                <scale x="0.3" y="2" z="0.3" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="inherit" length_s="1" length_t="1" />
+
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+
+        <component id="table-leg-4">
+            <transformation>
+                <translate x="-1.8" y="-1" z="-0.8" />
+                <scale x="0.3" y="2" z="0.3" />
+            </transformation>
+
+            <materials>
+                <material id="inherit" />
+            </materials>
+
+            <texture id="inherit" length_s="1" length_t="1" />
+
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+
+                <component id="cubeMapBack">
+            <transformation>
+
+                <translate x="0" y="10" z="-20"/>
+                <scale x="40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+                
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="cubeMapBackTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+         <component id="cubeMapTop">
+            <transformation>
+                <translate x="0" y="30" z="0"/>
+                <rotate axis="x" angle="90"/>
+                <scale x="40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="cubeMapTopTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeMapFront">
+            <transformation>
+                <translate x="0" y="10" z="20"/>
+                <scale x="-40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="cubeMapFrontTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeMapBottom">
+            <transformation>
+            <translate x="0" y="-10" z="0"/>
+                
+                <rotate axis="x" angle="270"/>
+                <scale x="40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="cubeMapBottomTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeMapRight">
+            <transformation>
+                <translate x="20" y="10" z="0"/>
+                <rotate axis="y" angle="-90"/>
+                <scale x="40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="cubeMapRightTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeMapLeft">
+            <transformation>
+                <translate x="-20" y="10" z="0"/>
+                <rotate axis="y" angle="90"/>
+                <scale x="40" y="40" z="0.05"/>
+                <translate x="-0.5" y="-0.5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="cubeMapLeftTexture" length_s="1" length_t="1"/>
+            <children>
+                <primitiveref id="Rectangle" />
+            </children>
+        </component>
+
+        <component id="cubeMap">
+            <transformation>       
+                <!-- <scale x="0.8" y="0.8" z="0.8"/>             -->
+                <translate x="0" y="1" z="0"/> 
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+                <!-- <material id="goldenMaterial" />
+                <material id="whiteMaterial" />
+                <material id="darkerMaterial" /> -->
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="cubeMapFront" />
+                <componentref id="cubeMapBack" />
+                <componentref id="cubeMapTop" />
+                <componentref id="cubeMapBottom" />
+                <componentref id="cubeMapLeft" />
+                <componentref id="cubeMapRight" />
+            </children>
+        </component>
+
+        <component id="Root">
+            <transformation> 
+            </transformation>
+            <materials>
+                <material id="NeutralMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <!-- <componentref id="RedBlackChameleon" /> -->
+                <primitiveref id="game" />
+                <!-- <componentref id = "cube" /> -->
+                <!-- <componentref id = "table" /> -->
+                <!-- <componentref id = "cubeMap" /> -->
+                <!-- <primitiveref id="RedWhitePiece" /> -->
+            </children>
+        </component>
+    </components>
+</lxs>

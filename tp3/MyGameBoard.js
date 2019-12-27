@@ -71,25 +71,27 @@ class MyGameBoard extends CGFobject {
         
     }
 
-    removePieceTile(row,collumn){
-        this.boardCells[row][collumn].setPiece(null);
+    removePieceTile(row,column){
+        this.boardCells[row][column].setPiece(null);
         
     }
-    getPieceList(row,collumn){
-        return this.currentBoard[row][collumn];
+    getPieceList(row,column){
+        return this.currentBoard[row][column];
     }
 
     getTileByCoords(){
 
     }
 
-    movePiece(row, collumn,newRow,newColumn){
+    movePiece(row, column,newRow,newColumn){
         //TODO
         //Verify if valid move and that shit
-        let piece = this.boardCells[row][collumn].getPiece();
+        let piece = this.boardCells[row][column].getPiece();
+        //team, board
+       //if(this.handler.move(Team, row, col, newRow, newCol, this.currentBoard) != NULL)
         if(piece != null){
             let coords = this.boardCells[newRow][newColumn].getCoords();
-            this.removePieceTile(row,collumn);
+            this.removePieceTile(row,column);
             this.boardCells[newRow][newColumn].setPiece(piece);
             piece.setCoordinates(coords[0],coords[2]);
         }
