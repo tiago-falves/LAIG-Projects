@@ -12,6 +12,7 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
+        this.rotatingCamera = false;
     
     }
 
@@ -23,7 +24,7 @@ class XMLscene extends CGFscene {
         super.init(application);
         this.initialTime = 0;
         this.sceneInited = false;
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        this.camera = new CGFcamera(0, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
         this.cameraIDs = [];
         this.currentCamera = null;;
         this.lightIDs = new Object();
@@ -54,7 +55,8 @@ class XMLscene extends CGFscene {
             this.graph.updateInitialTimeAnimations(this.initialTime);
         } 
 
-     
+
+
     }
 
     /**
@@ -74,6 +76,7 @@ class XMLscene extends CGFscene {
         this.currentCamera = newCamera;
 
         this.interface.setActiveCamera(this.camera);
+
       }
    
     /**
@@ -161,6 +164,8 @@ class XMLscene extends CGFscene {
         //Comentar init Cameras
         this.initCameras();
         this.initLights();
+
+        this.currentScene = this.graph.filename;
 
         this.sceneInited = true;
 

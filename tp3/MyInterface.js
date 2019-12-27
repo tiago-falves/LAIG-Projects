@@ -34,6 +34,7 @@ class MyInterface extends CGFinterface {
         this.createLightFolder();
 
         this.createViewsFolder();
+        this.createScenesFolder();
 
         this.initKeys();
     }
@@ -45,6 +46,22 @@ class MyInterface extends CGFinterface {
         for(let key in this.scene.graph.lights){
             folder.add(this.scene.graph.lights[key], "0").name(key);
         }
+    }
+
+    createScenesFolder(){
+        var folder = this.gui.addFolder("Scene");
+        let scene = this.scene;
+        folder.add(this.scene, "currentScene" , ["new.xml", "new2.xml"]).name("Scene").onChange(function(value) {
+            scene.graph.changeScene(value);
+        });
+
+        // let scenes = ['new.xml','new2.xml'];
+        // for(let key in scenes){
+        //     folder.add(key,"0").name(key);
+        // }
+        // scenes.onChange(function(value) {
+        //     this.scene.switchScene(value);
+        // });   
     }
 
     //Add Camera checkboxes

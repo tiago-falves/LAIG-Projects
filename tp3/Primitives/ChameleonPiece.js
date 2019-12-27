@@ -42,39 +42,45 @@ class ChameleonPiece extends CGFobject {
         this.blueMaterial.setSpecular(0.1, 0.1, 0.9, 1);
         this.blueMaterial.setShininess(10.0);
 
+        // <emission r="0.8" g="0.8" b="0.8" a="1.0" />
+        //     <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
+        //     <diffuse r="0.1" g="0.1" b="0.1" a="1.0" />
+        //     <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+
+
         this.redWhite = new CGFappearance(this.scene);
-        this.redWhite.setAmbient(1.0, 1.0, 1.0, 1);
-        this.redWhite.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.redWhite.setSpecular(1, 1, 1, 1);
+        this.redWhite.setAmbient(0.8,0.8,0.8,1);
+        this.redWhite.setDiffuse(0.8, 0.8, 0.8, 1);
+        this.redWhite.setSpecular(0.1, 0.1, 0.1, 1);
         this.redWhite.setShininess(10.0);
         this.redWhite.loadTexture("scenes/images/redWhite.png");
 
         this.redBlack = new CGFappearance(this.scene);
-        this.redBlack.setAmbient(1.0, 1.0, 1.0, 1);
-        this.redBlack.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.redBlack.setSpecular(1, 1, 1, 1);
+        this.redBlack.setAmbient(0.8,0.8,0.8,1);
+        this.redBlack.setDiffuse(0.8, 0.8, 0.8, 1);
+        this.redBlack.setSpecular(0.1, 0.1, 0.1, 1);
         this.redBlack.setShininess(10.0);
         this.redBlack.loadTexture("scenes/images/redBlack.png");
 
         this.blueWhite = new CGFappearance(this.scene);
-        this.blueWhite.setAmbient(1.0, 1.0, 1.0, 1);
-        this.blueWhite.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.blueWhite.setSpecular(1, 1, 1, 1);
+        this.blueWhite.setAmbient(0.8,0.8,0.8,1);
+        this.blueWhite.setDiffuse(0.8, 0.8, 0.8, 1);
+        this.blueWhite.setSpecular(0.1, 0.1, 0.1, 1);
         this.blueWhite.setShininess(10.0);
         this.blueWhite.loadTexture("scenes/images/blueWhite.png");
 
         this.blueBlack = new CGFappearance(this.scene);
-        this.blueBlack.setAmbient(1.0, 1.0, 1.0, 1);
-        this.blueBlack.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.blueBlack.setSpecular(1, 1, 1, 1);
+        this.blueBlack.setAmbient(0.8,0.8,0.8,1);
+        this.blueBlack.setDiffuse(0.8, 0.8, 0.8, 1);
+        this.blueBlack.setSpecular(0.1, 0.1, 0.1, 1);
         this.blueBlack.setShininess(10.0);
         this.blueBlack.loadTexture("scenes/images/blueBlack.png");
 
         this.whiteMaterial = new CGFappearance(this.scene);
-        this.whiteMaterial.setAmbient(1.0, 1.0, 1.0, 1);
-        this.whiteMaterial.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.whiteMaterial.setSpecular(1, 1, 1, 1);
-        this.whiteMaterial.setShininess(10.0);
+        this.blueBlack.setAmbient(0.8,0.8,0.8,1);
+        this.blueBlack.setDiffuse(0.8, 0.8, 0.8, 1);
+        this.blueBlack.setSpecular(0.1, 0.1, 0.1, 1);
+        this.blueBlack.setShininess(10.0);
         // this.whiteMaterial.loadTexture("scenes/images/blueBlack.png");
 
         // Dar upload de uma textura que seja um circulo branco dentro de um preto...

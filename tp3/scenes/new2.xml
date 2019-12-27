@@ -546,8 +546,8 @@
                 <!-- <componentref id="RedBlackChameleon" /> -->
                 <primitiveref id="game" />
                 <!-- <componentref id = "cube" /> -->
-                <componentref id = "table" />
-                <componentref id = "cubeMap" />
+                <!-- <componentref id = "table" /> -->
+                <!-- <componentref id = "cubeMap" /> -->
                 <!-- <primitiveref id="RedWhitePiece" /> -->
             </children>
         </component>
