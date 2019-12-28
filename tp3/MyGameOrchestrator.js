@@ -8,12 +8,13 @@ class MyGameOrchestrator extends CGFobject {
         this.scene;
 
 
-        this.board = new MyGameBoard(this.scene);
+       
         this.gameStates = {
             START: 0,
             START_PLAY: 1,
             MOVING_PIECE: 2,
-            GAME_OVER: 3
+            MOVIE:3,
+            GAME_OVER: 4
         };
         this.currentPlayer = "red";
         this.rotationCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 60, -60), vec3.fromValues(0, 10, 0));
@@ -28,8 +29,9 @@ class MyGameOrchestrator extends CGFobject {
      */
     display() {
         var degToRad = Math.PI / 180;
-        this.board.display();
 
+        this.board.display();
+   
         // this.theme.display();
         // this.gameboard.display();
         // this.animator.display();
@@ -38,10 +40,11 @@ class MyGameOrchestrator extends CGFobject {
     initGame(){
         this.currentState = this.gameStates.START_PLAY;
         this.gameSequence = new MyGameSequence(this.scene);
+        this.initBoard();
     }
 
-    gameLoop(){
-
+    initBoard(){
+        this.board = new MyGameBoard(this.scene);
     }
 
     onObjectSelected(obj, id) {

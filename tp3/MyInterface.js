@@ -53,6 +53,7 @@ class MyInterface extends CGFinterface {
     createOptionsFolder(){
         var folder = this.gui.addFolder("Options");
         folder.add(this.scene, "undoMove").name("Undo move");
+        folder.add(this.scene, "movie").name("Replay Game");
 
 
     }

@@ -201,10 +201,24 @@ class XMLscene extends CGFscene {
     }
     
     undoMove() {
-        this.game.gameSequence.undo(this.game.board);
-        this.game.changeTeam();
+        if(this.game.gameSequence.gameMoves.length < 1){
+            console.log("Cannot undo in first play!");
+        }else{
+            this.game.gameSequence.undo(this.game.board);
+            this.game.changeTeam();
+        }
     }
-  
+    movie(){
+        this.game.initBoard();
+        setTimeout(() => {
+            this.game.currentState =  this.game.gameStates.MOVIE;
+            this.game.gameSequence.movie(this.game.board);
+            setTimeout(() => {
+                this.game.currentState =  this.game.gameStates.START_PLAY;
+            }, this.game.gameSequence.totalTime);
+
+        }, 1000);
+    }
 
     display() {
 

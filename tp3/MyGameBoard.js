@@ -33,6 +33,8 @@ class MyGameBoard extends CGFobject {
             }
             this.boardCells.push(boardCellsList);
         }
+
+        
      
         
 
@@ -99,6 +101,7 @@ class MyGameBoard extends CGFobject {
             this.boardCells[newRow][newColumn].setPiece(piece);
             piece.setCoordinates(coords[0],coords[2]);
         }
+        
 
 
            
