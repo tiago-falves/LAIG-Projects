@@ -36,6 +36,8 @@ class MyInterface extends CGFinterface {
         this.createViewsFolder();
         this.createScenesFolder();
 
+        this.createOptionsFolder();
+
         this.initKeys();
     }
 
@@ -46,6 +48,13 @@ class MyInterface extends CGFinterface {
         for(let key in this.scene.graph.lights){
             folder.add(this.scene.graph.lights[key], "0").name(key);
         }
+    }
+
+    createOptionsFolder(){
+        var folder = this.gui.addFolder("Options");
+        folder.add(this.scene, "undoMove").name("Undo move");
+
+
     }
 
     createScenesFolder(){

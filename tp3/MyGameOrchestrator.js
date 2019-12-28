@@ -37,7 +37,7 @@ class MyGameOrchestrator extends CGFobject {
 
     initGame(){
         this.currentState = this.gameStates.START_PLAY;
-        this.gameLoop();  
+        this.gameSequence = new MyGameSequence(this.scene);
     }
 
     gameLoop(){
@@ -64,10 +64,17 @@ class MyGameOrchestrator extends CGFobject {
                         }
                     }
                 } else if (this.currentState == this.gameStates.MOVING_PIECE){
-                        console.log("Moved PIECE to row: " + obj.row + " col: " + obj.col);		
-                        this.board.movePiece(this.originPos[0],this.originPos[1],obj.row,obj.col);
+                        console.log("Moved PIECE to row: " + obj.row + " col: " + obj.col);	
+                        // console.log(this.board.boardCells[this.originPos[0]][this.originPos[1]])	;
+                        let gameMove = this.board.movePiece(this.originPos[0],this.originPos[1],obj.row,obj.col);
+                        // console.log(this.board.boardCells[this.originPos[0]][this.originPos[1]])	;
+
+                        this.gameSequence.addGameMove(gameMove);
+                        
+
                         this.currentState = this.gameStates.START_PLAY;
-                        this.changeTeam();
+                        setTimeout(() => {  this.changeTeam(); }, 500);
+                        
 
                 }					
             }
@@ -77,10 +84,8 @@ class MyGameOrchestrator extends CGFobject {
     changeTeam(){
         if(this.currentPlayer == "blue"){
             this.currentPlayer = "red";
-            console.log("Mudei para red");
         } else{
             this.currentPlayer = "blue";
-            console.log("Mudei para blue");
         }
         this.rotateCamera();
         

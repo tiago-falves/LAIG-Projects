@@ -11,7 +11,7 @@ function getUrlVars() {
     return vars;
 }	 
 //Include additional files here
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'Primitives/MyRectangle.js' , 'Primitives/ChameleonPiece.js', 'Primitives/Circle.js', 'Primitives/CylinderSide.js', 'MyGameBoard.js','MyGameOrchestrator.js',,'BoardCell.js', 'Primitives/MyCylinder.js', 'Primitives/Cylinder2.js', 'Primitives/Patch.js', 'Primitives/Plane.js', 'Primitives/MyTriangle.js','Primitives/MyTorus.js', 'Primitives/MySphere.js', 'MyComponent.js', 'Parsing/Transformations.js', 'Parsing/Primitives.js', 'Parsing/Animations.js', 'Parsing/Components.js', 'Parsing/Materials.js', 'Parsing/Textures.js', 'Parsing/Lights.js', 'Parsing/Views.js', 'MyAnimation.js', 'MyKeyframeAnimation.js', 
+serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js','MyGameMove.js','MyGameSequence.js', 'Primitives/MyRectangle.js' , 'Primitives/ChameleonPiece.js', 'Primitives/Circle.js', 'Primitives/CylinderSide.js', 'MyGameBoard.js','MyGameOrchestrator.js',,'BoardCell.js', 'Primitives/MyCylinder.js', 'Primitives/Cylinder2.js', 'Primitives/Patch.js', 'Primitives/Plane.js', 'Primitives/MyTriangle.js','Primitives/MyTorus.js', 'Primitives/MySphere.js', 'MyComponent.js', 'Parsing/Transformations.js', 'Parsing/Primitives.js', 'Parsing/Animations.js', 'Parsing/Components.js', 'Parsing/Materials.js', 'Parsing/Textures.js', 'Parsing/Lights.js', 'Parsing/Views.js', 'MyAnimation.js', 'MyKeyframeAnimation.js', 
 
 main=function()
 {

@@ -198,7 +198,11 @@ class XMLscene extends CGFscene {
 				this.pickResults.splice(0, this.pickResults.length);
 			}
 		}
-	}
+    }
+    
+    undoMove() {
+        this.game.gameSequence.undo(this.game.board);
+    }
   
 
     display() {

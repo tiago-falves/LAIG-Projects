@@ -87,6 +87,10 @@ class MyGameBoard extends CGFobject {
         //TODO
         //Verify if valid move and that shit
         let piece = this.boardCells[row][column].getPiece();
+        let gameMove = new MyGameMove(this.scene,piece,this.boardCells[row][column],this.boardCells[newRow][newColumn],this);
+                         
+
+
         //team, board
        //if(this.handler.move(Team, row, col, newRow, newCol, this.currentBoard) != NULL)
         if(piece != null){
@@ -95,7 +99,10 @@ class MyGameBoard extends CGFobject {
             this.boardCells[newRow][newColumn].setPiece(piece);
             piece.setCoordinates(coords[0],coords[2]);
         }
-                
+
+
+           
+        return gameMove;  
     }
 
 

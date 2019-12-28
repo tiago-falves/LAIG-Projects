@@ -117,6 +117,12 @@ class BoardCell extends CGFobject {
     getRowColumn() {
         return [this.row,this.col];
     }
+    getRow(){
+        return this.row;
+    }
+    getCol(){
+        return this.col;
+    }
     getPiece(){
         return this.piece;
     }
