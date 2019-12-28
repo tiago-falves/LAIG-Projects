@@ -14,13 +14,18 @@ class MyGameSequence extends CGFobject {
     }
 
     undo(board){
-        let lastGameMove = this.gameMoves[this.gameMoves.length-1];
-        let row = lastGameMove.destinationTile.getRow();
-        let newRow = lastGameMove.originTile.getRow();
-        let col = lastGameMove.destinationTile.getCol();
-        let newCol = lastGameMove.originTile.getCol();
-        board.movePiece(row, col,newRow,newCol);
-        this.gameMoves.pop();
+        if(this.gameMoves.length < 1){
+            console.log("Cannot undo in first play!");
+        }else{
+            let lastGameMove = this.gameMoves[this.gameMoves.length-1];
+            let row = lastGameMove.destinationTile.getRow();
+            let newRow = lastGameMove.originTile.getRow();
+            let col = lastGameMove.destinationTile.getCol();
+            let newCol = lastGameMove.originTile.getCol();
+            board.movePiece(row, col,newRow,newCol);
+            lastGameMove.destinationTile.setPiece(lastGameMove.oldPiece);
+            this.gameMoves.pop();
+        }
     }
 
     movie(){

@@ -73,7 +73,7 @@ class MyGameOrchestrator extends CGFobject {
                         
 
                         this.currentState = this.gameStates.START_PLAY;
-                        setTimeout(() => {  this.changeTeam(); }, 500);
+                        this.changeTeam();
                         
 
                 }					
@@ -87,7 +87,9 @@ class MyGameOrchestrator extends CGFobject {
         } else{
             this.currentPlayer = "blue";
         }
-        this.rotateCamera();
+        setTimeout(() => {  this.rotateCamera(); }, 500);
+
+        
         
     }
 

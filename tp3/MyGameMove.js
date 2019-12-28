@@ -9,6 +9,7 @@ class MyGameMove extends CGFobject {
         this.piece = piece;
         this.originTile = originTile;
         this.destinationTile = destinationTile;
+        this.oldPiece = destinationTile.getPiece();
         this.board = board;
 
     };
