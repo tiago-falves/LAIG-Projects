@@ -180,12 +180,12 @@ class Primitives extends CGFobject {
                 this.graph.primitives[primitiveId] = torus;
             }
 
-            else if(primitiveType == 'game'){
+            // else if(primitiveType == 'game'){
 
-                //Creates shere and adds it to the primitive array
-                var game = new MyGameOrchestrator(this.scene);
-                this.graph.primitives[primitiveId] = game;
-            }
+            //     //Creates shere and adds it to the primitive array
+            //     var game = new MyGameOrchestrator(this.scene);
+            //     this.graph.primitives[primitiveId] = game;
+            // }
             
             else if (primitiveType == 'plane') {
                 let npartsU = this.graph.reader.getFloat(grandChildren[0], 'npartsU');

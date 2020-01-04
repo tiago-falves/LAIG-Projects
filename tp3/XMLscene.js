@@ -200,7 +200,7 @@ class XMLscene extends CGFscene {
 
         this.interface.createMenus();
 
-        this.game = this.graph.primitives["game"];
+        this.game = this.graph.game;
 
     }
 

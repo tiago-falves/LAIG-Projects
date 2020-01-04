@@ -39,6 +39,8 @@ class MySceneGraph {
         // File reading 
         this.reader = new CGFXMLreader();
 
+        this.game = new MyGameOrchestrator(this.scene);
+
         /*
          * Read the contents of the xml file, and refer to this class for loading and error handlers.
          * After the file is read, the reader calls onXMLReady on this object.
@@ -577,6 +579,8 @@ class MySceneGraph {
     displayScene() {
          
        this.processNode(this.idRoot, null, null, 1, 1);
+
+       this.game.display();
     }
 
     processNode(idNode, matParent, texParent, lsParent, ltParent){

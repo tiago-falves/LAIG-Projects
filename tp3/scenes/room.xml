@@ -54,7 +54,6 @@
     </lights>
 
     <textures>
-        <texture id="cat" file="scenes/images/catFace.jpg" />
         <texture id="cubeMapTopTexture" file="scenes/images/catFace.jpg" />
         <texture id="cubeMapBottomTexture" file="scenes/images/catFace.jpg" />
         <texture id="cubeMapFrontTexture" file="scenes/images/catFace.jpg" />
@@ -109,9 +108,6 @@
         </primitive>
         <primitive id="Board">
             <board x1="-1" y1="0" x2="3" y2="3" />
-        </primitive>
-        <primitive id="game">
-            <game />
         </primitive>
         <primitive id="RedWhitePiece">
             <piece team = "red" nature = "wn" />
@@ -1390,9 +1386,6 @@
             </materials>
             <texture id="none"/>
             <children>
-                <!-- <componentref id="RedBlackChameleon" /> -->
-                <primitiveref id="game" />
-                <!-- <componentref id = "cube" /> -->
                 <componentref id = "table" />
                 <componentref id = "cubeMap" />
                 <componentref id = "librarys1" />
