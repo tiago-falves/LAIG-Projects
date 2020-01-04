@@ -66,8 +66,8 @@ class MyGameOrchestrator extends CGFobject {
                     console.log("Moved PIECE to row: " + obj.row + " col: " + obj.col);	
 
                     let gameMove = await this.board.movePiece(this.originPos[0],this.originPos[1],obj.row,obj.col);
-
                     if(gameMove != null){
+                        gameMove.animate();
                         this.gameSequence.addGameMove(gameMove);
                         this.changeTeam();
                     }

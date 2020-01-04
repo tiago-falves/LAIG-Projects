@@ -55,10 +55,11 @@ class MyGameMove extends CGFobject {
 
     animate(){
         this.scene.graph.currentPieceAnimation = this.animation;
+        this.animation.apply();
     }
     
     setAnimation(){
-    
+        console.log("ANIMAAAAATION");
         let keyframes = [];
         let keyframe = [];
         keyframe['instant'] = 5;
@@ -80,14 +81,7 @@ class MyGameMove extends CGFobject {
 
         this.animation = new MyKeyframeAnimation(this.scene, keyframes);
 
-
-
-
-
     }
-
-
-
 }
 
 
