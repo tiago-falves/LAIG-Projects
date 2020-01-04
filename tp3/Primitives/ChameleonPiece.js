@@ -11,6 +11,7 @@ class ChameleonPiece extends CGFobject {
         this.team = pieceList[0];
         this.nature = pieceList[1];
         this.tileColor = pieceList[2];
+        this.animation = null;
             
 
         this.xCoord = 0;
@@ -168,9 +169,16 @@ class ChameleonPiece extends CGFobject {
 
         }
     }
+
+    animate(){
+        this.animation.apply();
+    }
     
     display() {
         this.scene.pushMatrix();
+            if(this.animation != null){
+                this.animate();
+            }
             this.scene.translate(this.xCoord,this.yCoord,this.zCoord);
             this.scene.scale(0.3,0.3,0.3);
             this.scene.rotate(-Math.PI/2, 1,0,0);

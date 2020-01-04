@@ -28,6 +28,7 @@ class MyGameBoard extends CGFobject {
               
                 let piece = new ChameleonPiece(scene,pieceList);
                 piece.setCoordinates(j ,i);
+                console.log(j,i);
 
                 boardCellsList.push(new BoardCell(scene, j, i,i, j,piece));
             }
@@ -92,6 +93,7 @@ class MyGameBoard extends CGFobject {
             this.removePieceTile(row,column);
             this.boardCells[newRow][newColumn].setPiece(piece);
             piece.setCoordinates(coords[0],coords[2]);
+           console.log (this.boardCells[newRow][newColumn].getCoords());
         }
         
         return gameMove;  

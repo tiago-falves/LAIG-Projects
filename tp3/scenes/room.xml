@@ -146,6 +146,25 @@
     </primitives>
 
     <animations>
+    <animation id="Wing" >
+            <keyframe instant="0.1">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="45" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            
+            <keyframe instant="0.3">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="-45" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+            
+            <keyframe instant="0.4">
+                <translate x="0" y="0" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
     </animations>
 
 
@@ -346,6 +365,8 @@
             </materials>
 
             <texture id="tableTexture" length_s="0.2" length_t="1" />
+            <!-- <animationref id="Wing" loop="1"/> -->
+
 
             <children>
                 <componentref id="table-top" />
