@@ -421,6 +421,7 @@ class MySceneGraph {
     }
 
     updateInitialTimeAnimations(initialTime){
+       
         if(this.animations == null)
             return;
 

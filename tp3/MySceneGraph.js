@@ -421,6 +421,7 @@ class MySceneGraph {
     }
 
     updateAnimations(t){
+        // this.pieceAnimation.update(t);
         if(this.animations == null)
             return;
 
@@ -428,6 +429,9 @@ class MySceneGraph {
 
         for(let i = 0; i < keys.length; i++){
             this.animations[keys[i]].update(t);
+        }
+        if(this.currentPieceAnimation != null){
+            this.currentPieceAnimation.update(t);
         }
     }
 

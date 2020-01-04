@@ -82,7 +82,7 @@ class MyGameBoard extends CGFobject {
             return null;
         }
 
-            console.log("passou");
+        console.log("passou");
         let gameMove = new MyGameMove(this.scene,piece,this.boardCells[row][column],this.boardCells[newRow][newColumn],this);
 
         //team, board

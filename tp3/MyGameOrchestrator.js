@@ -85,7 +85,8 @@ class MyGameOrchestrator extends CGFobject {
         } else{
             this.currentPlayer = "blue";
         }
-        setTimeout(() => {  this.scene.rotateCamera(this.currentPlayer); }, 500);
+        // setTimeout(() => {  this.scene.rotateCamera(this.currentPlayer); }, 500);
+        this.scene.rotateCamera(this.currentPlayer);
     }
 
     managePick(mode, results) {
