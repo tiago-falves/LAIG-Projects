@@ -49,7 +49,7 @@ class ChameleonPiece extends CGFobject {
 
 
         this.redWhite = new CGFappearance(this.scene);
-        this.redWhite.setAmbient(0.8,0.8,0.8,1);
+        this.redWhite.setAmbient(0.1,0.1,0.1,1);
         this.redWhite.setDiffuse(0.8, 0.8, 0.8, 1);
         this.redWhite.setSpecular(0.1, 0.1, 0.1, 1);
         this.redWhite.setShininess(10.0);

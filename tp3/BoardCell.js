@@ -33,7 +33,7 @@ class BoardCell extends CGFobject {
         //this.blackappearance.loadTexture('prob1/scenes/images/board.JPG');
 
         this.whiteAppearance = new CGFappearance(this.scene);
-        this.whiteAppearance.setAmbient(1.0, 1.0, 1.0, 1);
+        this.whiteAppearance.setAmbient(0.8, 0.8, 0.8, 1);
         this.whiteAppearance.setDiffuse(0.9, 0.9, 0.9, 1);
         this.whiteAppearance.setSpecular(1, 1, 1, 1);
         this.whiteAppearance.setShininess(10.0);
