@@ -47,6 +47,18 @@ class XMLscene extends CGFscene {
         this.setPickEnabled(true);
     }
 
+    rotateCamera(player){
+        this.rotatingCamera = true;
+        this.initiateRotation = true;
+        this.currentPlayer = player;
+
+        if(player == "red")
+            this.camera = this.graph.views['Red View'];
+        else this.camera = this.graph.views['Blue View'];
+
+        this.updateCamera(this.camera);
+    }
+
     update(t){
         if(this.sceneInited)
             this.graph.updateAnimations(t - this.initialTime);
@@ -55,8 +67,26 @@ class XMLscene extends CGFscene {
             this.graph.updateInitialTimeAnimations(this.initialTime);
         } 
 
+        // if(this.rotatingCamera){
+        //     if(this.initiateRotation){
+        //         this.cameraRotationInitialTime = t;
+        //         this.initiateRotation = false;
+        //     }
 
+        //     if((this.currentPlayer = "red" && this.currentCamera.position[0] <= 0) || 
+        //         (this.currentPlayer = "blue" && this.currentCamera.position[0] >= 0)){
+        //         this.rotatingCamera = false;
+        //         return;
+        //     }
 
+        //     let factor = ((t-this.cameraRotationInitialTime)/1000) % 180;
+
+        //     factor = factor*Math.PI/180;
+
+        //     this.camera.rotate([0,1,0],factor);
+            
+        //     this.updateCamera(this.camera);
+        // }
     }
 
     /**
@@ -76,8 +106,7 @@ class XMLscene extends CGFscene {
         this.currentCamera = newCamera;
 
         this.interface.setActiveCamera(this.camera);
-
-      }
+    }
    
     /**
      * Initializes the scene lights with the values read from the XML file.

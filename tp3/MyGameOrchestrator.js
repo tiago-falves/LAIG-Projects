@@ -6,8 +6,6 @@ class MyGameOrchestrator extends CGFobject {
     constructor(scene) {
         super(scene);
         this.scene;
-
-
        
         this.gameStates = {
             START: 0,
@@ -17,11 +15,9 @@ class MyGameOrchestrator extends CGFobject {
             GAME_OVER: 4
         };
         this.currentPlayer = "red";
-        this.rotationCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 60, -60), vec3.fromValues(0, 10, 0));
         
         //Testing
         this.initGame();
-
     };
 
     /**
@@ -47,7 +43,7 @@ class MyGameOrchestrator extends CGFobject {
         this.board = new MyGameBoard(this.scene);
     }
 
-    onObjectSelected(obj, id) {
+    async onObjectSelected(obj, id) {
         if(obj instanceof ChameleonPiece){
             // do something with id knowing it is a piece
             console.log("Picked object: " + obj + ", with pick id " + customId);										
@@ -67,18 +63,17 @@ class MyGameOrchestrator extends CGFobject {
                         }
                     }
                 } else if (this.currentState == this.gameStates.MOVING_PIECE){
-                        console.log("Moved PIECE to row: " + obj.row + " col: " + obj.col);	
-                        // console.log(this.board.boardCells[this.originPos[0]][this.originPos[1]])	;
-                        let gameMove = this.board.movePiece(this.originPos[0],this.originPos[1],obj.row,obj.col);
-                        // console.log(this.board.boardCells[this.originPos[0]][this.originPos[1]])	;
+                    console.log("Moved PIECE to row: " + obj.row + " col: " + obj.col);	
 
+                    let gameMove = await this.board.movePiece(this.originPos[0],this.originPos[1],obj.row,obj.col);
+
+                    if(gameMove != null){
                         this.gameSequence.addGameMove(gameMove);
-                        
-
-                        this.currentState = this.gameStates.START_PLAY;
                         this.changeTeam();
-                        
+                    }
 
+
+                    this.currentState = this.gameStates.START_PLAY;
                 }					
             }
         }   
@@ -90,20 +85,7 @@ class MyGameOrchestrator extends CGFobject {
         } else{
             this.currentPlayer = "blue";
         }
-        setTimeout(() => {  this.rotateCamera(); }, 500);
-
-        
-        
-    }
-
-
-    rotateCamera(deltaTime){
-        let delta = (Math.PI/2000)*deltaTime;
-        if(this.currentPlayer == "blue")
-            this.scene.currentCamera.setPosition(vec3.fromValues(0,10 , -15));
-        else{
-            this.scene.currentCamera.setPosition(vec3.fromValues(0,10,15));
-        }
+        setTimeout(() => {  this.scene.rotateCamera(this.currentPlayer); }, 500);
     }
 
     managePick(mode, results) {
@@ -122,10 +104,6 @@ class MyGameOrchestrator extends CGFobject {
         }
     }
 
-
-    
-    
-    
     update(time) {
         this.animator.update(time);
     }

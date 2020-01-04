@@ -6,19 +6,19 @@ class MyGameBoard extends CGFobject {
     constructor(scene) {
         super(scene);
 
+        this.handler = new MyHandler();
+
         this.boardCells = [];
         this.currentBoard = [
-                            [["blue","wn","bt"], ["blue","bn","wt"], ["blue","wn","bt"], ["blue","bn","wt"], ["blue","wn","bt"]],
-                            [["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"]],
-                            [["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"]],
-                            [["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"]],
-                            [["red","wn","bt"], ["red","bn","wt"], ["red","wn","bt"], ["red","bn","wt"], ["red","wn","bt"]]
-                            ];
-
+            [["blue","wn","bt"], ["blue","bn","wt"], ["blue","wn","bt"], ["blue","bn","wt"], ["blue","wn","bt"]],
+            [["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"]],
+            [["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"]],
+            [["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"]],
+            [["red","wn","bt"], ["red","bn","wt"], ["red","wn","bt"], ["red","bn","wt"], ["red","wn","bt"]]
+        ];
 
         var width = 5;
         var height = 5;
-        let  counter = 0;
 
         for (var i = 0; i < height; i++) {
             let boardCellsList = []
@@ -33,12 +33,6 @@ class MyGameBoard extends CGFobject {
             }
             this.boardCells.push(boardCellsList);
         }
-
-        
-     
-        
-
-
     };
 
     /**
@@ -58,19 +52,11 @@ class MyGameBoard extends CGFobject {
                 
                 if(this.boardCells[i][j].getPiece() != null){
                     this.boardCells[i][j].getPiece().display();
-                    // this.scene.registerForPick(j*5+i+1, this.boardCells[i][j].getPiece());
-
-                    
-                    
                 }
             }
         }
         this.scene.popMatrix();
 
-    }
-
-    addPieceTile(){
-        
     }
 
     removePieceTile(row,column){
@@ -85,13 +71,19 @@ class MyGameBoard extends CGFobject {
 
     }
 
-    movePiece(row, column,newRow,newColumn){
+    async movePiece(row, column,newRow,newColumn){
         //TODO
-        //Verify if valid move and that shit
         let piece = this.boardCells[row][column].getPiece();
-        let gameMove = new MyGameMove(this.scene,piece,this.boardCells[row][column],this.boardCells[newRow][newColumn],this);
-                         
 
+        let valid = await this.handler.move(piece.team, row, column, newRow, newColumn);
+        
+        if(!valid){
+            console.log("Jogada Inválida");
+            return null;
+        }
+
+            console.log("passou");
+        let gameMove = new MyGameMove(this.scene,piece,this.boardCells[row][column],this.boardCells[newRow][newColumn],this);
 
         //team, board
        //if(this.handler.move(Team, row, col, newRow, newCol, this.currentBoard) != NULL)
@@ -102,13 +94,6 @@ class MyGameBoard extends CGFobject {
             piece.setCoordinates(coords[0],coords[2]);
         }
         
-
-
-           
         return gameMove;  
     }
-
-
-    updateTexCoords(length_s,length_t) {};
-
 }

@@ -1,9 +1,13 @@
 <lxs>
     <scene root="Root" axis_length="5"/>
 
-    <views default="Board View">
-        <perspective id="Board View" near="1" far="500" angle="50">
+    <views default="Red View">
+        <perspective id="Red View" near="1" far="500" angle="50">
             <from x="0" y="10" z="15" />
+            <to x="0" y="0" z="0" />
+        </perspective>
+        <perspective id="Blue View" near="1" far="500" angle="50">
+            <from x="0" y="10" z="-15" />
             <to x="0" y="0" z="0" />
         </perspective>
         <perspective id="Floating View" near="1" far="500" angle="45">

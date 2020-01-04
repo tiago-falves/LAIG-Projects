@@ -61,8 +61,9 @@ class MyInterface extends CGFinterface {
     createScenesFolder(){
         var folder = this.gui.addFolder("Scene");
         let scene = this.scene;
-        folder.add(this.scene, "currentScene" , ["new.xml", "new2.xml"]).name("Current Scene").onChange(function(value) {
-            scene.graph.changeScene(value);
+        folder.add(this.scene, "currentScene" , ["room", "space", "quidditch"]).name("Current Scene").onChange(function(value) {
+            let scenario = value + ".xml";
+            scene.graph.changeScene(scenario);
         });
     }
 
