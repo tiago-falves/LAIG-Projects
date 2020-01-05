@@ -76,6 +76,7 @@ class MyGameBoard extends CGFobject {
         //TODO
         let piece = this.boardCells[row][column].getPiece();
 
+        
         let valid = await this.handler.move(piece.team, row, column, newRow, newColumn);
         
         if(!valid){
@@ -83,7 +84,6 @@ class MyGameBoard extends CGFobject {
             return null;
         }
 
-        console.log("passou");
         let gameMove = new MyGameMove(this.scene,piece,this.boardCells[row][column],this.boardCells[newRow][newColumn],this);
 
         //team, board

@@ -30,6 +30,9 @@ class MyGameMove extends CGFobject {
         let newx  = this.destinationTile.getCoords()[0]-2;
         let newy  = this.destinationTile.getCoords()[1];
         let newz  = this.destinationTile.getCoords()[2]-2;
+        
+        this.originTile.getPiece().setCoordinates(x-newx,z-newz);
+        
 
         console.log(x,y,z);
         console.log(newx,newy,newz);
@@ -37,9 +40,19 @@ class MyGameMove extends CGFobject {
 
 
         let keyframes = [];
+
+      
+        let keyframe = [];
+
+        keyframe['instant'] = t;
+        keyframe['translate'] = vec3.fromValues(0,0,0);
+        keyframe['rotate'] = vec3.fromValues(0,0,0);
+        keyframe['scale'] = vec3.fromValues(1,1,1);
+
+
         let keyframe1 = [];
 
-        keyframe1['instant'] = t+2;
+        keyframe1['instant'] = t+0.5;
         keyframe1['translate'] = vec3.fromValues(0,y+2,0);
         keyframe1['rotate'] = vec3.fromValues(0,0,0);
         keyframe1['scale'] = vec3.fromValues(1,1,1);
@@ -47,9 +60,9 @@ class MyGameMove extends CGFobject {
         keyframes.push(keyframe1);
 
         let keyframe2 = [];
-        keyframe2['instant'] = t+5;
+        keyframe2['instant'] = t+1;
 
-        keyframe2['translate'] = vec3.fromValues(newx-x,0,z-newz);
+        keyframe2['translate'] = vec3.fromValues(0,0,0);
         keyframe2['rotate'] = vec3.fromValues(0,0,0);
         keyframe2['scale'] = vec3.fromValues(1,1,1);
 
