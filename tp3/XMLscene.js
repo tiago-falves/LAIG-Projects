@@ -12,8 +12,6 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
-        this.rotatingCamera = false;
-    
     }
 
     /**
@@ -45,6 +43,11 @@ class XMLscene extends CGFscene {
         
         this.setUpdatePeriod(100);
         this.setPickEnabled(true);
+
+        this.rotatingCamera = false;
+
+        this.difficulty = "Wall-E";
+        this.mode = "Player VS Player";
     }
 
     rotateCamera(player){
@@ -211,23 +214,6 @@ class XMLscene extends CGFscene {
     /**
      * Displays the scene.
      */
-
-    logPicking() {
-		if (this.pickMode == false) {
-			if (this.pickResults != null && this.pickResults.length > 0) {
-				for (var i = 0; i < this.pickResults.length; i++) {
-					var obj = this.pickResults[i][0];
-					if (obj instanceof BoardCell) {
-                        // obj.move
-                        var customId = this.pickResults[i][1] // get id
-
-						console.log("Picked object: " + obj + ", with pick id " + customId);										
-					}
-				}
-				this.pickResults.splice(0, this.pickResults.length);
-			}
-		}
-    }
     
     undoMove() {
         if(this.game.gameSequence.gameMoves.length < 1){
@@ -251,7 +237,6 @@ class XMLscene extends CGFscene {
 
     display() {
 
-        // this.logPicking();
         if(this.sceneInited){
             this.game.managePick(this.pickMode,this.pickResults);
         }    

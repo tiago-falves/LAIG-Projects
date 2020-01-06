@@ -38,6 +38,8 @@ class MyInterface extends CGFinterface {
 
         this.createOptionsFolder();
 
+        this.createModeFolder();
+
         this.initKeys();
     }
 
@@ -85,6 +87,36 @@ class MyInterface extends CGFinterface {
             function () {
                 parent.camera = parent.graph.views[firstView.value];
                 parent.updateCamera(parent.camera);
+            }
+        );
+    }
+
+    //Add Camera checkboxes
+    createModeFolder(){
+        var folder = this.gui.addFolder("Mode");
+
+        var modeIDs = [];
+
+        modeIDs.push("Player VS Player");
+        modeIDs.push("Player VS Machine");
+
+        var firstMode = {value:"Player VS Player"};
+
+        var parent = this.scene;
+
+        folder.add(firstMode, "value", modeIDs).name("Mode").onChange(
+            function () {
+                parent.mode = firstMode.value;
+            }
+        );
+
+        let difficultyIDs = ["Wall-E", "C-3PO", "Terminator", "Deus Ex Machina"]
+
+        let firstDifficulty = {value: "Wall-E"}
+
+        folder.add(firstDifficulty, "value", difficultyIDs).name("Difficulty").onChange(
+            function () {
+                parent.difficulty = firstDifficulty.value;
             }
         );
     }

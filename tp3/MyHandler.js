@@ -19,15 +19,15 @@ class MyHandler{
     async move(Team, RowFrom, ColFrom, RowTo, ColTo){
         let number;
         let valid;
-
+        
         RowFrom = 5 - RowFrom;
         ColFrom = 5 - ColFrom;
         RowTo = 5 - RowTo;
         ColTo = 5 - ColTo;
 
         if(Team == "red")
-            number = this.numberRed;
-        else number = this.numberBlue;
+            number = this.numberBlue;
+        else number = this.numberRed;
 
         const response = await fetch(`${FULLHOST}/move`, {
             method: "POST",
@@ -52,10 +52,11 @@ class MyHandler{
 
         if(valid){
             this.board = json['newBoard'];
+            console.log(json['newNumber'])
 
             if(Team == "red")
-                this.numberRed = json['newNumber'];
-            else this.numberBlue = json['newNumber'];
+                this.numberBlue = json['newNumber'];
+            else this.numberRed = json['newNumber'];
         }
 
         return valid;
@@ -73,7 +74,6 @@ class MyHandler{
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: JSON.stringify({
                 "team": Team,
@@ -99,7 +99,6 @@ class MyHandler{
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: JSON.stringify({
                 "team": Team,
@@ -107,18 +106,29 @@ class MyHandler{
                 "board": this.board
             })
         })
-        
+
         const json = await response.json();
 
         return json['won'];
     }
 
+    async chooseMove(Team, Difficulty){
+        let game_difficulty;
+        switch(Difficulty){
+            case "Wall-E":
+                game_difficulty = "easy";
+                break;
+            case "C-3PO":
+                game_difficulty = "medium";
+                break;
+            case "Terminator":
+                game_difficulty = "hard";
+                break;
+            case "Deus Ex Machina":
+                game_difficulty = "expert";
+                break;
+        }
 
-    setdifficulty(Difficulty){
-        this.difficulty = Difficulty;
-    }
-
-    async chooseMove(Team){
         let number;
         let move;
 
@@ -126,26 +136,34 @@ class MyHandler{
             number = this.numberBlue;
         else number = this.numberRed;
 
-        const response = await fetch(`${FULLHOST}/move`, {
+        const response = await fetch(`${FULLHOST}/chooseMove`, {
             method: "POST",
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: JSON.stringify({
-                "board": Board,
+                "board": this.board,
                 "team": Team,
-                "difficulty": this.difficulty,
-                "number": number
+                "difficulty": game_difficulty,
+                "numberOpponentPieces": number
             })
         })
         
         const json = await response.json();
 
-        move = [json.move[0], json.move[1]];
+        let rowFrom = 5 - json['rowFrom'] 
+        let colFrom = 5 - json['colFrom']
+        let rowTo = 5 - json['rowTo']
+        let colTo = 5 - json['colTo']
 
-        move(Team, move[0][0], move[0][1], move[1][0], move[1][1]);
+        move = [[rowFrom,colFrom],[rowTo,colTo]]
+
+        this.board = json['newBoard']
+
+        if(Team == "red")
+                this.numberBlue = json['newNumber'];
+            else this.numberRed = json['newNumber'];
 
         return move;
     }

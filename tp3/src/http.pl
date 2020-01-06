@@ -3,11 +3,11 @@
 :- use_module(library(http/http_error)).
 :- use_module(library(http/http_server)).
 :- use_module(library(http/http_cors)).
+:- use_module(library(threadutil)).
 
 :- include('chameleon.pl').
 
 
-%http://localhost:8080/endgameMyTurn
 %no body sao enviados os argumentos
 :- http_handler(root(move), moveHandler, []).
 :- http_handler(root(endgameMyTurn), endgameMyTurnHandler, []).
@@ -56,9 +56,10 @@ endgameMyTurnHandler(Request):-
     cors_enable,
     http_read_json(Request, JSONIn),
     json_to_prolog(JSONIn, endgameRequest(Team, Number, Board)),
-    game_over(Board, Team, Number, onePiece),
-    prolog_to_json(endgameResult(1), JSONOut),
+    game_overPredicate(Board, Team, Number, onePiece, Won),
+    prolog_to_json(endgameResult(Won), JSONOut),
     reply_json(JSONOut).
+
 
 %endgame his turn
 endgameHisTurnHandler(Request):-
@@ -72,9 +73,16 @@ endgameHisTurnHandler(Request):-
     cors_enable,
     http_read_json(Request, JSONIn),
     json_to_prolog(JSONIn, endgameRequest(Team, Number, Board)),
-    game_over(Board, Team, Number, lastline),
-    prolog_to_json(endgameResult(1), JSONOut),
+    game_overPredicate(Board, Team, Number, lastLine, Won),
+    prolog_to_json(endgameResult(Won), JSONOut),
     reply_json(JSONOut).
+
+game_overPredicate(Board, Team, Number, Line, 1):-
+    game_over(Board, Team, Number, Line),
+    !.
+
+game_overPredicate(_, _, _, _, 0).
+
 
 :- json_object endgameRequest(team: atom, number: integer, board: list).
 :- json_object endgameResult(won: integer).
@@ -91,9 +99,15 @@ chooseMoveHandler(Request):-
     cors_enable,
     http_read_json(Request, JSONIn),
     json_to_prolog(JSONIn, chooseMoveRequest(Board, Team, Difficulty, NumberOpponentPieces)),
-    choose_move(Board, Team, Difficulty, NumberOpponentPieces, Move),
-    prolog_to_json(chooseMoveResult(Move), JSONOut),
+    choose_movePredicate(Board, Team, Difficulty, NumberOpponentPieces, RowFrom, ColFrom, RowTo, ColTo, NewBoard, NewNumber),
+    prolog_to_json(chooseMoveResult(RowFrom, ColFrom, RowTo, ColTo, NewBoard, NewNumber), JSONOut),
     reply_json(JSONOut).
 
+choose_movePredicate(Board, Team, Difficulty, NumberOpponentPieces, RowFrom, ColFrom, RowTo, ColTo, NewBoard, NewNumber):-
+    choose_move(Board, Team, Difficulty, NumberOpponentPieces, Move),
+    getMoveCoords(Move, RowFrom, ColFrom, RowTo, ColTo),
+    move(Team, NumberOpponentPieces, NewNumber, RowFrom, ColFrom, RowTo, ColTo, Board, NewBoard), !.
+
 :- json_object chooseMoveRequest(board: list, team: atom, difficulty: atom, numberOpponentPieces: integer).
-:- json_object chooseMoveResult(move: list).
+:- json_object chooseMoveResult(rowFrom: integer, colFrom: integer, rowTo: integer, colTo: integer, newBoard: list, newNumber: integer).
+

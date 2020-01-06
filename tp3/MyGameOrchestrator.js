@@ -14,8 +14,12 @@ class MyGameOrchestrator extends CGFobject {
             MOVIE:3,
             GAME_OVER: 4
         };
-        this.currentPlayer = "red";
         
+        this.redVictories = 0;
+        this.blueVictories = 0;
+
+        this.aiplayer = "blue";
+
         //Testing
         this.initGame();
     };
@@ -24,8 +28,6 @@ class MyGameOrchestrator extends CGFobject {
      * MyGameOrchestrator Display function. Displays all the MyGameOrchestrator cells and registers them for picking.
      */
     display() {
-        var degToRad = Math.PI / 180;
-
         this.board.display();
    
         // this.theme.display();
@@ -36,6 +38,7 @@ class MyGameOrchestrator extends CGFobject {
     initGame(){
         this.currentState = this.gameStates.START_PLAY;
         this.gameSequence = new MyGameSequence(this.scene);
+        this.currentPlayer = "red";
         this.initBoard();
     }
 
@@ -65,18 +68,57 @@ class MyGameOrchestrator extends CGFobject {
                 } else if (this.currentState == this.gameStates.MOVING_PIECE){
                     console.log("Moved PIECE to row: " + obj.row + " col: " + obj.col);	
 
-                    let gameMove = await this.board.movePiece(this.originPos[0],this.originPos[1],obj.row,obj.col);
+                    let gameMove = await this.board.movePiece(this.currentPlayer, this.originPos[0],this.originPos[1],obj.row,obj.col);
                     if(gameMove != null){
                         gameMove.animate();
+
                         this.gameSequence.addGameMove(gameMove);
+
+                        let winner = await this.board.gameover(this.currentPlayer);
+
+                        if(winner == "red" || winner == "blue"){
+                            console.log("its over");
+                            this.end_game(winner);
+                            return;
+                        }
+
                         this.changeTeam();
                     }
-
-
                     this.currentState = this.gameStates.START_PLAY;
-                }					
+                }
             }
         }   
+    }
+
+    async machineMove(){
+        this.changeTeam();
+        
+        this.currentState = this.gameStates.START_PLAY;
+
+        let gameMove = await this.board.machineMove(this.aiplayer);
+
+        gameMove.animate();
+
+        this.gameSequence.addGameMove(gameMove);
+
+        let winner = await this.board.gameover(this.aiplayer);
+
+        if(winner == "red" || winner == "blue"){
+            console.log("its over");
+            this.end_game(winner);
+            return;
+        }
+    }
+
+    end_game(winner){
+        if(winner == "red")
+                this.redVictories++;
+            else this.blueVictories++;
+
+        this.currentPlayer = "blue";
+        this.changeTeam();
+        this.initGame();
+        return;
     }
 
     changeTeam(){
@@ -85,12 +127,14 @@ class MyGameOrchestrator extends CGFobject {
         } else{
             this.currentPlayer = "blue";
         }
-        // setTimeout(() => {  this.scene.rotateCamera(this.currentPlayer); }, 500);
         this.scene.rotateCamera(this.currentPlayer);
     }
 
-    managePick(mode, results) {
-        if (mode == false /* && some other game conditions */){
+    managePick(pickMode, results) {
+        if(this.scene.mode=="Player VS Machine" && this.currentPlayer == "blue"){
+            this.machineMove(this.currentPlayer);
+        }
+        if (pickMode == false /* && some other game conditions */){
             if (results != null && results.length > 0) { // any results?
                 for (var i=0; i< results.length; i++) {
                     var obj = results[i][0]; // get object from result

@@ -67,22 +67,17 @@ class MyGameBoard extends CGFobject {
         return this.currentBoard[row][column];
     }
 
-    getTileByCoords(){
-
-    }
-
-    async movePiece(row, column,newRow,newColumn){
+    async movePiece(Team, row, column,newRow,newColumn){
         //TODO
         let piece = this.boardCells[row][column].getPiece();
 
-        let valid = await this.handler.move(piece.team, row, column, newRow, newColumn);
+        let valid = await this.handler.move(Team, row, column, newRow, newColumn);
         
         if(!valid){
             console.log("Jogada Inválida");
             return null;
         }
 
-        console.log("passou");
         let gameMove = new MyGameMove(this.scene,piece,this.boardCells[row][column],this.boardCells[newRow][newColumn],this);
 
         //team, board
@@ -95,5 +90,49 @@ class MyGameBoard extends CGFobject {
         }
         
         return gameMove;  
+    }
+
+    async machineMove(Team){
+        let move = await this.handler.chooseMove(Team, this.scene.difficulty);
+
+        let row = move[0][0];
+        let column = move[0][1];
+        let newRow = move[1][0];
+        let newColumn = move[1][1];
+
+        let piece = this.boardCells[row][column].getPiece();
+
+        let gameMove = new MyGameMove(this.scene,piece,this.boardCells[row][column],this.boardCells[newRow][newColumn],this);
+
+        //team, board
+       //if(this.handler.move(Team, row, col, newRow, newCol, this.currentBoard) != NULL)
+        if(piece != null){
+            let coords = this.boardCells[newRow][newColumn].getCoords();
+            this.removePieceTile(row,column);
+            this.boardCells[newRow][newColumn].setPiece(piece);
+            piece.setCoordinates(coords[0],coords[2]);
+        }
+
+        return gameMove;
+    }
+
+    async gameover(Team){
+        let oppositeTeam = (Team == "red" ? "blue" : "red");
+
+        if((oppositeTeam == "red" && this.handler.numberRed == 0) 
+            || (oppositeTeam == "blue" && this.handler.numberBlue == 0))
+            return Team;
+
+        let end = await this.handler.endgameMyTurn(Team);
+
+        if(end)
+            return Team;
+
+        end = await this.handler.endgameHisTurn(oppositeTeam);
+
+        if(end)
+            return oppositeTeam;
+            
+        return null;
     }
 }
