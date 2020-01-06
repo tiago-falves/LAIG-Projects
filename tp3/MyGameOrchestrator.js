@@ -18,6 +18,8 @@ class MyGameOrchestrator extends CGFobject {
         this.redVictories = 0;
         this.blueVictories = 0;
 
+        this.game_ended = false;
+        
         this.updateError(" ");
         this.updateScore();
 
@@ -32,10 +34,6 @@ class MyGameOrchestrator extends CGFobject {
      */
     display() {
         this.board.display();
-   
-        // this.theme.display();
-        // this.gameboard.display();
-        // this.animator.display();
     }
 
     initGame(){
@@ -113,16 +111,22 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     end_game(winner){
+        this.game_ended = true;
+
         if(winner == "red")
                 this.redVictories++;
             else this.blueVictories++;
 
         this.updateScore();
 
+        this.sleep(2000);
+    }
+
+    reset(){
         this.currentPlayer = "blue";
+        this.game_ended = false;
         this.changeTeam();
         this.initGame();
-        return;
     }
 
     changeTeam(){
@@ -152,21 +156,19 @@ class MyGameOrchestrator extends CGFobject {
                 results.splice(0, results.length);
             }
         }
-    }
-
-    update(time) {
-        this.animator.update(time);
-    }
-  
-
-    updateTexCoords(length_s,length_t) {};
-
+    }  
+    
     updateError(error){
         document.getElementById("error").innerText = error;
     }
 
     updateScore(){
         document.getElementById("score").innerText = "Red " + this.redVictories + " : " + this.blueVictories + " Blue";
+    }
+
+    sleep(ms) {
+        var unixtime_ms = new Date().getTime();
+        while(new Date().getTime() < unixtime_ms + ms) {}
     }
 }
 

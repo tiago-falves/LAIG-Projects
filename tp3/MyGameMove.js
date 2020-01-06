@@ -11,12 +11,10 @@ class MyGameMove extends CGFobject {
         this.destinationTile = destinationTile;
         this.oldPiece = destinationTile.getPiece();
         this.board = board;
-        // this.animation = null;
-        // this.setAnimation();
+        this.animation = null;
+        this.setAnimation();
     };
 
-   
-    
     setAnimation(){
         let t = performance.now()*0.001-0.6;
 
@@ -55,6 +53,15 @@ class MyGameMove extends CGFobject {
         keyframe2['scale'] = vec3.fromValues(1,1,1);
 
         keyframes.push(keyframe2);
+
+        let keyframe3 = [];
+        keyframe3['instant'] = t+1.5;
+
+        keyframe3['translate'] = vec3.fromValues(0,0,0);
+        keyframe3['rotate'] = vec3.fromValues(0,0,0);
+        keyframe3['scale'] = vec3.fromValues(1,1,1);
+
+        keyframes.push(keyframe3);
 
         this.piece.animation = new MyKeyframeAnimation(this.scene, keyframes);
 
