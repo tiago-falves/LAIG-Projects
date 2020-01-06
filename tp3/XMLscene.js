@@ -236,8 +236,9 @@ class XMLscene extends CGFscene {
     }
 
     display() {
-
-        if(this.sceneInited){
+        if(this.graph.game.game_ended && this.graph.currentPieceAnimation == null)
+            this.graph.game.reset();
+        else if(this.sceneInited && this.graph.currentPieceAnimation == null){
             this.game.managePick(this.pickMode,this.pickResults);
         }    
         

@@ -34,6 +34,7 @@ class MyKeyframeAnimation extends MyAnimation {
         let time = (t - this.initialTime)/1000; 
 
         if (this.end_animation) {
+            this.scene.graph.currentPieceAnimation = null;
             return;
         }
 
