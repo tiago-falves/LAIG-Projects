@@ -75,6 +75,8 @@ class MyGameBoard extends CGFobject {
             let valid = await this.handler.move(Team, row, column, newRow, newColumn);
 
             if(!valid){
+                console.log(this.boardCells[row][column].getPiece().pieceList);
+                console.log(this.currentBoard[row][column]);
                 console.log("Jogada Inválida");
                 return null;
             }
