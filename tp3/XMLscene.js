@@ -219,8 +219,11 @@ class XMLscene extends CGFscene {
         if(this.game.gameSequence.gameMoves.length < 1){
             console.log("Cannot undo in first play!");
         }else{
+            this.game.currentState = this.game.gameStates.UNDO;
             this.game.gameSequence.undo(this.game.board);
             this.game.changeTeam();
+            this.game.currentState = this.game.gameStates.START_PLAY;
+            
         }
     }
     movie(){

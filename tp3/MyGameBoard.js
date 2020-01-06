@@ -71,14 +71,17 @@ class MyGameBoard extends CGFobject {
         //TODO
         let piece = this.boardCells[row][column].getPiece();
 
-        //if(this.scene.graph.game.currentState != this.scene.graph.game.gameStates.MOVIE){
+        if(this.scene.graph.game.currentState != this.scene.graph.game.gameStates.UNDO){
             let valid = await this.handler.move(Team, row, column, newRow, newColumn);
 
             if(!valid){
                 console.log("Jogada Inválida");
                 return null;
             }
-       // }
+       }else{
+           console.log("ZASSSS");
+           //Enviar o board para o handler
+       }
         
         console.log(row,column,newRow,newColumn);
 

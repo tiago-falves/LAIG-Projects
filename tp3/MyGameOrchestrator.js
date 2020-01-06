@@ -12,7 +12,8 @@ class MyGameOrchestrator extends CGFobject {
             START_PLAY: 1,
             MOVING_PIECE: 2,
             MOVIE:3,
-            GAME_OVER: 4
+            UNDO:4,
+            GAME_OVER: 5
         };
         
         this.redVictories = 0;
