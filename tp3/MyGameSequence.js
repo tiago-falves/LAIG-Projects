@@ -22,7 +22,7 @@ class MyGameSequence extends CGFobject {
         let newRow = lastGameMove.originTile.getRow();
         let col = lastGameMove.destinationTile.getCol();
         let newCol = lastGameMove.originTile.getCol();
-        board.movePiece(row, col,newRow,newCol);
+        board.movePiece(this.scene.graph.game.currentPlayer,row, col,newRow,newCol);
         lastGameMove.destinationTile.setPiece(lastGameMove.oldPiece);
         this.gameMoves.pop();
         

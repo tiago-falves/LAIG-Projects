@@ -79,8 +79,7 @@ class MyGameBoard extends CGFobject {
                 return null;
             }
        }else{
-           console.log("ZASSSS");
-           //Enviar o board para o handler
+           this.handler.board = this.currentBoard;
        }
         
         console.log(row,column,newRow,newColumn);
