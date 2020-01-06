@@ -27,7 +27,7 @@ class MyGameBoard extends CGFobject {
               
                 let piece = new ChameleonPiece(scene,pieceList);
                 piece.setCoordinates(j ,i);
-                console.log(j,i);
+        
 
                 boardCellsList.push(new BoardCell(scene, j, i,i, j,piece));
             }
@@ -71,12 +71,16 @@ class MyGameBoard extends CGFobject {
         //TODO
         let piece = this.boardCells[row][column].getPiece();
 
-        let valid = await this.handler.move(Team, row, column, newRow, newColumn);
+        //if(this.scene.graph.game.currentState != this.scene.graph.game.gameStates.MOVIE){
+            let valid = await this.handler.move(Team, row, column, newRow, newColumn);
+
+            if(!valid){
+                console.log("Jogada Inválida");
+                return null;
+            }
+       // }
         
-        if(!valid){
-            console.log("Jogada Inválida");
-            return null;
-        }
+        console.log(row,column,newRow,newColumn);
 
         let gameMove = new MyGameMove(this.scene,piece,this.boardCells[row][column],this.boardCells[newRow][newColumn],this);
 

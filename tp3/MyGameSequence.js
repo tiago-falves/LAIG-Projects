@@ -29,6 +29,8 @@ class MyGameSequence extends CGFobject {
     }
 
     movie(initialBoard){
+        
+        
 
 
         for (let index = 0; index < this.gameMoves.length; index++) {
@@ -38,12 +40,16 @@ class MyGameSequence extends CGFobject {
                 let newRow = this.gameMoves[index].destinationTile.getRow();
                 let col = this.gameMoves[index].originTile.getCol();
                 let newCol = this.gameMoves[index].destinationTile.getCol();
-                initialBoard.movePiece(row,col,newRow,newCol);
-                console.log(row,col,newRow,newCol);
+                initialBoard.movePiece(this.scene.graph.game.currentPlayer,row,col,newRow,newCol);
+                this.scene.graph.game.changeTeam();
+                console.log(row,col);
+                console.log(newRow,newCol);
 
             
             }.bind(this), 2000*index);
         }
+
+
 
         
         // for (let index = 0; index < this.gameMoves.length; index++) {

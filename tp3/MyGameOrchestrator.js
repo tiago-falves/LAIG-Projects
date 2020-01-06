@@ -93,7 +93,7 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     async machineMove(){
-        updateError(" ");
+        this.updateError(" ");
 
         this.changeTeam();
         

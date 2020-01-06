@@ -224,7 +224,12 @@ class XMLscene extends CGFscene {
         }
     }
     movie(){
+
+        
         this.game.initBoard();
+        this.game.currentPlayer = "red";
+        
+
         setTimeout(() => {
             this.game.currentState =  this.game.gameStates.MOVIE;
             this.game.gameSequence.movie(this.game.board);
