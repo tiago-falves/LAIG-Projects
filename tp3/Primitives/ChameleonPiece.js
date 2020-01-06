@@ -11,6 +11,7 @@ class ChameleonPiece extends CGFobject {
         this.team = pieceList[0];
         this.nature = pieceList[1];
         this.tileColor = pieceList[2];
+        this.animation = null;
             
 
         this.xCoord = 0;
@@ -31,9 +32,9 @@ class ChameleonPiece extends CGFobject {
 
     initMaterials(){
         this.redMaterial = new CGFappearance(this.scene);
-        this.redMaterial.setAmbient(0.1, 0.1, 0.1, 1);
+        this.redMaterial.setAmbient(0.9, 0.1, 0.1, 1);
         this.redMaterial.setDiffuse(0.9, 0.1, 0.1, 1);
-        this.redMaterial.setSpecular(1, 0.1, 0.1, 1);
+        this.redMaterial.setSpecular(0.1, 0.1, 0.1, 1);
         this.redMaterial.setShininess(10.0);
 
         this.blueMaterial = new CGFappearance(this.scene);
@@ -49,7 +50,7 @@ class ChameleonPiece extends CGFobject {
 
 
         this.redWhite = new CGFappearance(this.scene);
-        this.redWhite.setAmbient(0.1,0.1,0.1,1);
+        this.redWhite.setAmbient(0.8,0.8,0.8,1);
         this.redWhite.setDiffuse(0.8, 0.8, 0.8, 1);
         this.redWhite.setSpecular(0.1, 0.1, 0.1, 1);
         this.redWhite.setShininess(10.0);
@@ -168,9 +169,16 @@ class ChameleonPiece extends CGFobject {
 
         }
     }
+
+    animate(){
+        this.animation.apply();
+    }
     
     display() {
         this.scene.pushMatrix();
+            if(this.animation != null){
+                this.animate();
+            }
             this.scene.translate(this.xCoord,this.yCoord,this.zCoord);
             this.scene.scale(0.3,0.3,0.3);
             this.scene.rotate(-Math.PI/2, 1,0,0);

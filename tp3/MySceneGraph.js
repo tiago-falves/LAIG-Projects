@@ -431,7 +431,9 @@ class MySceneGraph {
 
         for(let i = 0; i < keys.length; i++){
             this.animations[keys[i]].update(t);
+            
         }
+        // console.log(this.currentPieceAnimation);
         if(this.currentPieceAnimation != null){
             this.currentPieceAnimation.update(t);
         }

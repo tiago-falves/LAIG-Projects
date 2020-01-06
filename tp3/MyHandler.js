@@ -3,17 +3,11 @@ const PORT = 8080;
 const FULLHOST = `${HOST}:${PORT}`;
 
 class MyHandler{
-    constructor(){
+    constructor(board){
         this.numberRed = 5;
         this.numberBlue = 5;
 
-        this.board = [
-            [["blue","wn","bt"], ["blue","bn","wt"], ["blue","wn","bt"], ["blue","bn","wt"], ["blue","wn","bt"]],
-            [["empty","null","wt"], ["empty","null","bt"], ["empty","null","wt"], ["empty","null","bt"], ["empty","null","wt"]],
-            [["empty","null","bt"], ["empty","null","wt"], ["empty","null","bt"], ["empty","null","wt"], ["empty","null","bt"]],
-            [["empty","null","wt"], ["empty","null","bt"], ["empty","null","wt"], ["empty","null","bt"], ["empty","null","wt"]],
-            [["red","wn","bt"], ["red","bn","wt"], ["red","wn","bt"], ["red","bn","wt"], ["red","wn","bt"]]
-        ];
+        this.board = board;
     }
 
     async move(Team, RowFrom, ColFrom, RowTo, ColTo){

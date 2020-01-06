@@ -6,16 +6,15 @@ class MyGameBoard extends CGFobject {
     constructor(scene) {
         super(scene);
 
-        this.handler = new MyHandler();
-
         this.boardCells = [];
         this.currentBoard = [
             [["blue","wn","bt"], ["blue","bn","wt"], ["blue","wn","bt"], ["blue","bn","wt"], ["blue","wn","bt"]],
-            [["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"]],
-            [["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"]],
-            [["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"], ["empty",null,"bt"], ["empty",null,"wt"]],
+            [["empty","null","wt"], ["empty","null","bt"], ["empty","null","wt"], ["empty","null","bt"], ["empty","null","wt"]],
+            [["empty","null","bt"], ["empty","null","wt"], ["empty","null","bt"], ["empty","null","wt"], ["empty","null","bt"]],
+            [["empty","null","wt"], ["empty","null","bt"], ["empty","null","wt"], ["empty","null","bt"], ["empty","null","wt"]],
             [["red","wn","bt"], ["red","bn","wt"], ["red","wn","bt"], ["red","bn","wt"], ["red","wn","bt"]]
         ];
+        this.handler = new MyHandler(this.currentBoard);
 
         var width = 5;
         var height = 5;
@@ -28,6 +27,7 @@ class MyGameBoard extends CGFobject {
               
                 let piece = new ChameleonPiece(scene,pieceList);
                 piece.setCoordinates(j ,i);
+                console.log(j,i);
 
                 boardCellsList.push(new BoardCell(scene, j, i,i, j,piece));
             }
@@ -87,6 +87,7 @@ class MyGameBoard extends CGFobject {
             this.removePieceTile(row,column);
             this.boardCells[newRow][newColumn].setPiece(piece);
             piece.setCoordinates(coords[0],coords[2]);
+           console.log (this.boardCells[newRow][newColumn].getCoords());
         }
         
         return gameMove;  

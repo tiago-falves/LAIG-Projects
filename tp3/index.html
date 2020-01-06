@@ -6,11 +6,38 @@
     <link rel="icon" href="data:,">
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap');
+
 body, html {
     border: 0;
     padding: 0;
     margin: 0;
     overflow: hidden;
+}
+
+#GamePanel{
+    height:10em;
+    width: 15em;
+    display:flex;
+    flex-direction: column;
+    position: absolute;
+    background-color: white;
+    opacity: 60%;
+    align-items: center;
+    justify-content: center;
+}
+#GamePanel > h2, #score, #error{
+    padding: 0;
+    margin: 0.5em;
+    opacity: 90%;
+    font-family: 'Roboto Mono', monospace;
+}
+#GamePanel > #score{
+    font-size: medium;
+}
+#GamePanel > #error{
+    font-size: small;
+    color: firebrick;
 }
 
 canvas {
@@ -22,6 +49,12 @@ canvas {
 <body>
 
 <script src="main.js"></script>
+
+<div id="GamePanel">
+    <h2> Chameleon </h2>
+    <p id="score"></p>
+    <p id="error"></p>
+</div>
 
 </body>
 </html>

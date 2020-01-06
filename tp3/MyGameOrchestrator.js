@@ -18,6 +18,9 @@ class MyGameOrchestrator extends CGFobject {
         this.redVictories = 0;
         this.blueVictories = 0;
 
+        this.updateError(" ");
+        this.updateScore();
+
         this.aiplayer = "blue";
 
         //Testing
@@ -70,8 +73,7 @@ class MyGameOrchestrator extends CGFobject {
 
                     let gameMove = await this.board.movePiece(this.currentPlayer, this.originPos[0],this.originPos[1],obj.row,obj.col);
                     if(gameMove != null){
-                        gameMove.animate();
-
+                        this.updateError(" ");
                         this.gameSequence.addGameMove(gameMove);
 
                         let winner = await this.board.gameover(this.currentPlayer);
@@ -81,9 +83,9 @@ class MyGameOrchestrator extends CGFobject {
                             this.end_game(winner);
                             return;
                         }
-
                         this.changeTeam();
-                    }
+                    }else this.updateError("Invalid play");
+
                     this.currentState = this.gameStates.START_PLAY;
                 }
             }
@@ -91,13 +93,13 @@ class MyGameOrchestrator extends CGFobject {
     }
 
     async machineMove(){
+        updateError(" ");
+
         this.changeTeam();
         
         this.currentState = this.gameStates.START_PLAY;
 
         let gameMove = await this.board.machineMove(this.aiplayer);
-
-        gameMove.animate();
 
         this.gameSequence.addGameMove(gameMove);
 
@@ -115,6 +117,8 @@ class MyGameOrchestrator extends CGFobject {
                 this.redVictories++;
             else this.blueVictories++;
 
+        this.updateScore();
+
         this.currentPlayer = "blue";
         this.changeTeam();
         this.initGame();
@@ -127,7 +131,8 @@ class MyGameOrchestrator extends CGFobject {
         } else{
             this.currentPlayer = "blue";
         }
-        this.scene.rotateCamera(this.currentPlayer);
+        setTimeout(() => {  this.scene.rotateCamera(this.currentPlayer); }, 1500);
+        // this.scene.rotateCamera(this.currentPlayer);
     }
 
     managePick(pickMode, results) {
@@ -156,6 +161,13 @@ class MyGameOrchestrator extends CGFobject {
 
     updateTexCoords(length_s,length_t) {};
 
+    updateError(error){
+        document.getElementById("error").innerText = error;
+    }
+
+    updateScore(){
+        document.getElementById("score").innerText = "Red " + this.redVictories + " : " + this.blueVictories + " Blue";
+    }
 }
 
 

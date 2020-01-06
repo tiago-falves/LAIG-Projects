@@ -7,10 +7,6 @@ class MyGameSequence extends CGFobject {
         super(scene);
         this.scene;
         this.gameMoves = [];
-        
-
-
-     
     };
 
     addGameMove(gameMove){
@@ -33,6 +29,7 @@ class MyGameSequence extends CGFobject {
     }
 
     movie(initialBoard){
+
 
         for (let index = 0; index < this.gameMoves.length; index++) {
 
